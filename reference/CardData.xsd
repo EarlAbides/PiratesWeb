@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="CardData" targetNamespace="http://tempuri.org/CardInfo.xsd" xmlns:mstns="http://tempuri.org/CardInfo.xsd" xmlns="http://tempuri.org/CardInfo.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="CardData" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="CardData" msprop:Generator_DataSetName="CardData">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Cards" msprop:Generator_UserTableName="Cards" msprop:Generator_RowDeletedName="CardsRowDeleted" msprop:Generator_RowChangedName="CardsRowChanged" msprop:Generator_RowClassName="CardsRow" msprop:Generator_RowChangingName="CardsRowChanging" msprop:Generator_RowEvArgName="CardsRowChangeEvent" msprop:Generator_RowEvHandlerName="CardsRowChangeEventHandler" msprop:Generator_TableClassName="CardsDataTable" msprop:Generator_TableVarName="tableCards" msprop:Generator_RowDeletingName="CardsRowDeleting" msprop:Generator_TablePropName="Cards">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msprop:Generator_UserColumnName="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" type="xs:int" />
+              <xs:element name="Type" msprop:Generator_UserColumnName="Type" msprop:Generator_ColumnVarNameInTable="columnType" msprop:Generator_ColumnPropNameInRow="Type" msprop:Generator_ColumnPropNameInTable="TypeColumn" type="xs:string" />
+              <xs:element name="Nationality" msprop:Generator_UserColumnName="Nationality" msprop:Generator_ColumnVarNameInTable="columnNationality" msprop:Generator_ColumnPropNameInRow="Nationality" msprop:Generator_ColumnPropNameInTable="NationalityColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Set" msprop:Generator_UserColumnName="Set" msprop:Generator_ColumnVarNameInTable="columnSet" msprop:Generator_ColumnPropNameInRow="Set" msprop:Generator_ColumnPropNameInTable="SetColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Rarity" msprop:Generator_UserColumnName="Rarity" msprop:Generator_ColumnVarNameInTable="columnRarity" msprop:Generator_ColumnPropNameInRow="Rarity" msprop:Generator_ColumnPropNameInTable="RarityColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Number" msprop:Generator_UserColumnName="Number" msprop:Generator_ColumnVarNameInTable="columnNumber" msprop:Generator_ColumnPropNameInRow="Number" msprop:Generator_ColumnPropNameInTable="NumberColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Points" msprop:Generator_UserColumnName="Points" msprop:Generator_ColumnVarNameInTable="columnPoints" msprop:Generator_ColumnPropNameInRow="Points" msprop:Generator_ColumnPropNameInTable="PointsColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Masts" msprop:Generator_UserColumnName="Masts" msprop:Generator_ColumnPropNameInRow="Masts" msprop:Generator_ColumnVarNameInTable="columnMasts" msprop:Generator_ColumnPropNameInTable="MastsColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Cargo" msprop:Generator_UserColumnName="Cargo" msprop:Generator_ColumnPropNameInRow="Cargo" msprop:Generator_ColumnVarNameInTable="columnCargo" msprop:Generator_ColumnPropNameInTable="CargoColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Movement" msprop:Generator_UserColumnName="Movement" msprop:Generator_ColumnPropNameInRow="Movement" msprop:Generator_ColumnVarNameInTable="columnMovement" msprop:Generator_ColumnPropNameInTable="MovementColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Cannon1" msprop:Generator_UserColumnName="Cannon1" msprop:Generator_ColumnPropNameInRow="Cannon1" msprop:Generator_ColumnVarNameInTable="columnCannon1" msprop:Generator_ColumnPropNameInTable="Cannon1Column" type="xs:string" minOccurs="0" />
+              <xs:element name="Cannon2" msprop:Generator_UserColumnName="Cannon2" msprop:Generator_ColumnPropNameInRow="Cannon2" msprop:Generator_ColumnVarNameInTable="columnCannon2" msprop:Generator_ColumnPropNameInTable="Cannon2Column" type="xs:string" minOccurs="0" />
+              <xs:element name="Cannon3" msprop:Generator_UserColumnName="Cannon3" msprop:Generator_ColumnPropNameInRow="Cannon3" msprop:Generator_ColumnVarNameInTable="columnCannon3" msprop:Generator_ColumnPropNameInTable="Cannon3Column" type="xs:string" minOccurs="0" />
+              <xs:element name="Cannon4" msprop:Generator_UserColumnName="Cannon4" msprop:Generator_ColumnPropNameInRow="Cannon4" msprop:Generator_ColumnVarNameInTable="columnCannon4" msprop:Generator_ColumnPropNameInTable="Cannon4Column" type="xs:string" minOccurs="0" />
+              <xs:element name="Cannon5" msprop:Generator_UserColumnName="Cannon5" msprop:Generator_ColumnPropNameInRow="Cannon5" msprop:Generator_ColumnVarNameInTable="columnCannon5" msprop:Generator_ColumnPropNameInTable="Cannon5Column" type="xs:string" minOccurs="0" />
+              <xs:element name="Cannon6" msprop:Generator_UserColumnName="Cannon6" msprop:Generator_ColumnPropNameInRow="Cannon6" msprop:Generator_ColumnVarNameInTable="columnCannon6" msprop:Generator_ColumnPropNameInTable="Cannon6Column" type="xs:string" minOccurs="0" />
+              <xs:element name="Ability" msprop:Generator_UserColumnName="Ability" msprop:Generator_ColumnVarNameInTable="columnAbility" msprop:Generator_ColumnPropNameInRow="Ability" msprop:Generator_ColumnPropNameInTable="AbilityColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Description" msprop:Generator_UserColumnName="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="GoldCost" msprop:Generator_UserColumnName="GoldCost" msprop:Generator_ColumnPropNameInRow="GoldCost" msprop:Generator_ColumnVarNameInTable="columnGoldCost" msprop:Generator_ColumnPropNameInTable="GoldCostColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Cannons" msprop:Generator_UserColumnName="Cannons" msprop:Generator_ColumnPropNameInRow="Cannons" msprop:Generator_ColumnVarNameInTable="columnCannons" msprop:Generator_ColumnPropNameInTable="CannonsColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Translation" msprop:Generator_UserColumnName="Translation" msprop:Generator_ColumnVarNameInTable="columnTranslation" msprop:Generator_ColumnPropNameInRow="Translation" msprop:Generator_ColumnPropNameInTable="TranslationColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ImageFile" msprop:Generator_UserColumnName="ImageFile" msprop:Generator_ColumnVarNameInTable="columnImageFile" msprop:Generator_ColumnPropNameInRow="ImageFile" msprop:Generator_ColumnPropNameInTable="ImageFileColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Limit" msprop:Generator_UserColumnName="Limit" msprop:Generator_ColumnVarNameInTable="columnLimit" msprop:Generator_ColumnPropNameInRow="Limit" msprop:Generator_ColumnPropNameInTable="LimitColumn" type="xs:boolean" minOccurs="0" />
+              <xs:element name="BuildBonus" msprop:Generator_UserColumnName="BuildBonus" msprop:Generator_ColumnVarNameInTable="columnBuildBonus" msprop:Generator_ColumnPropNameInRow="BuildBonus" msprop:Generator_ColumnPropNameInTable="BuildBonusColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="CrewCostReduction" msprop:Generator_UserColumnName="CrewCostReduction" msprop:Generator_ColumnVarNameInTable="columnCrewCostReduction" msprop:Generator_ColumnPropNameInRow="CrewCostReduction" msprop:Generator_ColumnPropNameInTable="CrewCostReductionColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="CargoBonus" msprop:Generator_UserColumnName="CargoBonus" msprop:Generator_ColumnPropNameInRow="CargoBonus" msprop:Generator_ColumnVarNameInTable="columnCargoBonus" msprop:Generator_ColumnPropNameInTable="CargoBonusColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="NumOwned" msprop:Generator_UserColumnName="NumOwned" msprop:Generator_ColumnVarNameInTable="columnNumOwned" msprop:Generator_ColumnPropNameInRow="NumOwned" msprop:Generator_ColumnPropNameInTable="NumOwnedColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Cannons" msprop:Generator_UserTableName="Cannons" msprop:Generator_RowDeletedName="CannonsRowDeleted" msprop:Generator_RowChangedName="CannonsRowChanged" msprop:Generator_RowClassName="CannonsRow" msprop:Generator_RowChangingName="CannonsRowChanging" msprop:Generator_RowEvArgName="CannonsRowChangeEvent" msprop:Generator_RowEvHandlerName="CannonsRowChangeEventHandler" msprop:Generator_TableClassName="CannonsDataTable" msprop:Generator_TableVarName="tableCannons" msprop:Generator_RowDeletingName="CannonsRowDeleting" msprop:Generator_TablePropName="Cannons">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CardID" msprop:Generator_UserColumnName="CardID" msprop:Generator_ColumnPropNameInRow="CardID" msprop:Generator_ColumnVarNameInTable="columnCardID" msprop:Generator_ColumnPropNameInTable="CardIDColumn" type="xs:int" />
+              <xs:element name="Number" msprop:Generator_UserColumnName="Number" msprop:Generator_ColumnPropNameInRow="Number" msprop:Generator_ColumnVarNameInTable="columnNumber" msprop:Generator_ColumnPropNameInTable="NumberColumn" type="xs:int" />
+              <xs:element name="Range" msprop:Generator_UserColumnName="Range" msprop:Generator_ColumnPropNameInRow="Range" msprop:Generator_ColumnVarNameInTable="columnRange" msprop:Generator_ColumnPropNameInTable="RangeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Accuracy" msprop:Generator_UserColumnName="Accuracy" msprop:Generator_ColumnPropNameInRow="Accuracy" msprop:Generator_ColumnVarNameInTable="columnAccuracy" msprop:Generator_ColumnPropNameInTable="AccuracyColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Cards" />
+      <xs:field xpath="mstns:ID" />
+    </xs:unique>
+    <xs:unique name="Cannons_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Cannons" />
+      <xs:field xpath="mstns:CardID" />
+      <xs:field xpath="mstns:Number" />
+    </xs:unique>
+    <xs:keyref name="FK_Card_Cannon" refer="Constraint1" msprop:rel_Generator_UserRelationName="FK_Card_Cannon" msprop:rel_Generator_RelationVarName="relationFK_Card_Cannon" msprop:rel_Generator_UserChildTable="Cannons" msprop:rel_Generator_UserParentTable="Cards" msprop:rel_Generator_ParentPropName="CardRow" msprop:rel_Generator_ChildPropName="GetCannonsRows">
+      <xs:selector xpath=".//mstns:Cannons" />
+      <xs:field xpath="mstns:CardID" />
+    </xs:keyref>
+  </xs:element>
+</xs:schema>
