@@ -41,7 +41,7 @@ story_location: _bmad-output/implementation-artifacts
 
 development_status:
   epic-1: in-progress
-  1-1-initialize-sveltekit-project-with-full-toolchain: ready-for-dev
+  1-1-initialize-sveltekit-project-with-full-toolchain: review
   1-2-xml-to-json-card-data-conversion-script: backlog
   1-3-webp-thumbnail-generation-script: backlog
   1-4-card-typescript-types-and-data-loading-infrastructure: backlog

@@ -1,6 +1,6 @@
 # Story 1.1: Initialize SvelteKit Project with Full Toolchain
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -34,32 +34,32 @@ So that the foundational development environment is production-ready and every s
 
 ## Tasks / Subtasks
 
-- [ ] Initialize SvelteKit project using the sv CLI (AC: 1, 2, 3, 4)
-  - [ ] Run the official `npx sv create` command (see Dev Notes for exact command)
-  - [ ] Verify dev server starts at localhost with `npm run dev`
-- [ ] Install and configure DaisyUI v5 (AC: 2)
-  - [ ] Run `npm install -D daisyui@latest`
-  - [ ] Confirm `@plugin "daisyui"` is present in `src/app.css`
-- [ ] Configure adapter-static for SPA mode (AC: 2, 3)
-  - [ ] Verify `svelte.config.js` uses `adapter-static` with `fallback: 'index.html'`
-  - [ ] Run `npm run build` — confirm output lands in `/build`
-- [ ] Configure prerender in root layout (AC: 2)
-  - [ ] Ensure `src/routes/+layout.ts` exports `export const prerender = true`
-- [ ] Add design token stubs in `src/app.css` (AC: 2)
-  - [ ] Add `@theme` block with CSS custom properties for all three set colors (Spanish Main, Crimson Coast, Revolution)
-  - [ ] Add utility classes `bg-set-spanish-main`, `bg-set-crimson-coast`, `bg-set-revolution`
-- [ ] Create `src/routes/+layout.svelte` (AC: 1)
-  - [ ] Minimal shell layout — renders children/slot passthrough; AppHeader component stub or placeholder text acceptable here
-- [ ] Create `src/routes/+error.svelte` stub (referenced in Story 1.4 acceptance criteria)
-  - [ ] Basic SvelteKit error boundary page displaying the error status and message
-- [ ] Create `static/images/` directory structure (AC: none, but unblocks later stories)
-  - [ ] Create empty subdirectories: `static/images/cards/`, `static/images/thumbs/`, `static/images/flags/`, `static/images/backgrounds/`
-  - [ ] Copy `reference/TanBG.jpg`, `reference/RedBG.jpg`, `reference/BlueBG.jpg` to `static/images/backgrounds/`
-- [ ] Verify full testing infrastructure (AC: 4)
-  - [ ] `npm run test:unit` — Vitest reports 0 failures (0 test files is correct)
-  - [ ] `npm run test:e2e` — Playwright is installed (run `npx playwright install` if needed)
-- [ ] Verify TypeScript integrity (AC: 1)
-  - [ ] `npm run check` (or `npx svelte-check`) — 0 errors
+- [x] Initialize SvelteKit project using the sv CLI (AC: 1, 2, 3, 4)
+  - [x] Run the official `npx sv create` command (see Dev Notes for exact command)
+  - [x] Verify dev server starts at localhost with `npm run dev`
+- [x] Install and configure DaisyUI v5 (AC: 2)
+  - [x] Run `npm install -D daisyui@latest`
+  - [x] Confirm `@plugin "daisyui"` is present in `src/app.css`
+- [x] Configure adapter-static for SPA mode (AC: 2, 3)
+  - [x] Verify `svelte.config.js` uses `adapter-static` with `fallback: 'index.html'`
+  - [x] Run `npm run build` — confirm output lands in `/build`
+- [x] Configure prerender in root layout (AC: 2)
+  - [x] Ensure `src/routes/+layout.ts` exports `export const prerender = true`
+- [x] Add design token stubs in `src/app.css` (AC: 2)
+  - [x] Add `@theme` block with CSS custom properties for all three set colors (Spanish Main, Crimson Coast, Revolution)
+  - [x] Add utility classes `bg-set-spanish-main`, `bg-set-crimson-coast`, `bg-set-revolution`
+- [x] Create `src/routes/+layout.svelte` (AC: 1)
+  - [x] Minimal shell layout — renders children/slot passthrough; AppHeader component stub or placeholder text acceptable here
+- [x] Create `src/routes/+error.svelte` stub (referenced in Story 1.4 acceptance criteria)
+  - [x] Basic SvelteKit error boundary page displaying the error status and message
+- [x] Create `static/images/` directory structure (AC: none, but unblocks later stories)
+  - [x] Create empty subdirectories: `static/images/cards/`, `static/images/thumbs/`, `static/images/flags/`, `static/images/backgrounds/`
+  - [x] Copy `reference/TanBG.jpg`, `reference/RedBG.jpg`, `reference/BlueBG.jpg` to `static/images/backgrounds/`
+- [x] Verify full testing infrastructure (AC: 4)
+  - [x] `npm run test:unit` — Vitest reports 0 failures (0 test files is correct)
+  - [x] `npm run test:e2e` — Playwright is installed (run `npx playwright install` if needed)
+- [x] Verify TypeScript integrity (AC: 1)
+  - [x] `npm run check` (or `npx svelte-check`) — 0 errors
 
 ## Dev Notes
 
@@ -354,6 +354,54 @@ claude-sonnet-4-6
 
 ### Debug Log References
 
+- sv CLI (v0.12.2) is interactive — `--add tailwindcss` prompts for plugins sub-option; user ran scaffold manually selecting no plugins for tailwindcss
+- Scaffold placed CSS in `src/routes/layout.css`; migrated to `src/app.css` (canonical location per story spec) and updated `+layout.svelte` import accordingly
+- `@sveltejs/adapter-auto` replaced with `@sveltejs/adapter-static@3.0.10` in package.json; `svelte.config.js` rewritten with `vitePreprocess()` and `fallback: 'index.html'`
+- `daisyui@5.5.19` installed; `@plugin "daisyui"` directive confirmed working in Tailwind v4 CSS-first setup
+- Build warning `Unknown output options: codeSplitting` is cosmetic (vite/rollup version mismatch in DaisyUI plugin), does not affect output
+- `npm run build` produces correct static site in `/build` with `index.html` SPA fallback confirmed
+
 ### Completion Notes List
 
+- Scaffolded SvelteKit 2 / Svelte 5 project with TypeScript strict mode, Tailwind CSS v4, ESLint, Prettier, Vitest, Playwright
+- Configured `@sveltejs/adapter-static` with `fallback: 'index.html'` for GitHub Pages SPA mode
+- Created `src/app.css` with `@import 'tailwindcss'`, `@plugin "daisyui"`, and `@theme` block with all three set color tokens and utility classes
+- Created `src/routes/+layout.ts` with `export const prerender = true`
+- Created minimal Svelte 5 `+layout.svelte` (uses `$props()` + `{@render children()}` pattern)
+- Created `src/routes/+error.svelte` SvelteKit error boundary
+- Created `static/images/{cards,thumbs,flags,backgrounds}/` directory structure; copied TanBG.jpg, RedBG.jpg, BlueBG.jpg to backgrounds/
+- `npm run check` → 0 errors, 0 warnings (317 files checked)
+- `npm run build` → exits 0, static site in `/build`
+- `npm run test:unit` → Vitest 1 test passed (scaffold demo.spec.ts), 0 failures
+- `npm run test:e2e` → Playwright installed, 1 test found in e2e/demo.test.ts
+
 ### File List
+
+- `package.json` (modified — adapter-auto → adapter-static, added daisyui)
+- `svelte.config.js` (modified — adapter-static with fallback: 'index.html', added vitePreprocess)
+- `src/app.css` (new — Tailwind v4 + DaisyUI plugin + @theme color tokens + utility classes)
+- `src/routes/+layout.svelte` (modified — import app.css, Svelte 5 $props pattern, removed scaffold extras)
+- `src/routes/+layout.ts` (new — export const prerender = true)
+- `src/routes/+error.svelte` (new — SvelteKit error boundary)
+- `src/routes/layout.css` (deleted — replaced by src/app.css)
+- `static/images/cards/.gitkeep` (new)
+- `static/images/thumbs/.gitkeep` (new)
+- `static/images/flags/.gitkeep` (new)
+- `static/images/backgrounds/TanBG.jpg` (new — copied from reference/)
+- `static/images/backgrounds/RedBG.jpg` (new — copied from reference/)
+- `static/images/backgrounds/BlueBG.jpg` (new — copied from reference/)
+- `src/lib/.gitkeep` (new)
+- `scripts/.gitkeep` (new)
+- `.gitignore` (modified — scaffold expanded with node_modules, .svelte-kit, build, etc.)
+- `vite.config.ts` (scaffold-generated — tailwindcss() + sveltekit() plugins)
+- `tsconfig.json` (scaffold-generated — strict: true confirmed)
+- `eslint.config.js` (scaffold-generated)
+- `playwright.config.ts` (scaffold-generated)
+- `src/app.d.ts` (scaffold-generated)
+- `src/app.html` (scaffold-generated)
+- `src/routes/+page.svelte` (scaffold-generated — placeholder)
+- `e2e/demo.test.ts` (scaffold-generated)
+
+## Change Log
+
+- 2026-02-27: Story implemented — SvelteKit project scaffolded and fully configured with Tailwind v4, DaisyUI v5, adapter-static, prerender, error boundary, image directories, and all toolchain verification passing. Status → review.
