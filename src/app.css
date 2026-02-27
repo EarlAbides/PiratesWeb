@@ -1,0 +1,39 @@
+@import 'tailwindcss';
+@plugin "daisyui";
+
+@theme {
+  /* =====================================================
+     Set-specific background color tokens
+     Texture images: static/images/backgrounds/TanBG.jpg,
+     RedBG.jpg, BlueBG.jpg (used in full design system — Story 2.1)
+     ===================================================== */
+
+  /* Spanish Main: tan/parchment */
+  --color-set-spanish-main: oklch(76% 0.05 80);
+  --color-set-spanish-main-text: oklch(15% 0.02 80);
+
+  /* Crimson Coast: burgundy/red */
+  --color-set-crimson-coast: oklch(35% 0.12 15);
+  --color-set-crimson-coast-text: oklch(95% 0.01 80);
+
+  /* Revolution: royal blue */
+  --color-set-revolution: oklch(30% 0.12 255);
+  --color-set-revolution-text: oklch(95% 0.01 80);
+}
+
+/* Set-colored row background utility classes */
+/* Story 2.1 will wire in texture background images */
+.bg-set-spanish-main {
+  background-color: var(--color-set-spanish-main);
+  color: var(--color-set-spanish-main-text);
+}
+
+.bg-set-crimson-coast {
+  background-color: var(--color-set-crimson-coast);
+  color: var(--color-set-crimson-coast-text);
+}
+
+.bg-set-revolution {
+  background-color: var(--color-set-revolution);
+  color: var(--color-set-revolution-text);
+}
