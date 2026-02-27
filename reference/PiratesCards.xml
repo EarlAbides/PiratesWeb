@@ -13,7 +13,7 @@
         <Stats PointValue="5" />
         <Image URL="/images/figures/rotating/PPRV/PPRV_016.jpg" Filename="PPRV_016.jpg" />
         <Ability>Once per turn, you may eliminate one of this ship's crew to give her an extra action. After looking at treasure on a wild island, you may trade any one treasure from that island for a random treasure on any other wild island. This ship must load the traded treasure.</Ability>
-        <Description>Woodes Rogers openly scoffs at Don Pedro’s claim to a noble Spanish bloodline. The English fleet considers Gilbert the lowest of the pirates, and apprehending him its highest priority.</Description>
+        <Description>Woodes Rogers openly scoffs at Don Pedro's claim to a noble Spanish bloodline. The English fleet considers Gilbert the lowest of the pirates, and apprehending him its highest priority.</Description>
         <Modifiers />
     </Card>
     <Card CardID="7792" CardSet="Pirates of the Revolution" Type="Crew" Rarity="Common" Nationality="American" TournamentStatus="Active">
