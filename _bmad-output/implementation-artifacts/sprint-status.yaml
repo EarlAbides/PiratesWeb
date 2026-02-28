@@ -43,7 +43,7 @@ development_status:
   epic-1: in-progress
   1-1-initialize-sveltekit-project-with-full-toolchain: done
   1-2-xml-to-json-card-data-conversion-script: done
-  1-3-webp-thumbnail-generation-script: backlog
+  1-3-webp-thumbnail-generation-script: review
   1-4-card-typescript-types-and-data-loading-infrastructure: backlog
   1-5-github-actions-cicd-deployment-pipeline: backlog
   epic-1-retrospective: optional

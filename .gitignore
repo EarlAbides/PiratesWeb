@@ -26,3 +26,6 @@ test-results
 
 # IDE
 .vscode
+
+# Source card images (stored as zip archive, not individual files)
+static/images/cards/*.jpg
