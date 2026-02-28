@@ -5,7 +5,7 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter({
-			fallback: 'index.html' // SPA mode — all routes served by index.html on GitHub Pages
+			fallback: '404.html' // SPA mode — GitHub Pages serves 404.html for unmatched routes
 		}),
 		paths: {
 			base: process.env.BASE_PATH ?? '' // '' in dev, '/PiratesWeb' in CI
