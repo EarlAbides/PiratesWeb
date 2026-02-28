@@ -1,6 +1,7 @@
 ---
 stepsCompleted: [step-01-document-discovery, step-02-prd-analysis, step-03-epic-coverage-validation, step-04-ux-alignment, step-05-epic-quality-review, step-06-final-assessment]
 status: complete
+note: "Post-decision amendment 2026-02-27: FR10 (tournament status filter) excluded — tournamentStatus removed from data model (field has only one value in source data). prd.md, epics.md, architecture.md updated accordingly."
 documentsIncluded:
   prd: planning-artifacts/prd.md
   architecture: planning-artifacts/architecture.md

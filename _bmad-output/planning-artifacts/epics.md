@@ -32,7 +32,7 @@ This document provides the complete epic and story breakdown for PiratesWeb, dec
 - FR7: Users can filter cards by type (Ship, Crew, Treasure, Fort, Event)
 - FR8: Users can filter cards by nationality
 - FR9: Users can filter cards by rarity
-- FR10: Users can filter cards by tournament status
+- ~~FR10: Users can filter cards by tournament status~~ *(excluded — `tournamentStatus` removed from data model)*
 - FR11: Users can combine multiple filters simultaneously (e.g., English Ships from Spanish Main)
 - FR12: Users can perform text search across card names and ability text
 - FR13: Users can clear all active filters to return to the full catalog
@@ -40,7 +40,7 @@ This document provides the complete epic and story breakdown for PiratesWeb, dec
 
 **Card Detail (Phase 1)**
 - FR15: Users can view a detailed card panel displaying the full-size card image
-- FR16: Users can view all card attributes: card number, name, set, type, rarity, nationality, tournament status, point value
+- FR16: Users can view all card attributes: card number, name, set, type, rarity, nationality, point value
 - FR17: Users can view card ability text and description
 - FR18: Users can view ship-specific attributes: masts, cargo capacity, base move, cannons, crew slots
 - FR19: Users can view crew-specific attributes: build bonuses, cost reductions, cargo bonuses, limit cards
@@ -123,7 +123,7 @@ This document provides the complete epic and story breakdown for PiratesWeb, dec
 | FR7 | Epic 2 | Filter by card type |
 | FR8 | Epic 2 | Filter by nationality |
 | FR9 | Epic 2 | Filter by rarity |
-| FR10 | Epic 2 | Filter by tournament status |
+| ~~FR10~~ | ~~Epic 2~~ | ~~Filter by tournament status~~ *(excluded)* |
 | FR11 | Epic 2 | Combine multiple filters |
 | FR12 | Epic 2 | Text search (name + ability) |
 | FR13 | Epic 2 | Clear all filters |
@@ -167,7 +167,7 @@ A working SvelteKit application is initialized, all card data is converted and c
 
 ### Epic 2: Card Discovery — Browse & Filter
 
-A Pirates CSG fan can land on the site, see all 5000+ cards in a build-sheet-inspired table with set-colored rows and thumbnails, and immediately filter by set/type/nationality/rarity/tournament status, combine multiple filters, and perform text search — all with instant, zero-perceptible-delay responses.
+A Pirates CSG fan can land on the site, see all 5000+ cards in a build-sheet-inspired table with set-colored rows and thumbnails, and immediately filter by set/type/nationality/rarity, combine multiple filters, and perform text search — all with instant, zero-perceptible-delay responses.
 
 **FRs covered:** FR1, FR2, FR3, FR4, FR5, FR6, FR7, FR8, FR9, FR10, FR11, FR12, FR13, FR14
 **UX reqs covered:** UX1, UX2, UX3, UX7, UX8, UX9
@@ -340,7 +340,7 @@ So that every merge to main automatically results in an updated live site with z
 
 ## Epic 2: Card Discovery — Browse & Filter
 
-A Pirates CSG fan can land on the site, see all 5000+ cards in a build-sheet-inspired table with set-colored rows and thumbnails, and immediately filter by set/type/nationality/rarity/tournament status, combine multiple filters, and perform text search — all with instant, zero-perceptible-delay responses.
+A Pirates CSG fan can land on the site, see all 5000+ cards in a build-sheet-inspired table with set-colored rows and thumbnails, and immediately filter by set/type/nationality/rarity, combine multiple filters, and perform text search — all with instant, zero-perceptible-delay responses.
 
 ### Story 2.1: App Shell, Layout, and Design System
 
@@ -410,14 +410,14 @@ So that I can scan hundreds of familiar cards at a glance and immediately recogn
 ### Story 2.3: Filter Sidebar — All Filter Dimensions
 
 As a **Pirates CSG fan**,
-I want a sidebar with filter controls for expansion set, card type, nationality, rarity, and tournament status — combinable in any combination — along with a result count and individual clear controls for each active filter,
+I want a sidebar with filter controls for expansion set, card type, nationality, and rarity — combinable in any combination — along with a result count and individual clear controls for each active filter,
 So that I can narrow 5000+ cards to exactly what I need (e.g., "English Ships from Spanish Main") in seconds with no perceptible delay.
 
 **Acceptance Criteria:**
 
 **Given** the filter sidebar
 **When** I open it
-**Then** I see filter controls for: Expansion Set, Card Type, Nationality, Rarity, and Tournament Status
+**Then** I see filter controls for: Expansion Set, Card Type, Nationality, and Rarity
 **And** a result count displays the number of currently matching cards (e.g., "Showing 47 of 5,231 cards")
 
 **Given** I select a filter value (e.g., "Ship" for type)
@@ -489,7 +489,7 @@ So that I can explore any card in depth without leaving the browse table or losi
 **Given** a card row is expanded
 **When** the `CardRowExpanded` panel renders
 **Then** the left side displays the full-size card image (minimum 240px wide) loaded from `static/images/cards/`
-**And** the right side displays: card number, name, set, rarity, nationality flag, tournament status, and point value (FR15, FR16)
+**And** the right side displays: card number, name, set, rarity, nationality flag, and point value (FR15, FR16)
 
 **Given** a card row is expanded
 **When** I view the ability and description sections

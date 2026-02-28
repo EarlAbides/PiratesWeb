@@ -252,7 +252,6 @@ Not applicable. All data is bundled at build time. There are no runtime API call
   "type": "Crew",
   "rarity": "Rare",
   "nationality": "English",
-  "tournamentStatus": "Allowed",
   "pointValue": 5,
   "imageFilename": "PPSM_EC-001.jpg",
   "ability": "...",
@@ -613,7 +612,7 @@ type CardType = 'Ship' | 'Crew' | 'Treasure' | 'Fort' | 'Event';
 interface BaseCard {
   cardId: string; cardSet: CardSet; cardNumber: string; name: string;
   type: CardType; rarity: string; nationality: string;
-  tournamentStatus: string; pointValue: number;
+  pointValue: number; // Note: tournamentStatus excluded — field is always 'Active' in source data
   imageFilename: string; ability: string; description: string;
 }
 interface ShipCard extends BaseCard { type: 'Ship'; details: ShipDetails; }

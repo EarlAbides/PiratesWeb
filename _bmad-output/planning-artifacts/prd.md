@@ -78,7 +78,7 @@ N/A — this is a free community passion project. There is no monetization, no a
 
 - 100% of cards from three sets (Spanish Main, Crimson Coast, Revolution) browsable with correct data
 - All 424 card images render correctly mapped to their card entries
-- Filtering produces accurate results across all filter dimensions (set, type, nationality, rarity, tournament status, text search)
+- Filtering produces accurate results across all filter dimensions (set, type, nationality, rarity, text search)
 - Static site builds and deploys successfully via SvelteKit adapter-static
 - (Phase 2) Fleet builder correctly tracks point totals
 - (Phase 3) Rules engine enforces implemented rules and flags violations
@@ -178,7 +178,7 @@ PiratesWeb is a single-page application built with SvelteKit using adapter-stati
 
 **Must-Have Capabilities:**
 - Card browsing across three expansion sets with card images
-- Filtering by set, type, nationality, rarity, tournament status
+- Filtering by set, type, nationality, rarity
 - Text search across card names and abilities
 - Card detail view with full stats, abilities, description, modifiers, type-specific details
 - XML-to-JSON data pipeline
@@ -233,7 +233,7 @@ PiratesWeb is a single-page application built with SvelteKit using adapter-stati
 - **FR7:** Users can filter cards by type (Ship, Crew, Treasure, Fort, Event)
 - **FR8:** Users can filter cards by nationality
 - **FR9:** Users can filter cards by rarity
-- **FR10:** Users can filter cards by tournament status
+- ~~**FR10:** Users can filter cards by tournament status~~ *(excluded — `tournamentStatus` field removed from data model; field has only one value in source data and provides no filter utility)*
 - **FR11:** Users can combine multiple filters simultaneously (e.g., English Ships from Spanish Main)
 - **FR12:** Users can perform text search across card names and ability text
 - **FR13:** Users can clear all active filters to return to the full catalog
@@ -242,7 +242,7 @@ PiratesWeb is a single-page application built with SvelteKit using adapter-stati
 ### Card Detail (Phase 1)
 
 - **FR15:** Users can view a detailed card page displaying the full-size card image
-- **FR16:** Users can view all card attributes: card number, name, set, type, rarity, nationality, tournament status, point value
+- **FR16:** Users can view all card attributes: card number, name, set, type, rarity, nationality, point value
 - **FR17:** Users can view card ability text and description
 - **FR18:** Users can view ship-specific attributes: masts, cargo capacity, base move, cannons, crew slots
 - **FR19:** Users can view crew-specific attributes: build bonuses, cost reductions, cargo bonuses, limit cards
