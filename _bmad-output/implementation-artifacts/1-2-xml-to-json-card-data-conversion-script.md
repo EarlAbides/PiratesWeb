@@ -1,6 +1,6 @@
 # Story 1.2: XML-to-JSON Card Data Conversion Script
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
