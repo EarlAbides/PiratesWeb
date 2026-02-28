@@ -53,10 +53,10 @@ so that every merge to main automatically results in an updated live site with z
   - [x] Note: the `github-pages` environment is auto-created after the first successful workflow run
 
 - [ ] Validate deployment end-to-end (AC: 1, 2, 3)
-  - [ ] Push workflow file to `main` and confirm Actions tab shows the workflow triggered
-  - [ ] Confirm `build` job runs `npm ci` + `npm run build` successfully
-  - [ ] Confirm `deploy` job runs after `build` and the live GitHub Pages URL is updated
-  - [ ] Verify live site at `https://earlabides.github.io/PiratesWeb/` loads with card count displayed
+  - [x] Push workflow file to `main` and confirm Actions tab shows the workflow triggered
+  - [x] Confirm `build` job runs `npm ci` + `npm run build` successfully
+  - [x] Confirm `deploy` job runs after `build` and the live GitHub Pages URL is updated
+  - [x] Verify live site at `https://earlabides.github.io/PiratesWeb/` loads with card count displayed
   - [ ] Simulate build failure: introduce a TypeScript error, push, confirm `deploy` job is skipped, revert
   - [ ] Navigate directly to a deep client-side route on the live site — confirm no 404 (SPA fallback working)
 

@@ -14,7 +14,7 @@ export type Rarity =
 
 export type Nationality = 'English' | 'Spanish' | 'Pirates' | 'French' | 'American' | 'Barbary';
 
-export interface ShipDetails {
+export interfce ShipDetails {
 	masts: number;
 	cargo: number;
 	baseMove: string;
