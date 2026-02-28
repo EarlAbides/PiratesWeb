@@ -1,6 +1,6 @@
 # Story 1.4: Card TypeScript Types and Data Loading Infrastructure
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -87,6 +87,16 @@ so that all UI components in subsequent epics have a type-safe, reactive, global
   - [x] `npm run test:unit` — all unit tests pass (cardUtils.test.ts)
   - [x] `npm run build` — static build succeeds with no errors
   - [x] Manual verify: dev server loads page and console shows card count
+
+### Review Follow-ups (AI)
+
+- [x] [AI-Review][MEDIUM] Update `architecture.md` state management section to reflect class-based `CardDataStore` pattern instead of module-level rune exports — future agents will use wrong import pattern (`import { cards }` vs `import { cardData }`) [_bmad-output/planning-artifacts/architecture.md:170-172]
+- [x] [AI-Review][MEDIUM] Evaluate `$effect` timing for `cardData.setCards()` — Epic 2 components reading `cardData.cards` will see empty array during initial render before effect fires; consider `$effect.pre` or synchronous initialization strategy [src/routes/+page.svelte:7-9] — **Fixed: changed to `$effect.pre`**
+- [x] [AI-Review][MEDIUM] Add lightweight runtime validation on `cards.json` parse — currently a type assertion only; schema drift would surface as cryptic errors in components instead of a clear load-time failure [src/routes/+page.ts:10] — **Fixed: validates array, length > 0, and cardId string before casting**
+- [x] [AI-Review][LOW] Make `thumbUrl` defensive against non-`.jpg` extensions — regex silently passes through other extensions, producing broken thumbnail URLs [src/lib/utils/cardUtils.ts:4] — **Fixed: replaced `/\.jpg$/i` with `/\.[^.]+$/` to replace any extension**
+- [x] [AI-Review][LOW] Add `imageUrl` test case for non-Ship card type to confirm no type-dependent behavior [src/lib/utils/cardUtils.test.ts:39-42] — **Fixed: added test using mockCrewWithUnderscore**
+- [x] [AI-Review][LOW] Consider deferring `formatMove` utility until actual formatting is needed (Epic 2/3) — currently a no-op pass-through [src/lib/utils/cardUtils.ts:12-14] — **Fixed: removed `formatMove` and its tests**
+- [x] [AI-Review][LOW] Update `+error.svelte` to use `$app/state` instead of `$app/stores` for Svelte 5 runes consistency (created in Story 1.1, flagged here) [src/routes/+error.svelte:2] — **Fixed: migrated to `$app/state`, removed `$` store prefix**
 
 ## Dev Notes
 

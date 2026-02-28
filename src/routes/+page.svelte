@@ -4,7 +4,7 @@
 
 	let { data }: { data: PageData } = $props();
 
-	$effect(() => {
+	$effect.pre(() => {
 		cardData.setCards(data.cards);
 	});
 </script>

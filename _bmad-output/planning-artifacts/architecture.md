@@ -170,6 +170,10 @@ Not applicable. All data is bundled at build time. There are no runtime API call
 - Decision: Use Svelte 5 runes (`$state`, `$derived`, `$effect`) exclusively. Global state lives in reactive `.svelte.ts` modules under `src/lib/state/`. No Svelte 4-style `writable`/`readable` stores.
 - Rationale: Runes are the idiomatic Svelte 5 approach. Reactive `.svelte.ts` modules can be imported across components and behave exactly like local rune state. Mixing store and rune paradigms adds cognitive overhead with no benefit. Key state modules: `filterState.svelte.ts`, `cardData.svelte.ts`, `fleetState.svelte.ts` (Phase 2).
 - Provided by starter: Partial — Svelte 5 runes are built-in; module organization is custom
+- **Implementation pattern (Story 1.4):** Svelte 5 build constraints prevent exporting reassignable `$state` or `$derived` variables directly from `.svelte.ts` modules (`state_invalid_export`, `derived_invalid_export` errors). The canonical solution is a **class-based store**: define `$state` and `$derived.by()` as class properties, then export a singleton instance. Components import the singleton and access reactive properties on it.
+  - Correct import: `import { cardData } from '$lib/state/cardData.svelte'`
+  - Correct access: `cardData.cards`, `cardData.cardById`, `cardData.setCards(arr)`
+  - Do NOT use: `import { cards, cardById } from '$lib/state/cardData.svelte'` (module-level rune exports are not supported)
 
 **Card Detail Pattern — Inline Expansion**
 - Decision: Clicking a card row expands an inline detail panel below the row. No route change, no modal, no page navigation. Only one row expanded at a time.

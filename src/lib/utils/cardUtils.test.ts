@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { thumbUrl, imageUrl, formatMove } from './cardUtils';
+import { thumbUrl, imageUrl } from './cardUtils';
 import type { Card } from '$lib/types/cardTypes';
 
 const mockShip: Card = {
@@ -39,12 +39,7 @@ describe('imageUrl', () => {
 	it('prepends cards path to imageFilename', () => {
 		expect(imageUrl(mockShip)).toBe('/images/cards/PPSM_EC-001.jpg');
 	});
-});
-
-describe('formatMove', () => {
-	it('returns baseMove string unchanged', () => {
-		expect(formatMove('S+L')).toBe('S+L');
-		expect(formatMove('L')).toBe('L');
-		expect(formatMove('S+S+L')).toBe('S+S+L');
+	it('works for non-Ship card types', () => {
+		expect(imageUrl(mockCrewWithUnderscore)).toBe('/images/cards/PPCC_046_2.jpg');
 	});
 });
