@@ -1,6 +1,6 @@
 # Story 2.1: App Shell, Layout, and Design System
 
-Status: review
+Status: done
 
 ## Story
 
