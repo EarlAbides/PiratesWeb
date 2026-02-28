@@ -1,7 +1,15 @@
 ---
-stepsCompleted: [step-01-document-discovery, step-02-prd-analysis, step-03-epic-coverage-validation, step-04-ux-alignment, step-05-epic-quality-review, step-06-final-assessment]
+stepsCompleted:
+  [
+    step-01-document-discovery,
+    step-02-prd-analysis,
+    step-03-epic-coverage-validation,
+    step-04-ux-alignment,
+    step-05-epic-quality-review,
+    step-06-final-assessment
+  ]
 status: complete
-note: "Post-decision amendment 2026-02-27: FR10 (tournament status filter) excluded — tournamentStatus removed from data model (field has only one value in source data). prd.md, epics.md, architecture.md updated accordingly."
+note: 'Post-decision amendment 2026-02-27: FR10 (tournament status filter) excluded — tournamentStatus removed from data model (field has only one value in source data). prd.md, epics.md, architecture.md updated accordingly.'
 documentsIncluded:
   prd: planning-artifacts/prd.md
   architecture: planning-artifacts/architecture.md
@@ -106,7 +114,7 @@ documentsIncluded:
 - **Deployment:** Static site generation using SvelteKit adapter-static; zero ongoing infrastructure cost
 - **No backend:** All data bundled at build time; no server, API, or database
 - **Data pipeline:** XML-to-JSON conversion is a build-time step; converted JSON is the sole data source
-- **Image organization:** 424 JPGs organized by set prefix (PPSM_*, PPCC_*, PPRV_*), served as static assets
+- **Image organization:** 424 JPGs organized by set prefix (PPSM*\*, PPCC*_, PPRV\__), served as static assets
 - **State management:** Fleet builds stored in browser local storage (Phase 2); Svelte built-in reactivity for UI state
 - **Routing:** SvelteKit file-based routing; key routes: card browse/filter, card detail, fleet builder (Phase 2)
 - **SEO:** Not required
@@ -127,47 +135,47 @@ documentsIncluded:
 
 ### Coverage Matrix
 
-| FR | PRD Requirement (abbreviated) | Epic Coverage | Story Coverage | Status |
-|---|---|---|---|---|
-| FR1 | Browse complete card catalog (3 sets) | Epic 2 | Story 2.2 | ✓ Covered |
-| FR2 | Thumbnail images + key attributes in browse list | Epic 2 | Story 2.2 | ✓ Covered |
-| FR3 | Browse all sets or single set | Epic 2 | Story 2.2/2.3 | ✓ Covered |
-| FR4 | Scroll large result sets without degradation | Epic 2 | Story 2.2 | ✓ Covered |
-| FR5 | Lazy loading for card images | Epic 2 | Story 2.2 | ✓ Covered |
-| FR6 | Filter by expansion set | Epic 2 | Story 2.3 | ✓ Covered |
-| FR7 | Filter by card type | Epic 2 | Story 2.3 | ✓ Covered |
-| FR8 | Filter by nationality | Epic 2 | Story 2.3 | ✓ Covered |
-| FR9 | Filter by rarity | Epic 2 | Story 2.3 | ✓ Covered |
-| FR10 | Filter by tournament status | Epic 2 | Story 2.3 | ✓ Covered |
-| FR11 | Combine multiple filters simultaneously | Epic 2 | Story 2.3 | ✓ Covered |
-| FR12 | Text search across names and ability text | Epic 2 | Story 2.4 | ✓ Covered |
-| FR13 | Clear all active filters | Epic 2 | Story 2.3 | ✓ Covered |
-| FR14 | Display matching result count | Epic 2 | Story 2.3 | ✓ Covered |
-| FR15 | Full-size card image in detail view | Epic 3 | Story 3.1 | ✓ Covered |
-| FR16 | All card attributes in detail view | Epic 3 | Story 3.1 | ✓ Covered |
-| FR17 | Ability text and description | Epic 3 | Story 3.1 | ✓ Covered |
-| FR18 | Ship-specific attributes | Epic 3 | Story 3.2 | ✓ Covered |
-| FR19 | Crew-specific attributes | Epic 3 | Story 3.2 | ✓ Covered |
-| FR20 | Fort-specific attributes | Epic 3 | Story 3.2 | ✓ Covered |
-| FR21 | Card modifiers when present | Epic 3 | Story 3.1 | ✓ Covered |
-| FR22 | XML-to-JSON conversion (lossless) | Epic 1 | Story 1.2 | ✓ Covered |
-| FR23 | Image-to-card mapping by filename convention | Epic 1 | Story 1.2 | ✓ Covered |
-| FR24 | Thumbnail generation | Epic 1 | Story 1.3 | ✓ Covered |
-| FR25 | Create new fleet build | Epic 4 | Story 4.1/4.2 | ✓ Covered |
-| FR26 | Add ships to fleet | Epic 4 | Story 4.2 | ✓ Covered |
-| FR27 | Assign crew to ships | Epic 4 | Story 4.2 | ✓ Covered |
-| FR28 | Set fleet point limit | Epic 4 | Story 4.3 | ✓ Covered |
-| FR29 | Running point total tracking | Epic 4 | Story 4.3 | ✓ Covered |
-| FR30 | Remove ships or crew from fleet | Epic 4 | Story 4.4 | ✓ Covered |
-| FR31 | Save fleet to local storage | Epic 4 | Story 4.5 | ✓ Covered |
-| FR32 | Load saved fleet builds | Epic 4 | Story 4.5 | ✓ Covered |
-| FR33 | Delete saved fleet builds | Epic 4 | Story 4.5 | ✓ Covered |
-| FR34 | Validate builds + display violations | Epic 5 | Story 5.1 | ✓ Covered |
-| FR35 | Enforce duplicate card limits | Epic 5 | Story 5.2 | ✓ Covered |
-| FR36 | Enforce crew assignment restrictions | Epic 5 | Story 5.3 | ✓ Covered |
-| FR37 | Enforce card-specific constraints | Epic 5 | Story 5.4 | ✓ Covered |
-| FR38 | Clear violation explanations | Epic 5 | Stories 5.1–5.4 | ✓ Covered |
-| FR39 | Graceful handling of unimplemented rules | Epic 5 | Story 5.1 | ✓ Covered |
+| FR   | PRD Requirement (abbreviated)                    | Epic Coverage | Story Coverage  | Status    |
+| ---- | ------------------------------------------------ | ------------- | --------------- | --------- |
+| FR1  | Browse complete card catalog (3 sets)            | Epic 2        | Story 2.2       | ✓ Covered |
+| FR2  | Thumbnail images + key attributes in browse list | Epic 2        | Story 2.2       | ✓ Covered |
+| FR3  | Browse all sets or single set                    | Epic 2        | Story 2.2/2.3   | ✓ Covered |
+| FR4  | Scroll large result sets without degradation     | Epic 2        | Story 2.2       | ✓ Covered |
+| FR5  | Lazy loading for card images                     | Epic 2        | Story 2.2       | ✓ Covered |
+| FR6  | Filter by expansion set                          | Epic 2        | Story 2.3       | ✓ Covered |
+| FR7  | Filter by card type                              | Epic 2        | Story 2.3       | ✓ Covered |
+| FR8  | Filter by nationality                            | Epic 2        | Story 2.3       | ✓ Covered |
+| FR9  | Filter by rarity                                 | Epic 2        | Story 2.3       | ✓ Covered |
+| FR10 | Filter by tournament status                      | Epic 2        | Story 2.3       | ✓ Covered |
+| FR11 | Combine multiple filters simultaneously          | Epic 2        | Story 2.3       | ✓ Covered |
+| FR12 | Text search across names and ability text        | Epic 2        | Story 2.4       | ✓ Covered |
+| FR13 | Clear all active filters                         | Epic 2        | Story 2.3       | ✓ Covered |
+| FR14 | Display matching result count                    | Epic 2        | Story 2.3       | ✓ Covered |
+| FR15 | Full-size card image in detail view              | Epic 3        | Story 3.1       | ✓ Covered |
+| FR16 | All card attributes in detail view               | Epic 3        | Story 3.1       | ✓ Covered |
+| FR17 | Ability text and description                     | Epic 3        | Story 3.1       | ✓ Covered |
+| FR18 | Ship-specific attributes                         | Epic 3        | Story 3.2       | ✓ Covered |
+| FR19 | Crew-specific attributes                         | Epic 3        | Story 3.2       | ✓ Covered |
+| FR20 | Fort-specific attributes                         | Epic 3        | Story 3.2       | ✓ Covered |
+| FR21 | Card modifiers when present                      | Epic 3        | Story 3.1       | ✓ Covered |
+| FR22 | XML-to-JSON conversion (lossless)                | Epic 1        | Story 1.2       | ✓ Covered |
+| FR23 | Image-to-card mapping by filename convention     | Epic 1        | Story 1.2       | ✓ Covered |
+| FR24 | Thumbnail generation                             | Epic 1        | Story 1.3       | ✓ Covered |
+| FR25 | Create new fleet build                           | Epic 4        | Story 4.1/4.2   | ✓ Covered |
+| FR26 | Add ships to fleet                               | Epic 4        | Story 4.2       | ✓ Covered |
+| FR27 | Assign crew to ships                             | Epic 4        | Story 4.2       | ✓ Covered |
+| FR28 | Set fleet point limit                            | Epic 4        | Story 4.3       | ✓ Covered |
+| FR29 | Running point total tracking                     | Epic 4        | Story 4.3       | ✓ Covered |
+| FR30 | Remove ships or crew from fleet                  | Epic 4        | Story 4.4       | ✓ Covered |
+| FR31 | Save fleet to local storage                      | Epic 4        | Story 4.5       | ✓ Covered |
+| FR32 | Load saved fleet builds                          | Epic 4        | Story 4.5       | ✓ Covered |
+| FR33 | Delete saved fleet builds                        | Epic 4        | Story 4.5       | ✓ Covered |
+| FR34 | Validate builds + display violations             | Epic 5        | Story 5.1       | ✓ Covered |
+| FR35 | Enforce duplicate card limits                    | Epic 5        | Story 5.2       | ✓ Covered |
+| FR36 | Enforce crew assignment restrictions             | Epic 5        | Story 5.3       | ✓ Covered |
+| FR37 | Enforce card-specific constraints                | Epic 5        | Story 5.4       | ✓ Covered |
+| FR38 | Clear violation explanations                     | Epic 5        | Stories 5.1–5.4 | ✓ Covered |
+| FR39 | Graceful handling of unimplemented rules         | Epic 5        | Story 5.1       | ✓ Covered |
 
 ### Missing Requirements
 
@@ -195,35 +203,35 @@ None. All 39 FRs are covered.
 
 ### UX ↔ PRD Alignment
 
-| UX Requirement | PRD Alignment | Notes |
-|---|---|---|
-| Dark neutral UI chrome with set-colored row backgrounds | PRD implies "desktop-first responsive layout" — UX adds specifics | UX adds visual richness beyond PRD scope; no conflict |
-| Inline row expansion (Direction A+F) | FR15 says "detailed card page" — UX decided "panel" | Architectural refinement; PRD language not updated |
-| Virtual scroll (no pagination) | FR4 says "paginate or scroll" — UX mandates virtual scroll only | UX clarifies the ambiguity in PRD; appropriate refinement |
-| WCAG AA contrast (4.5:1) | PRD says "no formal WCAG compliance target, standard good practices" | UX tightens the standard; no conflict, improvement |
-| Iconic stat display (mast icons, cannon pips) | PRD FR18 describes attributes; UX specifies visual rendering format | UX adds fidelity requirement beyond PRD's functional spec |
-| 200ms smooth slide animation for row expansion | Not in PRD | UX addition; no PRD conflict |
-| Default sort by point cost descending | Not explicitly in PRD | UX addition aligned with PRD's game-domain intent |
-| Typography: Inter/Plus Jakarta Sans | Not in PRD | UX implementation detail; no conflict |
-| Phase 2 three-panel layout (Direction G) | FR25–FR33 describe fleet builder capabilities | UX layout decision is appropriate elaboration of PRD requirements |
+| UX Requirement                                          | PRD Alignment                                                        | Notes                                                             |
+| ------------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Dark neutral UI chrome with set-colored row backgrounds | PRD implies "desktop-first responsive layout" — UX adds specifics    | UX adds visual richness beyond PRD scope; no conflict             |
+| Inline row expansion (Direction A+F)                    | FR15 says "detailed card page" — UX decided "panel"                  | Architectural refinement; PRD language not updated                |
+| Virtual scroll (no pagination)                          | FR4 says "paginate or scroll" — UX mandates virtual scroll only      | UX clarifies the ambiguity in PRD; appropriate refinement         |
+| WCAG AA contrast (4.5:1)                                | PRD says "no formal WCAG compliance target, standard good practices" | UX tightens the standard; no conflict, improvement                |
+| Iconic stat display (mast icons, cannon pips)           | PRD FR18 describes attributes; UX specifies visual rendering format  | UX adds fidelity requirement beyond PRD's functional spec         |
+| 200ms smooth slide animation for row expansion          | Not in PRD                                                           | UX addition; no PRD conflict                                      |
+| Default sort by point cost descending                   | Not explicitly in PRD                                                | UX addition aligned with PRD's game-domain intent                 |
+| Typography: Inter/Plus Jakarta Sans                     | Not in PRD                                                           | UX implementation detail; no conflict                             |
+| Phase 2 three-panel layout (Direction G)                | FR25–FR33 describe fleet builder capabilities                        | UX layout decision is appropriate elaboration of PRD requirements |
 
 **Assessment:** UX spec is well-aligned with PRD. All UX decisions either directly implement PRD requirements or appropriately elaborate on areas where PRD was intentionally high-level. No contradictions found.
 
 ### UX ↔ Architecture Alignment
 
-| UX Requirement | Architecture Support | Status |
-|---|---|---|
-| Tailwind CSS + DaisyUI design system | Explicitly selected in architecture | ✓ Aligned |
-| Inline row expansion (Direction A+F) | Architecture Decision: "Card Detail Pattern — Inline Expansion" | ✓ Aligned |
-| Three-panel for Phase 2 (Direction G) | Architecture documents `BuildPanel`, `ModeToggle` component slots | ✓ Aligned |
-| In-memory filtering (instant response) | Architecture: `filterState.svelte.ts` with `$derived` computed results | ✓ Aligned |
-| Virtual scroll for large result sets | Architecture references virtual scroll; no specific library chosen | ⚠ Implementation detail deferred |
-| Set-colored row backgrounds via CSS tokens | Architecture: `bg-set-spanish-main`, `bg-set-crimson-coast`, `bg-set-revolution` classes defined | ✓ Aligned |
-| Pre-generated WebP thumbnails | Architecture: `scripts/generate-thumbnails.ts` committed to `static/images/thumbs/` | ✓ Aligned |
-| StatBar + CannonDisplay iconic rendering | Architecture lists both as named components in component directory | ✓ Aligned |
-| Phase 2 rules engine stub in place | Architecture: `rulesEngine.ts` with empty `ValidationRule[]` required from Phase 2 | ✓ Aligned |
-| Svelte 5 runes (no Svelte 4 stores) | Architecture: explicit rule, no `writable`/`readable` stores allowed | ✓ Aligned |
-| Typography (Inter/Plus Jakarta Sans) | Not specified in architecture | ⚠ Font choice not locked down |
+| UX Requirement                             | Architecture Support                                                                             | Status                           |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------ | -------------------------------- |
+| Tailwind CSS + DaisyUI design system       | Explicitly selected in architecture                                                              | ✓ Aligned                        |
+| Inline row expansion (Direction A+F)       | Architecture Decision: "Card Detail Pattern — Inline Expansion"                                  | ✓ Aligned                        |
+| Three-panel for Phase 2 (Direction G)      | Architecture documents `BuildPanel`, `ModeToggle` component slots                                | ✓ Aligned                        |
+| In-memory filtering (instant response)     | Architecture: `filterState.svelte.ts` with `$derived` computed results                           | ✓ Aligned                        |
+| Virtual scroll for large result sets       | Architecture references virtual scroll; no specific library chosen                               | ⚠ Implementation detail deferred |
+| Set-colored row backgrounds via CSS tokens | Architecture: `bg-set-spanish-main`, `bg-set-crimson-coast`, `bg-set-revolution` classes defined | ✓ Aligned                        |
+| Pre-generated WebP thumbnails              | Architecture: `scripts/generate-thumbnails.ts` committed to `static/images/thumbs/`              | ✓ Aligned                        |
+| StatBar + CannonDisplay iconic rendering   | Architecture lists both as named components in component directory                               | ✓ Aligned                        |
+| Phase 2 rules engine stub in place         | Architecture: `rulesEngine.ts` with empty `ValidationRule[]` required from Phase 2               | ✓ Aligned                        |
+| Svelte 5 runes (no Svelte 4 stores)        | Architecture: explicit rule, no `writable`/`readable` stores allowed                             | ✓ Aligned                        |
+| Typography (Inter/Plus Jakarta Sans)       | Not specified in architecture                                                                    | ⚠ Font choice not locked down    |
 
 ### Warnings
 
@@ -243,13 +251,13 @@ The three documents form a coherent, well-chained design system. UX spec inputs 
 
 #### Epic 1: Project Foundation & Deployment
 
-| Check | Result | Notes |
-|---|---|---|
-| User-centric title? | ⚠ Borderline | "Foundation & Deployment" is a technical description |
-| Delivers user value alone? | ⚠ No | Zero user-visible features; developer-only outcomes |
-| Epic independence? | ✓ | Depends on nothing; is the base for all others |
-| Traceability to FRs? | ✓ | FR22, FR23, FR24 + AR1–AR10 covered |
-| Greenfield setup story? | ✓ | Story 1.1 explicitly initializes project from official CLI |
+| Check                      | Result       | Notes                                                      |
+| -------------------------- | ------------ | ---------------------------------------------------------- |
+| User-centric title?        | ⚠ Borderline | "Foundation & Deployment" is a technical description       |
+| Delivers user value alone? | ⚠ No         | Zero user-visible features; developer-only outcomes        |
+| Epic independence?         | ✓            | Depends on nothing; is the base for all others             |
+| Traceability to FRs?       | ✓            | FR22, FR23, FR24 + AR1–AR10 covered                        |
+| Greenfield setup story?    | ✓            | Story 1.1 explicitly initializes project from official CLI |
 
 **Assessment:** Epic 1 is a technical foundation epic with no direct user value. This is a 🟡 Minor Concern by best-practice standards, BUT it is the **expected and correct structure for a greenfield project** — the workflow's own greenfield checklist mandates project setup, dev environment, and CI/CD early. Acceptable as-is.
 
@@ -257,13 +265,13 @@ The three documents form a coherent, well-chained design system. UX spec inputs 
 
 #### Epic 2: Card Discovery — Browse & Filter
 
-| Check | Result | Notes |
-|---|---|---|
-| User-centric title? | ✓ | "Card Discovery" describes user activity |
-| Delivers user value alone? | ✓ | After Epic 1, this delivers a fully functional card browser — an MVP in itself |
-| Uses only Epic 1 output? | ✓ | Requires SvelteKit app + cards.json + thumbnails from Epic 1 |
-| No forward dependencies on Epic 3+? | ✓ | No references to fleet builder, detail expansion, or rules engine |
-| Traceability to FRs? | ✓ | FR1–FR14 fully covered |
+| Check                               | Result | Notes                                                                          |
+| ----------------------------------- | ------ | ------------------------------------------------------------------------------ |
+| User-centric title?                 | ✓      | "Card Discovery" describes user activity                                       |
+| Delivers user value alone?          | ✓      | After Epic 1, this delivers a fully functional card browser — an MVP in itself |
+| Uses only Epic 1 output?            | ✓      | Requires SvelteKit app + cards.json + thumbnails from Epic 1                   |
+| No forward dependencies on Epic 3+? | ✓      | No references to fleet builder, detail expansion, or rules engine              |
+| Traceability to FRs?                | ✓      | FR1–FR14 fully covered                                                         |
 
 **Assessment:** ✅ Clean. This is the MVP-delivery epic. High quality.
 
@@ -271,13 +279,13 @@ The three documents form a coherent, well-chained design system. UX spec inputs 
 
 #### Epic 3: Card Detail — Explore & Learn
 
-| Check | Result | Notes |
-|---|---|---|
-| User-centric title? | ✓ | "Explore & Learn" describes user benefit |
-| Delivers user value alone? | ✓ | After Epics 1+2, adds meaningful depth to the browsing experience |
-| Uses only Epics 1+2 output? | ✓ | Needs card table to expand — appropriate dependency |
-| No forward dependencies on Epic 4+? | ✓ | No fleet builder references |
-| Traceability to FRs? | ✓ | FR15–FR21 fully covered |
+| Check                               | Result | Notes                                                             |
+| ----------------------------------- | ------ | ----------------------------------------------------------------- |
+| User-centric title?                 | ✓      | "Explore & Learn" describes user benefit                          |
+| Delivers user value alone?          | ✓      | After Epics 1+2, adds meaningful depth to the browsing experience |
+| Uses only Epics 1+2 output?         | ✓      | Needs card table to expand — appropriate dependency               |
+| No forward dependencies on Epic 4+? | ✓      | No fleet builder references                                       |
+| Traceability to FRs?                | ✓      | FR15–FR21 fully covered                                           |
 
 **Assessment:** ✅ Clean.
 
@@ -285,13 +293,13 @@ The three documents form a coherent, well-chained design system. UX spec inputs 
 
 #### Epic 4: Fleet Builder — Assemble Your Fleet
 
-| Check | Result | Notes |
-|---|---|---|
-| User-centric title? | ✓ | "Assemble Your Fleet" is user-action language |
-| Delivers user value alone? | ✓ | After Epics 1+2, users can browse AND build fleets |
-| Uses only Epics 1+2+3 output? | ✓ | Needs card browser; Epic 3 detail view optional context |
-| No forward dependencies on Epic 5+? | ✓ | Rules engine stub is created (AR9 requirement) but enforces zero rules — no Phase 3 forward dependency |
-| Traceability to FRs? | ✓ | FR25–FR33 fully covered |
+| Check                               | Result | Notes                                                                                                  |
+| ----------------------------------- | ------ | ------------------------------------------------------------------------------------------------------ |
+| User-centric title?                 | ✓      | "Assemble Your Fleet" is user-action language                                                          |
+| Delivers user value alone?          | ✓      | After Epics 1+2, users can browse AND build fleets                                                     |
+| Uses only Epics 1+2+3 output?       | ✓      | Needs card browser; Epic 3 detail view optional context                                                |
+| No forward dependencies on Epic 5+? | ✓      | Rules engine stub is created (AR9 requirement) but enforces zero rules — no Phase 3 forward dependency |
+| Traceability to FRs?                | ✓      | FR25–FR33 fully covered                                                                                |
 
 **Assessment:** ✅ Clean. The rules engine stub in Story 4.1 is intentional architecture (AR9) — not a forward dependency violation.
 
@@ -299,13 +307,13 @@ The three documents form a coherent, well-chained design system. UX spec inputs 
 
 #### Epic 5: Rules Engine — Play by the Rules
 
-| Check | Result | Notes |
-|---|---|---|
-| User-centric title? | ✓ | "Play by the Rules" connects to game context |
-| Delivers user value alone? | ✓ | After Epic 4, adds rule enforcement for serious fleet builders |
-| Uses only Epics 1+4 output? | ✓ | Extends rules engine stub from Story 4.1 — clean dependency |
-| No forward dependencies? | ✓ | No future epic references |
-| Traceability to FRs? | ✓ | FR34–FR39 fully covered |
+| Check                       | Result | Notes                                                          |
+| --------------------------- | ------ | -------------------------------------------------------------- |
+| User-centric title?         | ✓      | "Play by the Rules" connects to game context                   |
+| Delivers user value alone?  | ✓      | After Epic 4, adds rule enforcement for serious fleet builders |
+| Uses only Epics 1+4 output? | ✓      | Extends rules engine stub from Story 4.1 — clean dependency    |
+| No forward dependencies?    | ✓      | No future epic references                                      |
+| Traceability to FRs?        | ✓      | FR34–FR39 fully covered                                        |
 
 **Assessment:** ✅ Clean.
 
@@ -328,82 +336,102 @@ Epic 5 (rules)      → uses Epic 4's stub; completes the experience
 ### Best Practices Compliance: Story-Level Review
 
 #### Story 1.1: Initialize SvelteKit Project with Full Toolchain
+
 - BDD format: ✓ | Independent: ✓ | User value: Developer story — acceptable for greenfield
 - ACs are specific and testable (TypeScript strict mode, build succeeds, tests run)
 
 #### Story 1.2: XML-to-JSON Card Data Conversion Script
+
 - BDD format: ✓ | Independent (after 1.1): ✓ | FR22, FR23 coverage: ✓
 - ACs cover: camelCase fields, type-specific details, zero data loss, image filename mapping
 
 #### Story 1.3: WebP Thumbnail Generation Script
+
 - BDD format: ✓ | Independent (after 1.1): ✓ | FR24 coverage: ✓
 - ACs cover: output location, dimensions (~200px wide), build inclusion
 
 #### Story 1.4: Card TypeScript Types and Data Loading Infrastructure
+
 - BDD format: ✓ | Independent (after 1.1+1.2): ✓
 - ACs cover: type narrowing, Svelte 5 runes pattern, load() function, error boundary
 
 #### Story 1.5: GitHub Actions CI/CD Deployment Pipeline
+
 - BDD format: ✓ | Independent (after 1.1): ✓
 - ACs cover: build→deploy on push, failure gates, SPA fallback
 
 #### Story 2.1: App Shell, Layout, and Design System
+
 - BDD format: ✓ | Independent (after Epic 1): ✓
 - ⚠ This is an infrastructure/visual-setup story — no browseable cards yet. Same greenfield caveat as Epic 1.
 
 #### Story 2.2: Card Browse Table with Build-Sheet Rows
+
 - BDD format: ✓ | Independent (after 2.1): ✓ | FR1–FR5 coverage: ✓
 - ACs cover: row components, set-colored backgrounds, sorting, lazy loading, scroll performance
 
 #### Story 2.3: Filter Sidebar — All Filter Dimensions
+
 - BDD format: ✓ | Independent (after 2.1+2.2): ✓ | FR6–FR11, FR13–FR14 coverage: ✓
 - ACs cover: all filter dimensions, AND-logic combination, clear all, empty state
 
 #### Story 2.4: Text Search
+
 - BDD format: ✓ | Independent (after 2.1+2.2+2.3): ✓ | FR12 coverage: ✓
 - ACs include unit test requirements for `matchesSearch()` — well defined
 
 #### Story 3.1: Inline Card Detail Expansion — Interaction and Base Content
+
 - BDD format: ✓ | Independent (after Epics 1+2): ✓ | FR15–FR17, FR21 coverage: ✓
 - ACs cover: single-row expansion, ~200ms animation, keyboard accessibility, missing image fallback
 
 #### Story 3.2: Type-Specific Detail Attributes
+
 - BDD format: ✓ | Independent (after 3.1): ✓ | FR18–FR20 coverage: ✓
 - ACs cover all four card types with no cross-contamination of fields
 
 #### Story 4.1: Fleet Builder Layout, Mode Toggle, and State Foundation
+
 - BDD format: ✓ | Independent (after Epics 1+2): ✓ | Rules engine stub: ✓
 - ACs cover: mode toggle, empty state, Svelte 5 runes, stub validation
 
 #### Story 4.2: Add Ships and Assign Crew to Fleet
+
 - BDD format: ✓ | Independent (after 4.1): ✓ | FR25–FR27 coverage: ✓
 - ⚠ **Minor concern:** "If there are multiple ships, a ship picker appears" — the picker's UX design is not specified. Neither the UX spec nor the epics define how the picker looks (dropdown? modal? inline list?). Developer will need to make this judgment call.
 
 #### Story 4.3: Point Tracking and Fleet Summary
+
 - BDD format: ✓ | Independent (after 4.1+4.2): ✓ | FR28–FR29 coverage: ✓
 - Specific thresholds (80% = amber, >100% = red) defined at story level — not in PRD or UX spec. Implementation detail, acceptable.
 
 #### Story 4.4: Remove Cards from Fleet
+
 - BDD format: ✓ | Independent (after 4.2): ✓ | FR30 coverage: ✓
 - ACs cover: ship removal cascades to crew, crew-only removal, empty state return
 
 #### Story 4.5: Save, Load, and Delete Fleet Builds
+
 - BDD format: ✓ | Independent (after 4.1+4.2+4.3): ✓ | FR31–FR33 coverage: ✓
 - ACs cover: save with name, load with data integrity, unsaved-changes warning, delete
 
 #### Story 5.1: Rule Violation Display Infrastructure
+
 - BDD format: ✓ | Independent (after Epic 4): ✓ | FR34, FR39 coverage: ✓
 - ACs cover: violation display, warning icons, honest rule count, saves always proceed
 
 #### Story 5.2: Duplicate Card Limit Rule
+
 - BDD format: ✓ | Independent (after 5.1): ✓ | FR35 coverage: ✓
 - ACs cover: only `rulesEngine.ts` modified (boundary contract), positive/negative/edge cases
 
 #### Story 5.3: Crew Assignment Restriction Rule
+
 - BDD format: ✓ | Independent (after 5.1): ✓ | FR36 coverage: ✓
 - Dual-card warning (both crew and ship flagged) is well specified
 
 #### Story 5.4: Card-Specific Constraint Rules
+
 - BDD format: ✓ | Independent (after 5.1): ⚠ Partial
 - ⚠ **Minor concern:** The last AC — "Given BuildSummary after all three rules are registered / Then it displays '3 rules checked, 0 violations'" — implicitly requires Stories 5.2 and 5.3 to be complete. This is an integration verification AC that assumes the other rules are in place. Story 5.4 is NOT independently completable for this specific AC without 5.2 and 5.3.
 
@@ -412,9 +440,11 @@ Epic 5 (rules)      → uses Epic 4's stub; completes the experience
 ### Findings Summary
 
 #### 🔴 Critical Violations
+
 **None found.**
 
 #### 🟠 Major Issues
+
 **None found.**
 
 #### 🟡 Minor Concerns
@@ -431,16 +461,16 @@ Epic 5 (rules)      → uses Epic 4's stub; completes the experience
 
 ### Best Practices Compliance Checklist
 
-| Check | Epic 1 | Epic 2 | Epic 3 | Epic 4 | Epic 5 |
-|---|---|---|---|---|---|
-| Epic delivers user value | ⚠ Dev only | ✓ | ✓ | ✓ | ✓ |
-| Epic functions independently | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Stories appropriately sized | ✓ | ✓ | ✓ | ✓ | ✓ |
-| No forward dependencies | ✓ | ✓ | ✓ | ✓ | ⚠ 5.4 AC |
-| Clear acceptance criteria | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Traceability to FRs maintained | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Starter template in Epic 1 Story 1 | ✓ | — | — | — | — |
-| Greenfield setup elements present | ✓ | — | — | — | — |
+| Check                              | Epic 1     | Epic 2 | Epic 3 | Epic 4 | Epic 5   |
+| ---------------------------------- | ---------- | ------ | ------ | ------ | -------- |
+| Epic delivers user value           | ⚠ Dev only | ✓      | ✓      | ✓      | ✓        |
+| Epic functions independently       | ✓          | ✓      | ✓      | ✓      | ✓        |
+| Stories appropriately sized        | ✓          | ✓      | ✓      | ✓      | ✓        |
+| No forward dependencies            | ✓          | ✓      | ✓      | ✓      | ⚠ 5.4 AC |
+| Clear acceptance criteria          | ✓          | ✓      | ✓      | ✓      | ✓        |
+| Traceability to FRs maintained     | ✓          | ✓      | ✓      | ✓      | ✓        |
+| Starter template in Epic 1 Story 1 | ✓          | —      | —      | —      | —        |
+| Greenfield setup elements present  | ✓          | —      | —      | —      | —        |
 
 ### Epic Quality Rating: ✅ High Quality — No Blocking Issues
 
@@ -460,12 +490,12 @@ PiratesWeb planning artifacts are complete, consistent, and traceable. All 39 fu
 
 ### Issue Summary by Severity
 
-| Severity | Count | Items |
-|---|---|---|
-| 🔴 Critical | 0 | None |
-| 🟠 Major | 0 | None |
-| 🟡 Minor | 5 | Epic 1 technical; Story 2.1 infrastructure; Story 4.2 picker UX undefined; Story 5.4 implicit dependency; No performance story |
-| ℹ Observations | 3 | FR15 "page"→"panel" wording; virtual scroll library unspecified; font not locked in arch |
+| Severity       | Count | Items                                                                                                                          |
+| -------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 🔴 Critical    | 0     | None                                                                                                                           |
+| 🟠 Major       | 0     | None                                                                                                                           |
+| 🟡 Minor       | 5     | Epic 1 technical; Story 2.1 infrastructure; Story 4.2 picker UX undefined; Story 5.4 implicit dependency; No performance story |
+| ℹ Observations | 3     | FR15 "page"→"panel" wording; virtual scroll library unspecified; font not locked in arch                                       |
 
 ---
 

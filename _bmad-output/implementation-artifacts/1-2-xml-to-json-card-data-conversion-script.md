@@ -110,57 +110,58 @@ So that all 5000+ card records are available as a committed, version-controlled 
 
 #### Base Card Fields (all card types)
 
-| XML Source | JSON Field | Notes |
-|---|---|---|
-| `Card.CardID` (attr) | `cardId` | String — keep as string, not number |
-| `Card.CardSet` (attr) | `cardSet` | Map full name → code (see below) |
-| `Identification.CardNumber` (attr) | `cardNumber` | e.g. `"EC-001"`, `"094"` |
-| `Identification.Name` (attr) | `name` | Card display name |
-| `Card.Type` (attr) | `type` | `"Ship"` \| `"Crew"` \| `"Treasure"` \| `"Fort"` \| `"Event"` |
-| `Card.Rarity` (attr) | `rarity` | `"Common"` \| `"Uncommon"` \| `"Rare"` |
-| `Card.Nationality` (attr) | `nationality` | `"English"`, `"Spanish"`, `"Pirates"`, etc. |
-| `Card.TournamentStatus` (attr) | `tournamentStatus` | `"Active"` (primary value in data) |
-| `Stats.PointValue` (attr) | `pointValue` | Integer |
-| `Image.Filename` (attr) | `imageFilename` | e.g. `"PPSM_EC-001.jpg"` — use directly |
-| `Ability` (text content) | `ability` | May be empty string — include as `""` |
-| `Description` (text content) | `description` | May be empty string — include as `""` |
+| XML Source                         | JSON Field         | Notes                                                         |
+| ---------------------------------- | ------------------ | ------------------------------------------------------------- |
+| `Card.CardID` (attr)               | `cardId`           | String — keep as string, not number                           |
+| `Card.CardSet` (attr)              | `cardSet`          | Map full name → code (see below)                              |
+| `Identification.CardNumber` (attr) | `cardNumber`       | e.g. `"EC-001"`, `"094"`                                      |
+| `Identification.Name` (attr)       | `name`             | Card display name                                             |
+| `Card.Type` (attr)                 | `type`             | `"Ship"` \| `"Crew"` \| `"Treasure"` \| `"Fort"` \| `"Event"` |
+| `Card.Rarity` (attr)               | `rarity`           | `"Common"` \| `"Uncommon"` \| `"Rare"`                        |
+| `Card.Nationality` (attr)          | `nationality`      | `"English"`, `"Spanish"`, `"Pirates"`, etc.                   |
+| `Card.TournamentStatus` (attr)     | `tournamentStatus` | `"Active"` (primary value in data)                            |
+| `Stats.PointValue` (attr)          | `pointValue`       | Integer                                                       |
+| `Image.Filename` (attr)            | `imageFilename`    | e.g. `"PPSM_EC-001.jpg"` — use directly                       |
+| `Ability` (text content)           | `ability`          | May be empty string — include as `""`                         |
+| `Description` (text content)       | `description`      | May be empty string — include as `""`                         |
 
 #### CardSet Name → Code Mapping (CRITICAL)
 
 ```typescript
 const CARD_SET_MAP: Record<string, string> = {
-  'Pirates of the Spanish Main': 'PPSM',
-  'Pirates of the Crimson Coast': 'PPCC',
-  'Pirates of the Revolution': 'PPRV',
+	'Pirates of the Spanish Main': 'PPSM',
+	'Pirates of the Crimson Coast': 'PPCC',
+	'Pirates of the Revolution': 'PPRV'
 };
 ```
 
 #### Ship `details` (type === 'Ship')
 
-| XML Source | JSON Field | Notes |
-|---|---|---|
-| `Stats.Masts` (attr) | `details.masts` | Integer |
-| `Stats.Cargo` (attr) | `details.cargo` | Integer |
+| XML Source              | JSON Field         | Notes                                 |
+| ----------------------- | ------------------ | ------------------------------------- |
+| `Stats.Masts` (attr)    | `details.masts`    | Integer                               |
+| `Stats.Cargo` (attr)    | `details.cargo`    | Integer                               |
 | `Stats.Movement` (attr) | `details.baseMove` | String e.g. `"S+L"`, `"L"`, `"S+S+S"` |
-| `Cannons` children | `details.cannons` | Array — see cannon format below |
+| `Cannons` children      | `details.cannons`  | Array — see cannon format below       |
+
 #### Crew `details` (type === 'Crew')
 
-| XML Source | JSON Field | Notes |
-|---|---|---|
-| `Modifiers.BuildBonus` (attr) | `details.buildBonus` | Integer, default `0` if absent |
-| `Modifiers.CrewCostReduction` (attr) | `details.costReduction` | Integer, default `0` if absent |
-| `Modifiers.CargoBonus` (attr) | `details.cargoBonus` | Integer, default `0` if absent |
-| `Identification.LinkCardIDs` (attr) | `details.limitCards` | String `"7909"` or `"5802,7848"` → split on `,` → string array. Empty `[]` if absent |
+| XML Source                           | JSON Field              | Notes                                                                                |
+| ------------------------------------ | ----------------------- | ------------------------------------------------------------------------------------ |
+| `Modifiers.BuildBonus` (attr)        | `details.buildBonus`    | Integer, default `0` if absent                                                       |
+| `Modifiers.CrewCostReduction` (attr) | `details.costReduction` | Integer, default `0` if absent                                                       |
+| `Modifiers.CargoBonus` (attr)        | `details.cargoBonus`    | Integer, default `0` if absent                                                       |
+| `Identification.LinkCardIDs` (attr)  | `details.limitCards`    | String `"7909"` or `"5802,7848"` → split on `,` → string array. Empty `[]` if absent |
 
 **Note:** `limitCards` captures the "Link" crew mechanic — crew assigned to their linked ship
 cost fewer points. The card IDs are strings to match `cardId` type.
 
 #### Fort `details` (type === 'Fort')
 
-| XML Source | JSON Field | Notes |
-|---|---|---|
-| `Cannons` children | `details.cannons` | Array — see cannon format below |
-| `Stats.GoldCost` (attr) | `details.goldCost` | Integer — fort purchase cost |
+| XML Source              | JSON Field         | Notes                           |
+| ----------------------- | ------------------ | ------------------------------- |
+| `Cannons` children      | `details.cannons`  | Array — see cannon format below |
+| `Stats.GoldCost` (attr) | `details.goldCost` | Integer — fort purchase cost    |
 
 #### Treasure / Event
 
@@ -179,12 +180,12 @@ If attributes are present, include only those that are set:
 "modifiers": { "limit": true, "buildBonus": 5 }
 ```
 
-| XML Source | JSON Field |
-|---|---|
-| `Modifiers.Limit` (attr, boolean) | `modifiers.limit` |
-| `Modifiers.BuildBonus` (attr, int) | `modifiers.buildBonus` |
+| XML Source                                | JSON Field                    |
+| ----------------------------------------- | ----------------------------- |
+| `Modifiers.Limit` (attr, boolean)         | `modifiers.limit`             |
+| `Modifiers.BuildBonus` (attr, int)        | `modifiers.buildBonus`        |
 | `Modifiers.CrewCostReduction` (attr, int) | `modifiers.crewCostReduction` |
-| `Modifiers.CargoBonus` (attr, int) | `modifiers.cargoBonus` |
+| `Modifiers.CargoBonus` (attr, int)        | `modifiers.cargoBonus`        |
 
 **Why `modifiers` duplicates some Crew `details` fields:** `details` gives the dev agent
 type-narrowed access for display. `modifiers` (top-level) is for the rules engine — it can
@@ -203,6 +204,7 @@ JSON: "2L"
 Sort cannons by `Number` attribute to preserve physical card order.
 
 **Example output:**
+
 ```json
 "cannons": ["3S", "3L", "3L", "2L"]
 ```
@@ -210,130 +212,137 @@ Sort cannons by `Number` attribute to preserve physical card order.
 ### Complete Example JSON Records
 
 #### Ship Card
+
 ```json
 {
-  "cardId": "6931",
-  "cardSet": "PPCC",
-  "cardNumber": "011",
-  "name": "Adventure",
-  "type": "Ship",
-  "rarity": "Common",
-  "nationality": "Pirates",
-  "tournamentStatus": "Active",
-  "pointValue": 9,
-  "imageFilename": "PPCC_011.jpg",
-  "ability": "Schooner. This ship gets +1 to her boarding rolls.",
-  "description": "Captain Devereaux is so obsessed with finding an artifact...",
-  "modifiers": {},
-  "details": {
-    "masts": 3,
-    "cargo": 5,
-    "baseMove": "L",
-    "cannons": ["3S", "3L", "3S"]
-  }
+	"cardId": "6931",
+	"cardSet": "PPCC",
+	"cardNumber": "011",
+	"name": "Adventure",
+	"type": "Ship",
+	"rarity": "Common",
+	"nationality": "Pirates",
+	"tournamentStatus": "Active",
+	"pointValue": 9,
+	"imageFilename": "PPCC_011.jpg",
+	"ability": "Schooner. This ship gets +1 to her boarding rolls.",
+	"description": "Captain Devereaux is so obsessed with finding an artifact...",
+	"modifiers": {},
+	"details": {
+		"masts": 3,
+		"cargo": 5,
+		"baseMove": "L",
+		"cannons": ["3S", "3L", "3S"]
+	}
 }
 ```
 
 #### Crew Card (with link)
+
 ```json
 {
-  "cardId": "7791",
-  "cardSet": "PPRV",
-  "cardNumber": "016",
-  "name": "'Don' Pedro Gilbert",
-  "type": "Crew",
-  "rarity": "Rare",
-  "nationality": "Pirates",
-  "tournamentStatus": "Active",
-  "pointValue": 5,
-  "imageFilename": "PPRV_016.jpg",
-  "ability": "Once per turn, you may eliminate...",
-  "description": "Woodes Rogers openly scoffs...",
-  "modifiers": {},
-  "details": {
-    "buildBonus": 0,
-    "costReduction": 0,
-    "cargoBonus": 0,
-    "limitCards": ["7909"]
-  }
+	"cardId": "7791",
+	"cardSet": "PPRV",
+	"cardNumber": "016",
+	"name": "'Don' Pedro Gilbert",
+	"type": "Crew",
+	"rarity": "Rare",
+	"nationality": "Pirates",
+	"tournamentStatus": "Active",
+	"pointValue": 5,
+	"imageFilename": "PPRV_016.jpg",
+	"ability": "Once per turn, you may eliminate...",
+	"description": "Woodes Rogers openly scoffs...",
+	"modifiers": {},
+	"details": {
+		"buildBonus": 0,
+		"costReduction": 0,
+		"cargoBonus": 0,
+		"limitCards": ["7909"]
+	}
 }
 ```
 
 #### Crew Card (with modifiers)
+
 ```json
 {
-  "cardId": "6930",
-  "cardSet": "PPCC",
-  "cardNumber": "046_2",
-  "name": "Administrator Scott Bratley",
-  "type": "Crew",
-  "rarity": "Common",
-  "nationality": "English",
-  "tournamentStatus": "Active",
-  "pointValue": 0,
-  "imageFilename": "PPCC_046_2.jpg",
-  "ability": "Limit. Ransom. Place this crew face up during setup...",
-  "description": "Scott Bratley is Governor Lynch's secret...",
-  "modifiers": { "limit": true, "buildBonus": 5 },
-  "details": {
-    "buildBonus": 5,
-    "costReduction": 0,
-    "cargoBonus": 0,
-    "limitCards": []
-  }
+	"cardId": "6930",
+	"cardSet": "PPCC",
+	"cardNumber": "046_2",
+	"name": "Administrator Scott Bratley",
+	"type": "Crew",
+	"rarity": "Common",
+	"nationality": "English",
+	"tournamentStatus": "Active",
+	"pointValue": 0,
+	"imageFilename": "PPCC_046_2.jpg",
+	"ability": "Limit. Ransom. Place this crew face up during setup...",
+	"description": "Scott Bratley is Governor Lynch's secret...",
+	"modifiers": { "limit": true, "buildBonus": 5 },
+	"details": {
+		"buildBonus": 5,
+		"costReduction": 0,
+		"cargoBonus": 0,
+		"limitCards": []
+	}
 }
 ```
 
 #### Fort Card
+
 ```json
 {
-  "cardId": "6965",
-  "cardSet": "PPCC",
-  "cardNumber": "031",
-  "name": "Dead Man's Point",
-  "type": "Fort",
-  "rarity": "Common",
-  "nationality": "Pirates",
-  "tournamentStatus": "Active",
-  "pointValue": 0,
-  "imageFilename": "PPCC_031.jpg",
-  "ability": "When this fort hits a ship, you may also eliminate one cargo from that ship.",
-  "description": "The fort at Dead Man's Point...",
-  "modifiers": {},
-  "details": {
-    "cannons": ["3L", "3L", "3L", "3L"],
-    "goldCost": 3
-  }
+	"cardId": "6965",
+	"cardSet": "PPCC",
+	"cardNumber": "031",
+	"name": "Dead Man's Point",
+	"type": "Fort",
+	"rarity": "Common",
+	"nationality": "Pirates",
+	"tournamentStatus": "Active",
+	"pointValue": 0,
+	"imageFilename": "PPCC_031.jpg",
+	"ability": "When this fort hits a ship, you may also eliminate one cargo from that ship.",
+	"description": "The fort at Dead Man's Point...",
+	"modifiers": {},
+	"details": {
+		"cannons": ["3L", "3L", "3L", "3L"],
+		"goldCost": 3
+	}
 }
 ```
 
 #### Treasure Card (no details)
+
 ```json
 {
-  "cardId": "6929",
-  "cardSet": "PPCC",
-  "cardNumber": "098",
-  "name": "Abandoned Crew",
-  "type": "Treasure",
-  "rarity": "Rare",
-  "nationality": "Pirates",
-  "tournamentStatus": "Active",
-  "pointValue": 0,
-  "imageFilename": "PPCC_098.jpg",
-  "ability": "When placing treasure, you may place one or more of these crew...",
-  "description": "",
-  "modifiers": {}
+	"cardId": "6929",
+	"cardSet": "PPCC",
+	"cardNumber": "098",
+	"name": "Abandoned Crew",
+	"type": "Treasure",
+	"rarity": "Rare",
+	"nationality": "Pirates",
+	"tournamentStatus": "Active",
+	"pointValue": 0,
+	"imageFilename": "PPCC_098.jpg",
+	"ability": "When placing treasure, you may place one or more of these crew...",
+	"description": "",
+	"modifiers": {}
 }
 ```
 
 ### Implementation Approach: fast-xml-parser
 
 **Install:**
+
 ```bash
 npm install -D tsx fast-xml-parser
 ```
 
 **Why `fast-xml-parser` v4:**
+
 - Actively maintained, TypeScript-first
 - Handles attribute parsing cleanly with `ignoreAttributes: false`
 - Well-documented, ~3M weekly downloads
@@ -341,6 +350,7 @@ npm install -D tsx fast-xml-parser
 **CRITICAL: ES Module Syntax Required**
 
 `package.json` has `"type": "module"` — use `import`, NOT `require`:
+
 ```typescript
 // ✅ Correct
 import { XMLParser } from 'fast-xml-parser';
@@ -352,15 +362,16 @@ const { XMLParser } = require('fast-xml-parser');
 ```
 
 **Key parser configuration:**
+
 ```typescript
 import { XMLParser } from 'fast-xml-parser';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 
 const parser = new XMLParser({
-  ignoreAttributes: false,
-  attributeNamePrefix: '',   // No prefix on attribute names
-  textNodeName: '_text',     // Name for text content nodes
-  isArray: (name) => name === 'Card' || name === 'Cannon', // Force always-array
+	ignoreAttributes: false,
+	attributeNamePrefix: '', // No prefix on attribute names
+	textNodeName: '_text', // Name for text content nodes
+	isArray: (name) => name === 'Card' || name === 'Cannon' // Force always-array
 });
 
 const xml = readFileSync('reference/PiratesCards.xml', 'utf-8');
@@ -371,6 +382,7 @@ const cards = parsed.Cards.Card; // Always an array due to isArray config
 **Text content extraction:**
 `<Ability>` and `<Description>` have NO attributes, so fast-xml-parser returns them as
 simple strings (not nested under `_text`). Guard for undefined (empty elements):
+
 ```typescript
 const ability = typeof card.Ability === 'string' ? card.Ability : '';
 const description = typeof card.Description === 'string' ? card.Description : '';
@@ -379,6 +391,7 @@ const description = typeof card.Description === 'string' ? card.Description : ''
 **CRITICAL: XML Attribute Type Coercion**
 
 All XML attributes are strings. Must convert to correct types:
+
 ```typescript
 // Boolean: "True" → true
 const limit = card.Modifiers?.Limit === 'True';
@@ -395,6 +408,7 @@ const cannon = `${accuracy}${range}`; // e.g. "3S", "2L"
 **JSON Output Format:**
 Write minified JSON (no indentation) for production file size. Use 2-space indent
 during development/debugging if desired, but final committed file should be compact:
+
 ```typescript
 writeFileSync('static/data/cards.json', JSON.stringify(cards));
 // NOT: JSON.stringify(cards, null, 2)  ← pretty-print only for dev debugging
@@ -464,6 +478,7 @@ Story 1.1 created `scripts/.gitkeep` as a placeholder. Remove or ignore it when 
 - Dev server runs fine — all Story 1.1 checks pass
 
 **Git context from last commit (da58153):**
+
 - `scripts/.gitkeep` exists — placeholder from Story 1.1
 - `static/images/cards/`, `thumbs/`, `flags/`, `backgrounds/` exist with `.gitkeep` files
 - `static/data/` does NOT exist yet
@@ -480,6 +495,7 @@ No Vitest unit tests required. Verification is manual inspection of the output f
 6. Verify Ship has `details.cannons` array, Crew has `details.limitCards`, Treasure has no `details`
 
 **Count verification:**
+
 ```bash
 # Count Card elements in source:
 grep -c "<Card " reference/PiratesCards.xml

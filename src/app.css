@@ -1,71 +1,75 @@
 @import 'tailwindcss';
-@plugin "daisyui";
+@plugin 'daisyui';
 
 @theme {
-  /* =====================================================
+	/* =====================================================
      Set-specific background color tokens
      Texture images: static/images/backgrounds/TanBG.jpg,
      RedBG.jpg, BlueBG.jpg (wired via CSS vars in +layout.svelte)
      ===================================================== */
 
-  /* Spanish Main: tan/parchment */
-  --color-set-spanish-main: oklch(76% 0.05 80);
-  --color-set-spanish-main-text: oklch(15% 0.02 80);
+	/* Spanish Main: tan/parchment */
+	--color-set-spanish-main: oklch(76% 0.05 80);
+	--color-set-spanish-main-text: oklch(15% 0.02 80);
 
-  /* Crimson Coast: burgundy/red */
-  --color-set-crimson-coast: oklch(35% 0.12 15);
-  --color-set-crimson-coast-text: oklch(95% 0.01 80);
+	/* Crimson Coast: burgundy/red */
+	--color-set-crimson-coast: oklch(35% 0.12 15);
+	--color-set-crimson-coast-text: oklch(95% 0.01 80);
 
-  /* Revolution: royal blue */
-  --color-set-revolution: oklch(30% 0.12 255);
-  --color-set-revolution-text: oklch(95% 0.01 80);
+	/* Revolution: royal blue */
+	--color-set-revolution: oklch(30% 0.12 255);
+	--color-set-revolution-text: oklch(95% 0.01 80);
 
-  /* Icon colors */
-  --color-icon-bg:        #000000;
-  --color-icon-ship:      #FFFFFF;
-  --color-icon-gold:      #C8960C;
-  --color-pip-short-bg:   #FFFFFF;
-  --color-pip-short-dot:  #000000;
-  --color-pip-long-bg:    #C0272D;
-  --color-pip-long-dot:   #FFFFFF;
+	/* Base dark theme tokens */
+	--color-base-bg: oklch(10% 0.01 0);
+	--color-base-text: oklch(95% 0.01 0);
+
+	/* Icon colors */
+	--color-icon-bg: #000000;
+	--color-icon-ship: #ffffff;
+	--color-icon-gold: #c8960c;
+	--color-pip-short-bg: #ffffff;
+	--color-pip-short-dot: #000000;
+	--color-pip-long-bg: #c0272d;
+	--color-pip-long-dot: #ffffff;
 }
 
 /* Base dark theme */
 html,
 body {
-  min-height: 100%;
-  background-color: oklch(10% 0.01 0);
-  color: oklch(95% 0.01 0);
+	min-height: 100%;
+	background-color: var(--color-base-bg);
+	color: var(--color-base-text);
 }
 
 /* Texture URL slots — injected by +layout.svelte via style: directive */
 :root {
-  --bg-texture-spanish-main: none;
-  --bg-texture-crimson-coast: none;
-  --bg-texture-revolution: none;
+	--bg-texture-spanish-main: none;
+	--bg-texture-crimson-coast: none;
+	--bg-texture-revolution: none;
 }
 
 /* Set-colored row background utility classes */
 .bg-set-spanish-main {
-  background-color: var(--color-set-spanish-main);
-  background-image: var(--bg-texture-spanish-main, none);
-  background-size: cover;
-  background-blend-mode: multiply;
-  color: var(--color-set-spanish-main-text);
+	background-color: var(--color-set-spanish-main);
+	background-image: var(--bg-texture-spanish-main, none);
+	background-size: cover;
+	background-blend-mode: multiply;
+	color: var(--color-set-spanish-main-text);
 }
 
 .bg-set-crimson-coast {
-  background-color: var(--color-set-crimson-coast);
-  background-image: var(--bg-texture-crimson-coast, none);
-  background-size: cover;
-  background-blend-mode: multiply;
-  color: var(--color-set-crimson-coast-text);
+	background-color: var(--color-set-crimson-coast);
+	background-image: var(--bg-texture-crimson-coast, none);
+	background-size: cover;
+	background-blend-mode: multiply;
+	color: var(--color-set-crimson-coast-text);
 }
 
 .bg-set-revolution {
-  background-color: var(--color-set-revolution);
-  background-image: var(--bg-texture-revolution, none);
-  background-size: cover;
-  background-blend-mode: multiply;
-  color: var(--color-set-revolution-text);
+	background-color: var(--color-set-revolution);
+	background-image: var(--bg-texture-revolution, none);
+	background-size: cover;
+	background-blend-mode: multiply;
+	color: var(--color-set-revolution-text);
 }

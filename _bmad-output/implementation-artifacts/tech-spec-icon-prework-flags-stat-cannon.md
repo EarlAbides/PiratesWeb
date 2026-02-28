@@ -4,7 +4,14 @@ slug: 'icon-prework-flags-stat-cannon'
 created: '2026-02-28'
 status: 'completed'
 stepsCompleted: [1, 2, 3, 4]
-tech_stack: ['SvelteKit 2 / Svelte 5', 'TypeScript strict', 'Tailwind CSS v4 CSS-first', 'DaisyUI v5', 'Vitest']
+tech_stack:
+  [
+    'SvelteKit 2 / Svelte 5',
+    'TypeScript strict',
+    'Tailwind CSS v4 CSS-first',
+    'DaisyUI v5',
+    'Vitest'
+  ]
 files_to_modify:
   - 'src/app.css'
   - 'src/lib/utils/cardUtils.ts'
@@ -51,6 +58,7 @@ Create 6 period-accurate SVG nationality flags as static files in `static/images
 ### Scope
 
 **In Scope:**
+
 - 6 nationality flag SVGs (period-accurate) → `static/images/flags/`
 - 4 stat icon Svelte components (Mast, Cargo, Move, Cannon) → `src/lib/components/icons/stat/`
 - 1 `CannonPip.svelte` component (covers all 12 pip variants via props) → `src/lib/components/icons/cannons/`
@@ -60,6 +68,7 @@ Create 6 period-accurate SVG nationality flags as static files in `static/images
 - Unit tests for `flagUrl()` and `parseCannonPip()`
 
 **Out of Scope:**
+
 - `StatBar` component — Epic 2, Story 2.2
 - `CannonDisplay` component — Epic 2, Story 2.2
 - `NationalityFlag` component — Epic 2, Story 2.2
@@ -82,16 +91,16 @@ Create 6 period-accurate SVG nationality flags as static files in `static/images
 
 ### Files to Reference
 
-| File | Purpose |
-| ---- | ------- |
+| File                                               | Purpose                                                                       |
+| -------------------------------------------------- | ----------------------------------------------------------------------------- |
 | `_bmad-output/planning-artifacts/svg-icon-spec.md` | Full SVG design spec — shapes, colors, viewBox, dot patterns for all 16 icons |
-| `src/app.css` | Add icon color tokens to existing `@theme` block (after set color tokens) |
-| `src/lib/types/cardTypes.ts` | `Nationality` type — the 6 values dictate flag filenames |
-| `src/lib/utils/cardUtils.ts` | Add `flagUrl(nationality)` helper alongside existing `thumbUrl`/`imageUrl` |
-| `src/lib/utils/cardUtils.test.ts` | Test pattern reference — co-located Vitest, describe/it/expect |
-| `src/routes/+layout.svelte` | Svelte 5 component pattern reference (`$props()`, explicit interface) |
-| `reference/icons/` | 6 low-res GIFs — shape reference only, NOT the output |
-| `static/images/flags/` | Output for flag SVGs (directory exists, empty) |
+| `src/app.css`                                      | Add icon color tokens to existing `@theme` block (after set color tokens)     |
+| `src/lib/types/cardTypes.ts`                       | `Nationality` type — the 6 values dictate flag filenames                      |
+| `src/lib/utils/cardUtils.ts`                       | Add `flagUrl(nationality)` helper alongside existing `thumbUrl`/`imageUrl`    |
+| `src/lib/utils/cardUtils.test.ts`                  | Test pattern reference — co-located Vitest, describe/it/expect                |
+| `src/routes/+layout.svelte`                        | Svelte 5 component pattern reference (`$props()`, explicit interface)         |
+| `reference/icons/`                                 | 6 low-res GIFs — shape reference only, NOT the output                         |
+| `static/images/flags/`                             | Output for flag SVGs (directory exists, empty)                                |
 
 ### Technical Decisions
 
@@ -111,13 +120,13 @@ Create 6 period-accurate SVG nationality flags as static files in `static/images
   - Action: Append 7 CSS custom properties inside the existing `@theme {}` block, after the last set color token. Use this exact block:
     ```css
     /* Icon colors */
-    --color-icon-bg:        #000000;
-    --color-icon-ship:      #FFFFFF;
-    --color-icon-gold:      #C8960C;
-    --color-pip-short-bg:   #FFFFFF;
-    --color-pip-short-dot:  #000000;
-    --color-pip-long-bg:    #C0272D;
-    --color-pip-long-dot:   #FFFFFF;
+    --color-icon-bg: #000000;
+    --color-icon-ship: #ffffff;
+    --color-icon-gold: #c8960c;
+    --color-pip-short-bg: #ffffff;
+    --color-pip-short-dot: #000000;
+    --color-pip-long-bg: #c0272d;
+    --color-pip-long-dot: #ffffff;
     ```
   - Notes: Read `src/app.css` first to confirm exact location and indentation style of existing `@theme` tokens.
 
@@ -126,7 +135,7 @@ Create 6 period-accurate SVG nationality flags as static files in `static/images
   - Action: Import `Nationality` from `'$lib/types/cardTypes'` (if not already imported). Add the following export after the existing `imageUrl` function:
     ```ts
     export function flagUrl(nationality: Nationality): string {
-      return `${base}/images/flags/${nationality.toLowerCase()}.svg`;
+    	return `${base}/images/flags/${nationality.toLowerCase()}.svg`;
     }
     ```
   - Notes: `base` is already imported from `'$app/paths'` in this file. `Nationality` is in `cardTypes.ts`. Follow the exact same pattern as `thumbUrl` and `imageUrl`.
@@ -136,14 +145,14 @@ Create 6 period-accurate SVG nationality flags as static files in `static/images
   - Action: Add a new `describe('flagUrl', ...)` block to the existing test file. Test all 6 Nationality values, confirming each returns a path ending in `/{nationality-lowercase}.svg`. Example:
     ```ts
     describe('flagUrl', () => {
-      it('returns lowercase svg path for each nationality', () => {
-        expect(flagUrl('English')).toContain('english.svg');
-        expect(flagUrl('Spanish')).toContain('spanish.svg');
-        expect(flagUrl('Pirates')).toContain('pirates.svg');
-        expect(flagUrl('French')).toContain('french.svg');
-        expect(flagUrl('American')).toContain('american.svg');
-        expect(flagUrl('Barbary')).toContain('barbary.svg');
-      });
+    	it('returns lowercase svg path for each nationality', () => {
+    		expect(flagUrl('English')).toContain('english.svg');
+    		expect(flagUrl('Spanish')).toContain('spanish.svg');
+    		expect(flagUrl('Pirates')).toContain('pirates.svg');
+    		expect(flagUrl('French')).toContain('french.svg');
+    		expect(flagUrl('American')).toContain('american.svg');
+    		expect(flagUrl('Barbary')).toContain('barbary.svg');
+    	});
     });
     ```
   - Notes: Import `flagUrl` alongside existing imports. The `base` prefix will be empty string in test environment — use `toContain` not `toBe` to avoid coupling to base path.
@@ -188,8 +197,8 @@ Create 6 period-accurate SVG nationality flags as static files in `static/images
   - Action: Create Svelte 5 component with typed props:
     ```ts
     interface Props {
-      type: 'S' | 'L';
-      roll: 1 | 2 | 3 | 4 | 5 | 6;
+    	type: 'S' | 'L';
+    	roll: 1 | 2 | 3 | 4 | 5 | 6;
     }
     const { type, roll }: Props = $props();
     ```
@@ -209,62 +218,67 @@ Create 6 period-accurate SVG nationality flags as static files in `static/images
 - [x] Task 9: Create `src/lib/components/icons/cannons/index.ts`
   - File: `src/lib/components/icons/cannons/index.ts` (new file)
   - Action: Export the `parseCannonPip` utility function and supporting types:
+
     ```ts
     export type CannonType = 'S' | 'L';
     export type CannonRoll = 1 | 2 | 3 | 4 | 5 | 6;
 
     export interface CannonPipData {
-      type: CannonType;
-      roll: CannonRoll;
+    	type: CannonType;
+    	roll: CannonRoll;
     }
 
     const VALID_TYPES = new Set<string>(['S', 'L']);
     const VALID_ROLLS = new Set<number>([1, 2, 3, 4, 5, 6]);
 
     export function parseCannonPip(cannon: string): CannonPipData {
-      const type = cannon[0];
-      const roll = parseInt(cannon.slice(1), 10);
-      if (!VALID_TYPES.has(type) || !VALID_ROLLS.has(roll)) {
-        throw new TypeError(`Invalid cannon pip string: "${cannon}". Expected format: S1–S6 or L1–L6.`);
-      }
-      return { type: type as CannonType, roll: roll as CannonRoll };
+    	const type = cannon[0];
+    	const roll = parseInt(cannon.slice(1), 10);
+    	if (!VALID_TYPES.has(type) || !VALID_ROLLS.has(roll)) {
+    		throw new TypeError(
+    			`Invalid cannon pip string: "${cannon}". Expected format: S1–S6 or L1–L6.`
+    		);
+    	}
+    	return { type: type as CannonType, roll: roll as CannonRoll };
     }
     ```
+
   - Notes: Throw `TypeError` (not generic `Error`) for invalid inputs — this aids downstream error handling in CannonDisplay. No default export — named exports only.
 
 - [x] Task 10: Create `src/lib/components/icons/cannons/index.test.ts`
   - File: `src/lib/components/icons/cannons/index.test.ts` (new file)
   - Action: Co-located Vitest unit tests for `parseCannonPip`. Test all 12 valid inputs, invalid type, invalid roll, and empty string:
+
     ```ts
     import { describe, it, expect } from 'vitest';
     import { parseCannonPip } from './index';
 
     describe('parseCannonPip', () => {
-      it('parses all valid short cannon strings', () => {
-        for (let roll = 1; roll <= 6; roll++) {
-          const result = parseCannonPip(`S${roll}`);
-          expect(result).toEqual({ type: 'S', roll });
-        }
-      });
+    	it('parses all valid short cannon strings', () => {
+    		for (let roll = 1; roll <= 6; roll++) {
+    			const result = parseCannonPip(`S${roll}`);
+    			expect(result).toEqual({ type: 'S', roll });
+    		}
+    	});
 
-      it('parses all valid long cannon strings', () => {
-        for (let roll = 1; roll <= 6; roll++) {
-          const result = parseCannonPip(`L${roll}`);
-          expect(result).toEqual({ type: 'L', roll });
-        }
-      });
+    	it('parses all valid long cannon strings', () => {
+    		for (let roll = 1; roll <= 6; roll++) {
+    			const result = parseCannonPip(`L${roll}`);
+    			expect(result).toEqual({ type: 'L', roll });
+    		}
+    	});
 
-      it('throws TypeError for invalid type', () => {
-        expect(() => parseCannonPip('X3')).toThrow(TypeError);
-      });
+    	it('throws TypeError for invalid type', () => {
+    		expect(() => parseCannonPip('X3')).toThrow(TypeError);
+    	});
 
-      it('throws TypeError for invalid roll', () => {
-        expect(() => parseCannonPip('S7')).toThrow(TypeError);
-      });
+    	it('throws TypeError for invalid roll', () => {
+    		expect(() => parseCannonPip('S7')).toThrow(TypeError);
+    	});
 
-      it('throws TypeError for empty string', () => {
-        expect(() => parseCannonPip('')).toThrow(TypeError);
-      });
+    	it('throws TypeError for empty string', () => {
+    		expect(() => parseCannonPip('')).toThrow(TypeError);
+    	});
     });
     ```
 
@@ -286,6 +300,7 @@ Create 6 period-accurate SVG nationality flags as static files in `static/images
 ---
 
 ## Review Notes
+
 - Adversarial review completed
 - Findings: 13 total, 5 fixed, 5 skipped (noise/intentional), 1 deferred, 2 combined (F1+F2)
 - Resolution approach: walk-through
@@ -335,13 +350,16 @@ Create 6 period-accurate SVG nationality flags as static files in `static/images
 ### Testing Strategy
 
 **Unit Tests (Vitest):**
+
 - `src/lib/utils/cardUtils.test.ts` — extend existing file with `describe('flagUrl', ...)` block covering all 6 Nationality values
 - `src/lib/components/icons/cannons/index.test.ts` — new co-located file covering `parseCannonPip`: all 12 valid inputs (S1–S6, L1–L6), invalid type, invalid roll out of range, empty string
 
 **Type Checking:**
+
 - `npm run check` validates all Svelte 5 TypeScript props compile correctly, all `$props()` destructuring matches their `interface Props`, and all imports resolve
 
 **Manual Verification (after implementation):**
+
 - Visually inspect all 4 stat icon components match `svg-icon-spec.md` shapes at 24px and 16px sizes
 - Visually inspect CannonPip at all 12 type/roll combinations — confirm correct dot count and die-face pattern
 - Visually inspect all 6 flag SVGs at small sizes (24×16px) — confirm they are recognizable
@@ -362,6 +380,7 @@ Create 6 period-accurate SVG nationality flags as static files in `static/images
 5. **`parseCannonPip` called with multi-digit roll** — Canon string `"S10"` would parse roll as 10, which is invalid. The `VALID_ROLLS` set guard catches this. Ensure `parseInt` is used (not `Number()`) and the set check runs before returning.
 
 **svg-icon-spec.md errors corrected in this spec:**
+
 - Spec references `tailwind.config.js` for color tokens → corrected to `src/app.css @theme`
 - Spec references `src/lib/assets/icons/` path → corrected to `src/lib/components/icons/`
 - Spec references `?component` import (requires vite-plugin-svgr) → corrected to inline SVG in `.svelte` components

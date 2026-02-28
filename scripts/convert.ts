@@ -3,18 +3,18 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const CARD_SET_MAP: Record<string, string> = {
-  'Pirates of the Spanish Main': 'PPSM',
-  'Pirates of the Crimson Coast': 'PPCC',
-  'Pirates of the Revolution': 'PPRV',
+	'Pirates of the Spanish Main': 'PPSM',
+	'Pirates of the Crimson Coast': 'PPCC',
+	'Pirates of the Revolution': 'PPRV'
 };
 
 const EXCLUDED_SETS = new Set(['Pirates of the Spanish Main (Unlimited)']);
 
 const parser = new XMLParser({
-  ignoreAttributes: false,
-  attributeNamePrefix: '',
-  textNodeName: '_text',
-  isArray: (name: string) => name === 'Card' || name === 'Cannon',
+	ignoreAttributes: false,
+	attributeNamePrefix: '',
+	textNodeName: '_text',
+	isArray: (name: string) => name === 'Card' || name === 'Cannon'
 });
 
 type RawNode = Record<string, unknown>;
@@ -26,89 +26,91 @@ const cards_xml = parsed.Cards as RawNode;
 const rawCards = (cards_xml.Card ?? []) as RawNode[];
 
 function parseCannons(cardCannons: RawNode): string[] {
-  if (!cardCannons.Cannon) return [];
-  const cannons = cardCannons.Cannon as Array<Record<string, string>>;
-  return cannons
-    .sort((a, b) => parseInt(a.Number, 10) - parseInt(b.Number, 10))
-    .map((c) => `${c.Accuracy}${c.Range}`);
+	if (!cardCannons.Cannon) return [];
+	const cannons = cardCannons.Cannon as Array<Record<string, string>>;
+	return cannons
+		.sort((a, b) => parseInt(a.Number, 10) - parseInt(b.Number, 10))
+		.map((c) => `${c.Accuracy}${c.Range}`);
 }
 
 function parseModifiers(modifiers: RawNode): Record<string, unknown> {
-  const result: Record<string, unknown> = {};
-  if (modifiers.Limit === 'True') result.limit = true;
-  if (modifiers.BuildBonus !== undefined)
-    result.buildBonus = parseInt(String(modifiers.BuildBonus), 10);
-  if (modifiers.CrewCostReduction !== undefined)
-    result.crewCostReduction = parseInt(String(modifiers.CrewCostReduction), 10);
-  if (modifiers.CargoBonus !== undefined)
-    result.cargoBonus = parseInt(String(modifiers.CargoBonus), 10);
-  return result;
+	const result: Record<string, unknown> = {};
+	if (modifiers.Limit === 'True') result.limit = true;
+	if (modifiers.BuildBonus !== undefined)
+		result.buildBonus = parseInt(String(modifiers.BuildBonus), 10);
+	if (modifiers.CrewCostReduction !== undefined)
+		result.crewCostReduction = parseInt(String(modifiers.CrewCostReduction), 10);
+	if (modifiers.CargoBonus !== undefined)
+		result.cargoBonus = parseInt(String(modifiers.CargoBonus), 10);
+	return result;
 }
 
 let skipped = 0;
 const cards = rawCards
-  .filter((card) => {
-    if (EXCLUDED_SETS.has(card.CardSet as string)) {
-      skipped++;
-      return false;
-    }
-    return true;
-  })
-  .map((card) => {
-  const ident = (card.Identification ?? {}) as RawNode;
-  const stats = (card.Stats ?? {}) as RawNode;
-  const image = (card.Image ?? {}) as RawNode;
-  const modifiers = (card.Modifiers ?? {}) as RawNode;
-  const type = String(card.Type);
+	.filter((card) => {
+		if (EXCLUDED_SETS.has(card.CardSet as string)) {
+			skipped++;
+			return false;
+		}
+		return true;
+	})
+	.map((card) => {
+		const ident = (card.Identification ?? {}) as RawNode;
+		const stats = (card.Stats ?? {}) as RawNode;
+		const image = (card.Image ?? {}) as RawNode;
+		const modifiers = (card.Modifiers ?? {}) as RawNode;
+		const type = String(card.Type);
 
-  const base: Record<string, unknown> = {
-    cardId: String(card.CardID),
-    cardSet: CARD_SET_MAP[card.CardSet as string] ?? card.CardSet,
-    cardNumber: String(ident.CardNumber ?? ''),
-    name: String(ident.Name ?? ''),
-    type,
-    rarity: card.Rarity,
-    nationality: card.Nationality,
-    pointValue: parseInt(String(stats.PointValue ?? '0'), 10),
-    imageFilename: String(image.Filename ?? ''),
-    ability: typeof card.Ability === 'string' ? card.Ability : '',
-    description: typeof card.Description === 'string' ? card.Description : '',
-    modifiers: parseModifiers(modifiers),
-  };
+		const base: Record<string, unknown> = {
+			cardId: String(card.CardID),
+			cardSet: CARD_SET_MAP[card.CardSet as string] ?? card.CardSet,
+			cardNumber: String(ident.CardNumber ?? ''),
+			name: String(ident.Name ?? ''),
+			type,
+			rarity: card.Rarity,
+			nationality: card.Nationality,
+			pointValue: parseInt(String(stats.PointValue ?? '0'), 10),
+			imageFilename: String(image.Filename ?? ''),
+			ability: typeof card.Ability === 'string' ? card.Ability : '',
+			description: typeof card.Description === 'string' ? card.Description : '',
+			modifiers: parseModifiers(modifiers)
+		};
 
-  if (type === 'Ship') {
-    base.details = {
-      masts: parseInt(String(stats.Masts ?? '0'), 10),
-      cargo: parseInt(String(stats.Cargo ?? '0'), 10),
-      baseMove: String(stats.Movement ?? ''),
-      cannons: parseCannons((card.Cannons ?? {}) as RawNode),
-    };
-  } else if (type === 'Crew') {
-    const linkCardIds = ident.LinkCardIDs;
-    base.details = {
-      buildBonus: parseInt(String(modifiers.BuildBonus ?? '0'), 10),
-      costReduction: parseInt(String(modifiers.CrewCostReduction ?? '0'), 10),
-      cargoBonus: parseInt(String(modifiers.CargoBonus ?? '0'), 10),
-      limitCards: linkCardIds
-        ? String(linkCardIds)
-            .split(',')
-            .map((s) => s.trim())
-        : [],
-    };
-  } else if (type === 'Fort') {
-    base.details = {
-      cannons: parseCannons((card.Cannons ?? {}) as RawNode),
-      goldCost: parseInt(String(stats.GoldCost ?? '0'), 10),
-    };
-  }
-  // Treasure and Event: no details key
+		if (type === 'Ship') {
+			base.details = {
+				masts: parseInt(String(stats.Masts ?? '0'), 10),
+				cargo: parseInt(String(stats.Cargo ?? '0'), 10),
+				baseMove: String(stats.Movement ?? ''),
+				cannons: parseCannons((card.Cannons ?? {}) as RawNode)
+			};
+		} else if (type === 'Crew') {
+			const linkCardIds = ident.LinkCardIDs;
+			base.details = {
+				buildBonus: parseInt(String(modifiers.BuildBonus ?? '0'), 10),
+				costReduction: parseInt(String(modifiers.CrewCostReduction ?? '0'), 10),
+				cargoBonus: parseInt(String(modifiers.CargoBonus ?? '0'), 10),
+				limitCards: linkCardIds
+					? String(linkCardIds)
+							.split(',')
+							.map((s) => s.trim())
+					: []
+			};
+		} else if (type === 'Fort') {
+			base.details = {
+				cannons: parseCannons((card.Cannons ?? {}) as RawNode),
+				goldCost: parseInt(String(stats.GoldCost ?? '0'), 10)
+			};
+		}
+		// Treasure and Event: no details key
 
-  return base;
-});
+		return base;
+	});
 
 const outputDir = resolve('static/data');
 const outputPath = resolve('static/data/cards.json');
 mkdirSync(outputDir, { recursive: true });
 writeFileSync(outputPath, JSON.stringify(cards));
 const total = rawCards.length;
-console.log(`✅ Total: ${total}, Converted: ${cards.length}, Skipped: ${skipped} → static/data/cards.json`);
+console.log(
+	`✅ Total: ${total}, Converted: ${cards.length}, Skipped: ${skipped} → static/data/cards.json`
+);

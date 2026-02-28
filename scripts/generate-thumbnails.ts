@@ -8,9 +8,7 @@ const THUMB_WIDTH = 200;
 
 mkdirSync(outputDir, { recursive: true });
 
-const jpgFiles = readdirSync(inputDir).filter(
-	(f) => extname(f).toLowerCase() === '.jpg'
-);
+const jpgFiles = readdirSync(inputDir).filter((f) => extname(f).toLowerCase() === '.jpg');
 
 let count = 0;
 for (const file of jpgFiles) {

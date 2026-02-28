@@ -3,7 +3,11 @@
 	import { cardData } from '$lib/state/cardData.svelte';
 	import SidebarLayout from '$lib/components/layout/SidebarLayout.svelte';
 
-	let { data }: { data: PageData } = $props();
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 
 	$effect.pre(() => {
 		cardData.setCards(data.cards);

@@ -21,6 +21,7 @@ This document provides the complete epic and story breakdown for PiratesWeb, dec
 ### Functional Requirements
 
 **Card Browsing (Phase 1)**
+
 - FR1: Users can browse a complete card catalog spanning three expansion sets (Spanish Main, Crimson Coast, Revolution)
 - FR2: Users can view card thumbnail images alongside card names and key attributes in a browse list
 - FR3: Users can browse cards across all sets simultaneously or within a single set
@@ -28,17 +29,19 @@ This document provides the complete epic and story breakdown for PiratesWeb, dec
 - FR5: The system displays card images using lazy loading, only rendering images as they enter the viewport
 
 **Card Filtering & Search (Phase 1)**
+
 - FR6: Users can filter cards by expansion set (Spanish Main, Crimson Coast, Revolution)
 - FR7: Users can filter cards by type (Ship, Crew, Treasure, Fort, Event)
 - FR8: Users can filter cards by nationality
 - FR9: Users can filter cards by rarity
-- ~~FR10: Users can filter cards by tournament status~~ *(excluded — `tournamentStatus` removed from data model)*
+- ~~FR10: Users can filter cards by tournament status~~ _(excluded — `tournamentStatus` removed from data model)_
 - FR11: Users can combine multiple filters simultaneously (e.g., English Ships from Spanish Main)
 - FR12: Users can perform text search across card names and ability text
 - FR13: Users can clear all active filters to return to the full catalog
 - FR14: The system displays the count of matching results when filters are applied
 
 **Card Detail (Phase 1)**
+
 - FR15: Users can view a detailed card panel displaying the full-size card image
 - FR16: Users can view all card attributes: card number, name, set, type, rarity, nationality, point value
 - FR17: Users can view card ability text and description
@@ -48,11 +51,13 @@ This document provides the complete epic and story breakdown for PiratesWeb, dec
 - FR21: Users can view card modifiers when present
 
 **Data Pipeline (Phase 1)**
+
 - FR22: The system converts the legacy XML card database to JSON format at build time with zero data loss
 - FR23: The system maps all 424 card images to their corresponding card entries by filename convention
 - FR24: The system generates thumbnail versions of card images for browse view performance
 
 **Fleet Building (Phase 2)**
+
 - FR25: Users can create a new fleet build
 - FR26: Users can add ships to a fleet build
 - FR27: Users can assign crew cards to specific ships in the fleet
@@ -64,6 +69,7 @@ This document provides the complete epic and story breakdown for PiratesWeb, dec
 - FR33: Users can delete saved fleet builds
 
 **Rules Enforcement (Phase 3)**
+
 - FR34: The system validates fleet builds against game rules and displays rule violations
 - FR35: The system enforces duplicate card limits per game rules
 - FR36: The system enforces crew assignment restrictions (crew-to-ship compatibility)
@@ -86,6 +92,7 @@ This document provides the complete epic and story breakdown for PiratesWeb, dec
 ### Additional Requirements
 
 **From Architecture:**
+
 - AR1: Project must be initialized via the official Svelte CLI (`npx sv create`) with TypeScript, Tailwind CSS v4, adapter-static, ESLint, Prettier, Vitest, and Playwright — this is the first implementation action (Epic 1, Story 1)
 - AR2: DaisyUI v5 installed as a Tailwind plugin post-initialization
 - AR3: All card data served from a single `static/data/cards.json` committed to the repository
@@ -98,6 +105,7 @@ This document provides the complete epic and story breakdown for PiratesWeb, dec
 - AR10: `prerender = true` set in root `+layout.ts` and `fallback: 'index.html'` set in svelte.config.js for SPA mode
 
 **From UX Design:**
+
 - UX1: UI chrome uses a dark neutral theme; card rows use set-specific textured background images (TanBG.jpg for Spanish Main, RedBG.jpg for Crimson Coast, BlueBG.jpg for Revolution) via CSS design token classes — never hardcoded hex
 - UX2: Point cost rendered as oversized, bold `PointBadge` — the most visually dominant element in every card row
 - UX3: `StatBar` renders iconic visual elements (mast icons, cargo icon, S/L movement notation), not text labels; `CannonDisplay` renders individual cannon pip circles (S/L differentiated) — faithful to physical card layout
@@ -112,47 +120,47 @@ This document provides the complete epic and story breakdown for PiratesWeb, dec
 
 ### FR Coverage Map
 
-| FR | Epic | Description |
-|---|---|---|
-| FR1 | Epic 2 | Browse complete card catalog |
-| FR2 | Epic 2 | Thumbnail images alongside key attributes |
-| FR3 | Epic 2 | Browse across all sets or single set |
-| FR4 | Epic 2 | Scroll large result sets without degradation |
-| FR5 | Epic 2 | Lazy loading for card images |
-| FR6 | Epic 2 | Filter by expansion set |
-| FR7 | Epic 2 | Filter by card type |
-| FR8 | Epic 2 | Filter by nationality |
-| FR9 | Epic 2 | Filter by rarity |
-| ~~FR10~~ | ~~Epic 2~~ | ~~Filter by tournament status~~ *(excluded)* |
-| FR11 | Epic 2 | Combine multiple filters |
-| FR12 | Epic 2 | Text search (name + ability) |
-| FR13 | Epic 2 | Clear all filters |
-| FR14 | Epic 2 | Display matching result count |
-| FR15 | Epic 3 | Full-size card image in detail panel |
-| FR16 | Epic 3 | All card attributes in detail panel |
-| FR17 | Epic 3 | Ability text and description |
-| FR18 | Epic 3 | Ship-specific attributes |
-| FR19 | Epic 3 | Crew-specific attributes |
-| FR20 | Epic 3 | Fort-specific attributes |
-| FR21 | Epic 3 | Modifiers when present |
-| FR22 | Epic 1 | XML-to-JSON conversion (lossless) |
-| FR23 | Epic 1 | Image-to-card mapping |
-| FR24 | Epic 1 | Thumbnail generation |
-| FR25 | Epic 4 | Create new fleet build |
-| FR26 | Epic 4 | Add ships to fleet |
-| FR27 | Epic 4 | Assign crew to ships |
-| FR28 | Epic 4 | Set fleet point limit |
-| FR29 | Epic 4 | Running point total tracking |
-| FR30 | Epic 4 | Remove ships or crew |
-| FR31 | Epic 4 | Save fleet to local storage |
-| FR32 | Epic 4 | Load saved fleet builds |
-| FR33 | Epic 4 | Delete saved fleet builds |
-| FR34 | Epic 5 | Validate builds against game rules |
-| FR35 | Epic 5 | Enforce duplicate card limits |
-| FR36 | Epic 5 | Enforce crew restrictions |
-| FR37 | Epic 5 | Enforce card-specific constraints |
-| FR38 | Epic 5 | Clear violation explanations |
-| FR39 | Epic 5 | Graceful handling of unimplemented rules |
+| FR       | Epic       | Description                                  |
+| -------- | ---------- | -------------------------------------------- |
+| FR1      | Epic 2     | Browse complete card catalog                 |
+| FR2      | Epic 2     | Thumbnail images alongside key attributes    |
+| FR3      | Epic 2     | Browse across all sets or single set         |
+| FR4      | Epic 2     | Scroll large result sets without degradation |
+| FR5      | Epic 2     | Lazy loading for card images                 |
+| FR6      | Epic 2     | Filter by expansion set                      |
+| FR7      | Epic 2     | Filter by card type                          |
+| FR8      | Epic 2     | Filter by nationality                        |
+| FR9      | Epic 2     | Filter by rarity                             |
+| ~~FR10~~ | ~~Epic 2~~ | ~~Filter by tournament status~~ _(excluded)_ |
+| FR11     | Epic 2     | Combine multiple filters                     |
+| FR12     | Epic 2     | Text search (name + ability)                 |
+| FR13     | Epic 2     | Clear all filters                            |
+| FR14     | Epic 2     | Display matching result count                |
+| FR15     | Epic 3     | Full-size card image in detail panel         |
+| FR16     | Epic 3     | All card attributes in detail panel          |
+| FR17     | Epic 3     | Ability text and description                 |
+| FR18     | Epic 3     | Ship-specific attributes                     |
+| FR19     | Epic 3     | Crew-specific attributes                     |
+| FR20     | Epic 3     | Fort-specific attributes                     |
+| FR21     | Epic 3     | Modifiers when present                       |
+| FR22     | Epic 1     | XML-to-JSON conversion (lossless)            |
+| FR23     | Epic 1     | Image-to-card mapping                        |
+| FR24     | Epic 1     | Thumbnail generation                         |
+| FR25     | Epic 4     | Create new fleet build                       |
+| FR26     | Epic 4     | Add ships to fleet                           |
+| FR27     | Epic 4     | Assign crew to ships                         |
+| FR28     | Epic 4     | Set fleet point limit                        |
+| FR29     | Epic 4     | Running point total tracking                 |
+| FR30     | Epic 4     | Remove ships or crew                         |
+| FR31     | Epic 4     | Save fleet to local storage                  |
+| FR32     | Epic 4     | Load saved fleet builds                      |
+| FR33     | Epic 4     | Delete saved fleet builds                    |
+| FR34     | Epic 5     | Validate builds against game rules           |
+| FR35     | Epic 5     | Enforce duplicate card limits                |
+| FR36     | Epic 5     | Enforce crew restrictions                    |
+| FR37     | Epic 5     | Enforce card-specific constraints            |
+| FR38     | Epic 5     | Clear violation explanations                 |
+| FR39     | Epic 5     | Graceful handling of unimplemented rules     |
 
 ## Epic List
 
@@ -806,4 +814,3 @@ So that fleet builds reflect the full constraint set from the official game rule
 **Given** `rulesEngine.test.ts`
 **When** I run unit tests
 **Then** tests pass for: no constraint violations (no violation), a "limit 1" card appearing twice (violation), and combinations of multiple rule types firing simultaneously
-

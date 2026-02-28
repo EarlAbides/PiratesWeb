@@ -168,15 +168,15 @@ import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 const config = {
-  preprocess: vitePreprocess(),
-  kit: {
-    adapter: adapter({
-      fallback: 'index.html'
-    }),
-    paths: {
-      base: process.env.BASE_PATH ?? ''  // '' in dev, '/PiratesWeb' in CI
-    }
-  }
+	preprocess: vitePreprocess(),
+	kit: {
+		adapter: adapter({
+			fallback: 'index.html'
+		}),
+		paths: {
+			base: process.env.BASE_PATH ?? '' // '' in dev, '/PiratesWeb' in CI
+		}
+	}
 };
 
 export default config;
@@ -191,16 +191,20 @@ import { base } from '$app/paths';
 import type { Card } from '$lib/types/cardTypes';
 
 export const load: PageLoad = async ({ fetch }) => {
-  const res = await fetch(`${base}/data/cards.json`);
-  if (!res.ok) {
-    throw error(500, 'Failed to load card data');
-  }
-  const data: unknown = await res.json();
-  if (!Array.isArray(data) || data.length === 0 || typeof (data[0] as Record<string, unknown>).cardId !== 'string') {
-    throw error(500, 'Card data validation failed');
-  }
-  const cards = data as Card[];
-  return { cards };
+	const res = await fetch(`${base}/data/cards.json`);
+	if (!res.ok) {
+		throw error(500, 'Failed to load card data');
+	}
+	const data: unknown = await res.json();
+	if (
+		!Array.isArray(data) ||
+		data.length === 0 ||
+		typeof (data[0] as Record<string, unknown>).cardId !== 'string'
+	) {
+		throw error(500, 'Card data validation failed');
+	}
+	const cards = data as Card[];
+	return { cards };
 };
 ```
 
@@ -211,12 +215,12 @@ import type { Card } from '$lib/types/cardTypes';
 import { base } from '$app/paths';
 
 export function thumbUrl(card: Card): string {
-  const webpName = card.imageFilename.replace(/\.[^.]+$/, '.webp');
-  return `${base}/images/thumbs/${webpName}`;
+	const webpName = card.imageFilename.replace(/\.[^.]+$/, '.webp');
+	return `${base}/images/thumbs/${webpName}`;
 }
 
 export function imageUrl(card: Card): string {
-  return `${base}/images/cards/${card.imageFilename}`;
+	return `${base}/images/cards/${card.imageFilename}`;
 }
 ```
 
@@ -267,10 +271,12 @@ Confirmed project state from Story 1.4 completion notes:
 - `@types/node: ^24` — Node 24 is the correct version to pin in the workflow
 
 **File system state:**
+
 - `.github/` directory does NOT exist yet — create it
 - No GitHub Actions workflows exist
 
 **From Story 1.1 (SvelteKit init):**
+
 - `svelte.config.js` uses `adapter-static` with `fallback: 'index.html'` ✓
 - `src/routes/+layout.ts` exports `export const prerender = true` ✓
 
@@ -279,6 +285,7 @@ Confirmed project state from Story 1.4 completion notes:
 **Repository:** `git@github.com:EarlAbides/PiratesWeb.git`
 
 **Recent commits (all on `main`):**
+
 - `2c8d152` — Card TypeScript Types and Data Loading Infrastructure [1-4] (Story 1.4)
 - `80e49dd` — Story 1-3: WebP thumbnail generation script (Story 1.3)
 - `36ba090` — Story 1-2: XML-to-JSON card data conversion script (Story 1.2)

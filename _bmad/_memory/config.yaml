@@ -3,9 +3,8 @@
 # Version: 6.0.3
 # Date: 2026-02-26T04:33:12.770Z
 
-
 # Core Configuration Values
 user_name: Captain
 communication_language: English
 document_output_language: English
-output_folder: "{project-root}/_bmad-output"
+output_folder: '{project-root}/_bmad-output'

@@ -71,6 +71,16 @@ so that the visual foundation communicates craft and purpose from the first seco
   - [x] Visually inspect at ≤768px: no horizontal overflow, content stacked and readable
   - [x] Inspect DOM: confirm no `style="background-color: #..."` or hardcoded hex on any element
 
+### Review Follow-ups (AI)
+
+- [x] [AI-Review][HIGH] Fix broken Prettier/lint toolchain: `.prettierrc` `tailwindStylesheet` references non-existent `./src/routes/layout.css` — change to `./src/app.css`, then run `npm run format` to normalize all files [`.prettierrc`]
+- [x] [AI-Review][MEDIUM] Fix mobile scroll trap: change `overflow-hidden` to `xl:overflow-hidden` on SidebarLayout wrapper div so mobile scrolls naturally while desktop keeps independent panel scrolling [`src/lib/components/layout/SidebarLayout.svelte:12`]
+- [x] [AI-Review][MEDIUM] Add `data-theme="dark"` to root layout div to prevent DaisyUI v5 components from defaulting to light theme in Stories 2.2/2.3 [`src/routes/+layout.svelte:14`]
+- [x] [AI-Review][MEDIUM] Define body bg/text as `@theme` tokens (`--color-base-bg`, `--color-base-text`) instead of raw oklch values in `html, body` rule, ensuring design token consistency with Tailwind neutral utilities [`src/app.css:36-38`]
+- [x] [AI-Review][LOW] Fix `+layout.svelte` indentation from 2-space to tabs per `.prettierrc` `useTabs: true` (auto-resolves when Prettier is fixed) [`src/routes/+layout.svelte`]
+- [x] [AI-Review][LOW] Refactor `+page.svelte` props to use named `interface Props { data: PageData }` instead of inline type annotation for consistency with architecture pattern [`src/routes/+page.svelte:6`]
+- [x] [AI-Review][LOW] Add `aria-label="Filters"` to SidebarLayout `<aside>` element for accessibility (UX5) [`src/lib/components/layout/SidebarLayout.svelte:13`]
+
 ## Dev Notes
 
 ### Critical Context: What Epic 1 Already Built
@@ -78,6 +88,7 @@ so that the visual foundation communicates craft and purpose from the first seco
 This story is the first of Epic 2 — it builds on a **fully working SvelteKit 2.x + Svelte 5 + Tailwind v4 + DaisyUI v5 static site** from Epic 1. Do NOT reinitialize or restructure anything from the Epic 1 foundation.
 
 **`src/app.css` current state (from Story 1.3 + icon pre-work):**
+
 ```css
 @import 'tailwindcss';
 @plugin "daisyui";
@@ -110,29 +121,38 @@ This story is the first of Epic 2 — it builds on a **fully working SvelteKit 2
 **This story's job:** Wire the texture `background-image` into the `.bg-set-*` classes, and add the dark body background.
 
 **`src/routes/+layout.svelte` current state:**
+
 ```svelte
 <script lang="ts">
-  import '../app.css';
-  interface Props { children: import('svelte').Snippet; }
-  let { children }: Props = $props();
+	import '../app.css';
+	interface Props {
+		children: import('svelte').Snippet;
+	}
+	let { children }: Props = $props();
 </script>
+
 {@render children()}
 ```
 
 **`src/routes/+page.svelte` current state:**
+
 ```svelte
 <script lang="ts">
-  import type { PageData } from './$types';
-  import { cardData } from '$lib/state/cardData.svelte';
-  let { data }: { data: PageData } = $props();
-  $effect.pre(() => { cardData.setCards(data.cards); });
+	import type { PageData } from './$types';
+	import { cardData } from '$lib/state/cardData.svelte';
+	let { data }: { data: PageData } = $props();
+	$effect.pre(() => {
+		cardData.setCards(data.cards);
+	});
 </script>
+
 <p>Loaded {data.cards.length} cards</p>
 ```
 
 ### Icon Pre-Work: Already Done (Story 2.2 context)
 
 The commit `feat: icon pre-work` (1e5d3c3) pre-built these components BEFORE Story 2.1. They exist but are NOT used in this story — they're for Story 2.2 (CardRow):
+
 ```
 src/lib/components/icons/
   stat/MastIcon.svelte
@@ -143,6 +163,7 @@ src/lib/components/icons/
   cannons/index.ts         ← parseCannonPip() utility
   cannons/index.test.ts
 ```
+
 And in `static/images/flags/`: `english.svg`, `spanish.svg`, `pirates.svg`, `french.svg`, `american.svg`.
 
 Do NOT modify any of these in this story.
@@ -162,41 +183,45 @@ The background images are in `static/images/backgrounds/` (TanBG.jpg, RedBG.jpg,
 
 **CSS `url()` in `app.css` does NOT get the base path prefix automatically.** Tailwind/Vite processes `app.css` at build time; it cannot know the runtime base. Static assets in `static/` are not processed through Vite's asset pipeline.
 
-**The solution:** In `+layout.svelte`, use Svelte's `style:` directive to set CSS custom properties that carry the correct base-prefixed URL. This is explicitly allowed by the architecture: *"No `style=` attributes except for genuinely dynamic computed values"* — `base` IS a dynamic computed value (empty in dev, `/PiratesWeb` in CI).
+**The solution:** In `+layout.svelte`, use Svelte's `style:` directive to set CSS custom properties that carry the correct base-prefixed URL. This is explicitly allowed by the architecture: _"No `style=` attributes except for genuinely dynamic computed values"_ — `base` IS a dynamic computed value (empty in dev, `/PiratesWeb` in CI).
 
 **`+layout.svelte` pattern:**
+
 ```svelte
 <script lang="ts">
-  import '../app.css';
-  import { base } from '$app/paths';
-  import AppHeader from '$lib/components/layout/AppHeader.svelte';
-  import type { Snippet } from 'svelte';
+	import '../app.css';
+	import { base } from '$app/paths';
+	import AppHeader from '$lib/components/layout/AppHeader.svelte';
+	import type { Snippet } from 'svelte';
 
-  interface Props { children: Snippet; }
-  let { children }: Props = $props();
+	interface Props {
+		children: Snippet;
+	}
+	let { children }: Props = $props();
 </script>
 
 <div
-  class="min-h-screen flex flex-col bg-neutral-950 text-neutral-100"
-  style:--bg-texture-spanish-main="url('{base}/images/backgrounds/TanBG.jpg')"
-  style:--bg-texture-crimson-coast="url('{base}/images/backgrounds/RedBG.jpg')"
-  style:--bg-texture-revolution="url('{base}/images/backgrounds/BlueBG.jpg')"
+	class="flex min-h-screen flex-col bg-neutral-950 text-neutral-100"
+	style:--bg-texture-spanish-main="url('{base}/images/backgrounds/TanBG.jpg')"
+	style:--bg-texture-crimson-coast="url('{base}/images/backgrounds/RedBG.jpg')"
+	style:--bg-texture-revolution="url('{base}/images/backgrounds/BlueBG.jpg')"
 >
-  <AppHeader />
-  {@render children()}
+	<AppHeader />
+	{@render children()}
 </div>
 ```
 
 Note: `style:--varname="value"` is Svelte's CSS custom property binding syntax — not a raw `style=` attribute string. This is the idiomatic Svelte approach.
 
 **`app.css` updated `.bg-set-*` pattern:**
+
 ```css
 .bg-set-spanish-main {
-  background-color: var(--color-set-spanish-main);
-  background-image: var(--bg-texture-spanish-main, none);
-  background-size: cover;
-  background-blend-mode: multiply;
-  color: var(--color-set-spanish-main-text);
+	background-color: var(--color-set-spanish-main);
+	background-image: var(--bg-texture-spanish-main, none);
+	background-size: cover;
+	background-blend-mode: multiply;
+	color: var(--color-set-spanish-main-text);
 }
 /* Same pattern for .bg-set-crimson-coast and .bg-set-revolution */
 ```
@@ -206,44 +231,49 @@ The `var(--bg-texture-spanish-main, none)` fallback means: if the CSS variable i
 ### Svelte 5 Component Patterns (Mandatory)
 
 **SidebarLayout snippet pattern:**
+
 ```svelte
 <!-- SidebarLayout.svelte -->
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  interface Props {
-    sidebar: Snippet;
-    children: Snippet;
-  }
-  let { sidebar, children }: Props = $props();
+	import type { Snippet } from 'svelte';
+	interface Props {
+		sidebar: Snippet;
+		children: Snippet;
+	}
+	let { sidebar, children }: Props = $props();
 </script>
 
 <div class="flex flex-1 overflow-hidden">
-  <aside class="w-72 shrink-0 overflow-y-auto border-r border-neutral-800">
-    {@render sidebar()}
-  </aside>
-  <main class="flex-1 overflow-y-auto">
-    {@render children()}
-  </main>
+	<aside class="w-72 shrink-0 overflow-y-auto border-r border-neutral-800">
+		{@render sidebar()}
+	</aside>
+	<main class="flex-1 overflow-y-auto">
+		{@render children()}
+	</main>
 </div>
 ```
 
 **Usage in +page.svelte:**
+
 ```svelte
 <SidebarLayout>
-  {#snippet sidebar()}
-    <!-- FilterSidebar (Story 2.3) -->
-    <div class="p-4 text-sm opacity-40">Filters coming in Story 2.3</div>
-  {/snippet}
-  <!-- CardTable (Story 2.2) -->
-  <p class="p-4">Loaded {data.cards.length} cards</p>
+	{#snippet sidebar()}
+		<!-- FilterSidebar (Story 2.3) -->
+		<div class="p-4 text-sm opacity-40">Filters coming in Story 2.3</div>
+	{/snippet}
+	<!-- CardTable (Story 2.2) -->
+	<p class="p-4">Loaded {data.cards.length} cards</p>
 </SidebarLayout>
 ```
 
 **AppHeader pattern:**
+
 ```svelte
 <!-- AppHeader.svelte -->
-<header class="shrink-0 bg-neutral-900 border-b border-neutral-700 px-6 py-3 flex items-center">
-  <h1 class="text-xl font-bold tracking-wide text-neutral-100">Pirates of the Spanish Main Card Catalog</h1>
+<header class="flex shrink-0 items-center border-b border-neutral-700 bg-neutral-900 px-6 py-3">
+	<h1 class="text-xl font-bold tracking-wide text-neutral-100">
+		Pirates of the Spanish Main Card Catalog
+	</h1>
 </header>
 ```
 
@@ -281,6 +311,7 @@ Do NOT create files outside this structure. Do NOT create a `layout/` folder und
 ### Mobile Behavior (AC 4)
 
 "Functional, not optimized" per architecture NFR8. At ≤768px:
+
 - The two-column flex layout should stack vertically (sidebar above main content)
 - No `overflow-x: hidden` hacks — just ensure the flex layout doesn't force horizontal scroll
 - Simple Tailwind approach: SidebarLayout uses `flex-col xl:flex-row` (stacked by default, side-by-side at xl)
@@ -360,6 +391,13 @@ _None — clean implementation, no debugging required._
 - `+page.svelte`: wrapped in `SidebarLayout` with placeholder sidebar stub and existing card count preserved
 - `src/app.css`: added dark `html`/`body` base, `:root` texture URL slots defaulting to `none`, updated `.bg-set-*` classes with `background-image`, `background-size: cover`, `background-blend-mode: multiply`
 - All 12 existing unit tests pass; `npm run check` reports 0 errors; `npm run build` clean
+- ✅ Resolved review finding [HIGH]: Fixed `.prettierrc` `tailwindStylesheet` path from non-existent `./src/routes/layout.css` to `./src/app.css`; ran `npm run format` to normalize all files
+- ✅ Resolved review finding [MEDIUM]: Changed `overflow-hidden` to `xl:overflow-hidden` on SidebarLayout wrapper — mobile now scrolls naturally
+- ✅ Resolved review finding [MEDIUM]: Added `data-theme="dark"` to root layout div in `+layout.svelte`
+- ✅ Resolved review finding [MEDIUM]: Extracted `--color-base-bg` and `--color-base-text` as `@theme` tokens; `html, body` rule now uses `var()` references instead of raw oklch values
+- ✅ Resolved review finding [LOW]: `+layout.svelte` indentation normalized to tabs by Prettier after toolchain fix
+- ✅ Resolved review finding [LOW]: Refactored `+page.svelte` to use named `interface Props { data: PageData }` pattern
+- ✅ Resolved review finding [LOW]: Added `aria-label="Filters"` to SidebarLayout `<aside>` element
 
 ### File List
 
@@ -367,12 +405,15 @@ _None — clean implementation, no debugging required._
 - `src/routes/+layout.svelte` (modified)
 - `src/routes/+page.svelte` (modified)
 - `src/lib/components/layout/AppHeader.svelte` (created)
-- `src/lib/components/layout/SidebarLayout.svelte` (created)
+- `src/lib/components/layout/SidebarLayout.svelte` (modified)
+- `.prettierrc` (modified)
 - `_bmad-output/implementation-artifacts/sprint-status.yaml` (modified — status updated)
 - `_bmad-output/implementation-artifacts/2-1-app-shell-layout-and-design-system.md` (modified — story file)
 
 ## Change Log
 
-| Date | Change |
-|------|--------|
+| Date       | Change                                                                                                                                                                                          |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-02-28 | Implemented Story 2.1: App Shell, Layout, and Design System — dark body background, texture CSS vars, AppHeader, SidebarLayout, layout + page route updates. All ACs satisfied, all tests pass. |
+| 2026-02-28 | Code review completed: 1 HIGH, 3 MEDIUM, 3 LOW findings. 7 follow-up action items created. Status → in-progress pending follow-ups.                                                             |
+| 2026-02-28 | Addressed code review findings — 7 items resolved (Date: 2026-02-28): fixed Prettier toolchain, mobile scroll trap, data-theme dark, @theme tokens, layout indentation, Props interface, aria-label. |

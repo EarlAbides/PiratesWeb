@@ -66,6 +66,7 @@ So that the foundational development environment is production-ready and every s
 ### Critical Context: This Is Story Zero
 
 This story creates the **entire project foundation**. The repository currently contains ONLY:
+
 - `_bmad/` — BMAD planning tooling (do not touch)
 - `_bmad-output/` — Planning artifacts (do not touch)
 - `docs/` — Reference documentation
@@ -89,6 +90,7 @@ npx sv create pirates-web \
 **IMPORTANT — CLI behavior:** The `sv` CLI is interactive. If running interactively, it prompts for project name and add-ons. The flags above are the non-interactive form. If the CLI has changed its flag syntax since the architecture doc was written (check with `npx sv create --help`), the goal is: minimal template + TypeScript + Tailwind CSS v4 + ESLint + Prettier + Vitest + Playwright + adapter-static.
 
 **Scaffolding location:** The CLI will create a `pirates-web/` subdirectory. Either:
+
 - Scaffold into `pirates-web/` and move all files up to the repo root, OR
 - Point the CLI at `.` (current directory) if it supports it
 
@@ -107,12 +109,12 @@ import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 const config = {
-  preprocess: vitePreprocess(),
-  kit: {
-    adapter: adapter({
-      fallback: 'index.html'  // SPA mode — all routes served by index.html on GitHub Pages
-    })
-  }
+	preprocess: vitePreprocess(),
+	kit: {
+		adapter: adapter({
+			fallback: 'index.html' // SPA mode — all routes served by index.html on GitHub Pages
+		})
+	}
 };
 
 export default config;
@@ -132,43 +134,43 @@ This single export enables full static prerendering for the entire app. Required
 
 ```css
 @import 'tailwindcss';
-@plugin "daisyui";
+@plugin 'daisyui';
 
 @theme {
-  /* =====================================================
+	/* =====================================================
      Set-specific background color tokens
      Texture images: static/images/backgrounds/TanBG.jpg,
      RedBG.jpg, BlueBG.jpg (used in full design system — Story 2.1)
      ===================================================== */
 
-  /* Spanish Main: tan/parchment */
-  --color-set-spanish-main: oklch(76% 0.05 80);
-  --color-set-spanish-main-text: oklch(15% 0.02 80);
+	/* Spanish Main: tan/parchment */
+	--color-set-spanish-main: oklch(76% 0.05 80);
+	--color-set-spanish-main-text: oklch(15% 0.02 80);
 
-  /* Crimson Coast: burgundy/red */
-  --color-set-crimson-coast: oklch(35% 0.12 15);
-  --color-set-crimson-coast-text: oklch(95% 0.01 80);
+	/* Crimson Coast: burgundy/red */
+	--color-set-crimson-coast: oklch(35% 0.12 15);
+	--color-set-crimson-coast-text: oklch(95% 0.01 80);
 
-  /* Revolution: royal blue */
-  --color-set-revolution: oklch(30% 0.12 255);
-  --color-set-revolution-text: oklch(95% 0.01 80);
+	/* Revolution: royal blue */
+	--color-set-revolution: oklch(30% 0.12 255);
+	--color-set-revolution-text: oklch(95% 0.01 80);
 }
 
 /* Set-colored row background utility classes */
 /* Story 2.1 will wire in texture background images */
 .bg-set-spanish-main {
-  background-color: var(--color-set-spanish-main);
-  color: var(--color-set-spanish-main-text);
+	background-color: var(--color-set-spanish-main);
+	color: var(--color-set-spanish-main-text);
 }
 
 .bg-set-crimson-coast {
-  background-color: var(--color-set-crimson-coast);
-  color: var(--color-set-crimson-coast-text);
+	background-color: var(--color-set-crimson-coast);
+	color: var(--color-set-crimson-coast-text);
 }
 
 .bg-set-revolution {
-  background-color: var(--color-set-revolution);
-  color: var(--color-set-revolution-text);
+	background-color: var(--color-set-revolution);
+	color: var(--color-set-revolution-text);
 }
 ```
 
@@ -180,13 +182,13 @@ This single export enables full static prerendering for the entire app. Required
 
 ```svelte
 <script lang="ts">
-  import '../app.css';
+	import '../app.css';
 
-  interface Props {
-    children: import('svelte').Snippet;
-  }
+	interface Props {
+		children: import('svelte').Snippet;
+	}
 
-  let { children }: Props = $props();
+	let { children }: Props = $props();
 </script>
 
 {@render children()}
@@ -198,12 +200,12 @@ Note: This is a minimal passthrough. Story 2.1 replaces this with the full `AppH
 
 ```svelte
 <script lang="ts">
-  import { page } from '$app/stores';
+	import { page } from '$app/stores';
 </script>
 
-<div class="flex flex-col items-center justify-center min-h-screen p-8">
-  <h1 class="text-4xl font-bold mb-4">{$page.status}</h1>
-  <p class="text-lg">{$page.error?.message ?? 'An unexpected error occurred.'}</p>
+<div class="flex min-h-screen flex-col items-center justify-center p-8">
+	<h1 class="mb-4 text-4xl font-bold">{$page.status}</h1>
+	<p class="text-lg">{$page.error?.message ?? 'An unexpected error occurred.'}</p>
 </div>
 ```
 
@@ -261,6 +263,7 @@ This satisfies the error boundary requirement from Story 1.4's acceptance criter
 [Source: _bmad-output/planning-artifacts/architecture.md#Complete Project Directory Structure]
 
 The architecture defines the canonical file tree. This story creates the skeleton. Note:
+
 - `src/lib/types/`, `src/lib/state/`, `src/lib/utils/`, `src/lib/components/` are empty until subsequent stories
 - `scripts/` is empty until Stories 1.2–1.3
 - No card images are expected in `static/images/cards/` yet
@@ -282,16 +285,16 @@ The `+layout.svelte` example above uses the Svelte 5 `Snippet` pattern for child
 
 Verify these exist in `package.json` after scaffolding:
 
-| Script | Command | Purpose |
-|--------|---------|---------|
-| `dev` | `vite dev` | Dev server with HMR |
-| `build` | `vite build` | Static build → `/build` |
-| `preview` | `vite preview` | Preview static build |
-| `check` | `svelte-check --tsconfig ./tsconfig.json` | TS + Svelte type checking |
-| `test:unit` | `vitest` | Vitest unit tests |
-| `test:e2e` | `playwright test` | Playwright e2e tests |
-| `lint` | `eslint .` | ESLint |
-| `format` | `prettier --write .` | Prettier format |
+| Script      | Command                                   | Purpose                   |
+| ----------- | ----------------------------------------- | ------------------------- |
+| `dev`       | `vite dev`                                | Dev server with HMR       |
+| `build`     | `vite build`                              | Static build → `/build`   |
+| `preview`   | `vite preview`                            | Preview static build      |
+| `check`     | `svelte-check --tsconfig ./tsconfig.json` | TS + Svelte type checking |
+| `test:unit` | `vitest`                                  | Vitest unit tests         |
+| `test:e2e`  | `playwright test`                         | Playwright e2e tests      |
+| `lint`      | `eslint .`                                | ESLint                    |
+| `format`    | `prettier --write .`                      | Prettier format           |
 
 The script names may vary slightly (e.g., `check` vs `svelte-check`) based on the CLI version — adapt as needed but ensure all test/build/check scripts are runnable.
 
@@ -306,6 +309,7 @@ No Vitest unit tests to write. No Playwright e2e tests to write. This story's "t
 5. `npm run test:e2e` → Playwright is installed and can find the config
 
 If `npm run test:e2e` fails due to missing browser binaries, run:
+
 ```bash
 npx playwright install
 ```
