@@ -1,0 +1,510 @@
+# Story 1.2: XML-to-JSON Card Data Conversion Script
+
+Status: ready-for-dev
+
+<!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
+
+## Story
+
+As a **developer**,
+I want a `scripts/convert.ts` script that reads `reference/PiratesCards.xml` and produces a typed `static/data/cards.json` with camelCase field names,
+So that all 5000+ card records are available as a committed, version-controlled static asset with zero runtime conversion and no data loss.
+
+## Acceptance Criteria
+
+1. **Given** `reference/PiratesCards.xml` exists
+   **When** I run `npx tsx scripts/convert.ts`
+   **Then** `static/data/cards.json` is generated with every card as an object in a JSON array
+   **And** all field names are camelCase (e.g., `cardId`, `cardSet`, `pointValue`) — not PascalCase from the source XML
+
+2. **Given** the generated `cards.json`
+   **When** I inspect a Ship card entry
+   **Then** it has a `details` object with `masts`, `cargo`, `baseMove`, and `cannons` (array)
+   **And** when I inspect a Crew card, it has `details` with `buildBonus`, `costReduction`, `cargoBonus`, `limitCards`
+   **And** when I inspect a Treasure or Event card, it has no `details` key at all
+
+3. **Given** the generated `cards.json`
+   **When** I count the total card entries
+   **Then** the count matches the total record count in the source XML (zero data loss)
+
+4. **Given** the generated `cards.json`
+   **When** I inspect any card entry
+   **Then** `imageFilename` correctly reflects the naming convention (e.g., `PPSM_EC-001.jpg`) matching the source image files
+
+## Tasks / Subtasks
+
+- [ ] Install `tsx` and `fast-xml-parser` dev dependencies (AC: all)
+  - [ ] Run `npm install -D tsx fast-xml-parser`
+  - [ ] Verify `tsx` and `fast-xml-parser` appear in `package.json` devDependencies
+- [ ] Create `static/data/` directory (AC: 1)
+  - [ ] `mkdir -p static/data` (or let the script create it)
+- [ ] Create `scripts/convert.ts` (AC: 1, 2, 3, 4)
+  - [ ] Import and configure `fast-xml-parser` to parse `reference/PiratesCards.xml`
+  - [ ] Map `CardSet` full names → short codes (`PPSM`, `PPCC`, `PPRV`)
+  - [ ] For each `<Card>` element, build the base card JSON object with all camelCase fields
+  - [ ] For Ship cards: build `details` with `masts`, `cargo`, `baseMove`, and `cannons` array
+  - [ ] For Crew cards: build `details` with `buildBonus`, `costReduction`, `cargoBonus`, `limitCards`
+  - [ ] For Fort cards: build `details` with `cannons` array and `goldCost`
+  - [ ] For Treasure/Event cards: omit `details` entirely
+  - [ ] Build `modifiers` object from `<Modifiers>` attributes (omit empty)
+  - [ ] Format cannon entries from `<Cannon Range="S" Accuracy="3" />` → `"3S"` strings
+  - [ ] Write output JSON array to `static/data/cards.json`
+  - [ ] Print summary line: total cards written
+- [ ] Run script and verify output (AC: 1, 2, 3, 4)
+  - [ ] `npx tsx scripts/convert.ts` exits 0 and prints count
+  - [ ] Open `static/data/cards.json` and spot-check: one Ship, one Crew, one Treasure, one Fort, one Event
+  - [ ] Verify total count matches 550 (count of `<Card` elements in source XML)
+  - [ ] Verify all field names are camelCase (no `CardID`, `PointValue`, etc.)
+  - [ ] Verify Ship `details` has `masts`, `cargo`, `baseMove`, and `cannons` array
+  - [ ] Verify Crew `details` has `buildBonus`, `costReduction`, `cargoBonus`, `limitCards`
+  - [ ] Verify a Treasure card has no `details` key
+  - [ ] Verify `imageFilename` matches source convention (e.g., `PPSM_EC-001.jpg`)
+- [ ] Commit `static/data/cards.json` to the repository (AC: 1)
+  - [ ] This is a committed artifact, not gitignored — verify it's tracked
+
+## Dev Notes
+
+### Critical Context: Source XML Structure
+
+**File:** `reference/PiratesCards.xml`
+**Encoding:** UTF-8 with BOM (handle BOM when reading — `fast-xml-parser` handles this automatically)
+**Total records:** 550 `<Card>` elements
+
+#### XML Structure
+
+```xml
+<Cards>
+  <Card CardID="5758" CardSet="Pirates of the Spanish Main" Type="Crew"
+        Rarity="Rare" Nationality="English" TournamentStatus="Active">
+    <Identification CardNumber="EC-001" Name="Admiral Morgan" />
+    <!-- Crew with link: -->
+    <!-- <Identification CardNumber="016" Name="Don Pedro" Link="Panda" LinkCardIDs="7909" /> -->
+    <Stats PointValue="5" />
+    <!-- Ship Stats: <Stats PointValue="9" Masts="3" Cargo="5" Movement="L" /> -->
+    <!-- Fort Stats: <Stats PointValue="0" NumCannons="4" GoldCost="3" /> -->
+    <Image URL="/images/..." Filename="PPSM_EC-001.jpg" />
+    <Ability>Once per turn, roll a d6...</Ability>
+    <Description>Henry Morgan was once...</Description>
+    <Modifiers />
+    <!-- Modifiers with values: <Modifiers Limit="True" BuildBonus="5" /> -->
+    <!-- Ship/Fort cannons: -->
+    <!-- <Cannons>
+           <Cannon Number="1" Range="S" Accuracy="3" />
+           <Cannon Number="2" Range="L" Accuracy="2" />
+         </Cannons> -->
+  </Card>
+</Cards>
+```
+
+### XML Field → JSON Field Mapping
+
+#### Base Card Fields (all card types)
+
+| XML Source | JSON Field | Notes |
+|---|---|---|
+| `Card.CardID` (attr) | `cardId` | String — keep as string, not number |
+| `Card.CardSet` (attr) | `cardSet` | Map full name → code (see below) |
+| `Identification.CardNumber` (attr) | `cardNumber` | e.g. `"EC-001"`, `"094"` |
+| `Identification.Name` (attr) | `name` | Card display name |
+| `Card.Type` (attr) | `type` | `"Ship"` \| `"Crew"` \| `"Treasure"` \| `"Fort"` \| `"Event"` |
+| `Card.Rarity` (attr) | `rarity` | `"Common"` \| `"Uncommon"` \| `"Rare"` |
+| `Card.Nationality` (attr) | `nationality` | `"English"`, `"Spanish"`, `"Pirates"`, etc. |
+| `Card.TournamentStatus` (attr) | `tournamentStatus` | `"Active"` (primary value in data) |
+| `Stats.PointValue` (attr) | `pointValue` | Integer |
+| `Image.Filename` (attr) | `imageFilename` | e.g. `"PPSM_EC-001.jpg"` — use directly |
+| `Ability` (text content) | `ability` | May be empty string — include as `""` |
+| `Description` (text content) | `description` | May be empty string — include as `""` |
+
+#### CardSet Name → Code Mapping (CRITICAL)
+
+```typescript
+const CARD_SET_MAP: Record<string, string> = {
+  'Pirates of the Spanish Main': 'PPSM',
+  'Pirates of the Crimson Coast': 'PPCC',
+  'Pirates of the Revolution': 'PPRV',
+};
+```
+
+#### Ship `details` (type === 'Ship')
+
+| XML Source | JSON Field | Notes |
+|---|---|---|
+| `Stats.Masts` (attr) | `details.masts` | Integer |
+| `Stats.Cargo` (attr) | `details.cargo` | Integer |
+| `Stats.Movement` (attr) | `details.baseMove` | String e.g. `"S+L"`, `"L"`, `"S+S+S"` |
+| `Cannons` children | `details.cannons` | Array — see cannon format below |
+#### Crew `details` (type === 'Crew')
+
+| XML Source | JSON Field | Notes |
+|---|---|---|
+| `Modifiers.BuildBonus` (attr) | `details.buildBonus` | Integer, default `0` if absent |
+| `Modifiers.CrewCostReduction` (attr) | `details.costReduction` | Integer, default `0` if absent |
+| `Modifiers.CargoBonus` (attr) | `details.cargoBonus` | Integer, default `0` if absent |
+| `Identification.LinkCardIDs` (attr) | `details.limitCards` | String `"7909"` or `"5802,7848"` → split on `,` → string array. Empty `[]` if absent |
+
+**Note:** `limitCards` captures the "Link" crew mechanic — crew assigned to their linked ship
+cost fewer points. The card IDs are strings to match `cardId` type.
+
+#### Fort `details` (type === 'Fort')
+
+| XML Source | JSON Field | Notes |
+|---|---|---|
+| `Cannons` children | `details.cannons` | Array — see cannon format below |
+| `Stats.GoldCost` (attr) | `details.goldCost` | Integer — fort purchase cost |
+
+#### Treasure / Event
+
+**No `details` key.** Omit entirely. Do NOT set `details: null` or `details: {}`.
+
+#### `modifiers` field (all card types — always present)
+
+Include a `modifiers` object at the top level. If `<Modifiers />` is empty, output `"modifiers": {}`.
+If attributes are present, include only those that are set:
+
+```json
+// Empty modifiers:
+"modifiers": {}
+
+// Limit card (rules engine uses this):
+"modifiers": { "limit": true, "buildBonus": 5 }
+```
+
+| XML Source | JSON Field |
+|---|---|
+| `Modifiers.Limit` (attr, boolean) | `modifiers.limit` |
+| `Modifiers.BuildBonus` (attr, int) | `modifiers.buildBonus` |
+| `Modifiers.CrewCostReduction` (attr, int) | `modifiers.crewCostReduction` |
+| `Modifiers.CargoBonus` (attr, int) | `modifiers.cargoBonus` |
+
+**Why `modifiers` duplicates some Crew `details` fields:** `details` gives the dev agent
+type-narrowed access for display. `modifiers` (top-level) is for the rules engine — it can
+check `card.modifiers.limit` without narrowing to Crew type. Both serve different consumers.
+
+#### Cannon Format
+
+```
+XML: <Cannon Number="1" Range="S" Accuracy="3" />
+JSON: "3S"   ← "{Accuracy}{Range}"
+
+XML: <Cannon Number="2" Range="L" Accuracy="2" />
+JSON: "2L"
+```
+
+Sort cannons by `Number` attribute to preserve physical card order.
+
+**Example output:**
+```json
+"cannons": ["3S", "3L", "3L", "2L"]
+```
+
+### Complete Example JSON Records
+
+#### Ship Card
+```json
+{
+  "cardId": "6931",
+  "cardSet": "PPCC",
+  "cardNumber": "011",
+  "name": "Adventure",
+  "type": "Ship",
+  "rarity": "Common",
+  "nationality": "Pirates",
+  "tournamentStatus": "Active",
+  "pointValue": 9,
+  "imageFilename": "PPCC_011.jpg",
+  "ability": "Schooner. This ship gets +1 to her boarding rolls.",
+  "description": "Captain Devereaux is so obsessed with finding an artifact...",
+  "modifiers": {},
+  "details": {
+    "masts": 3,
+    "cargo": 5,
+    "baseMove": "L",
+    "cannons": ["3S", "3L", "3S"]
+  }
+}
+```
+
+#### Crew Card (with link)
+```json
+{
+  "cardId": "7791",
+  "cardSet": "PPRV",
+  "cardNumber": "016",
+  "name": "'Don' Pedro Gilbert",
+  "type": "Crew",
+  "rarity": "Rare",
+  "nationality": "Pirates",
+  "tournamentStatus": "Active",
+  "pointValue": 5,
+  "imageFilename": "PPRV_016.jpg",
+  "ability": "Once per turn, you may eliminate...",
+  "description": "Woodes Rogers openly scoffs...",
+  "modifiers": {},
+  "details": {
+    "buildBonus": 0,
+    "costReduction": 0,
+    "cargoBonus": 0,
+    "limitCards": ["7909"]
+  }
+}
+```
+
+#### Crew Card (with modifiers)
+```json
+{
+  "cardId": "6930",
+  "cardSet": "PPCC",
+  "cardNumber": "046_2",
+  "name": "Administrator Scott Bratley",
+  "type": "Crew",
+  "rarity": "Common",
+  "nationality": "English",
+  "tournamentStatus": "Active",
+  "pointValue": 0,
+  "imageFilename": "PPCC_046_2.jpg",
+  "ability": "Limit. Ransom. Place this crew face up during setup...",
+  "description": "Scott Bratley is Governor Lynch's secret...",
+  "modifiers": { "limit": true, "buildBonus": 5 },
+  "details": {
+    "buildBonus": 5,
+    "costReduction": 0,
+    "cargoBonus": 0,
+    "limitCards": []
+  }
+}
+```
+
+#### Fort Card
+```json
+{
+  "cardId": "6965",
+  "cardSet": "PPCC",
+  "cardNumber": "031",
+  "name": "Dead Man's Point",
+  "type": "Fort",
+  "rarity": "Common",
+  "nationality": "Pirates",
+  "tournamentStatus": "Active",
+  "pointValue": 0,
+  "imageFilename": "PPCC_031.jpg",
+  "ability": "When this fort hits a ship, you may also eliminate one cargo from that ship.",
+  "description": "The fort at Dead Man's Point...",
+  "modifiers": {},
+  "details": {
+    "cannons": ["3L", "3L", "3L", "3L"],
+    "goldCost": 3
+  }
+}
+```
+
+#### Treasure Card (no details)
+```json
+{
+  "cardId": "6929",
+  "cardSet": "PPCC",
+  "cardNumber": "098",
+  "name": "Abandoned Crew",
+  "type": "Treasure",
+  "rarity": "Rare",
+  "nationality": "Pirates",
+  "tournamentStatus": "Active",
+  "pointValue": 0,
+  "imageFilename": "PPCC_098.jpg",
+  "ability": "When placing treasure, you may place one or more of these crew...",
+  "description": "",
+  "modifiers": {}
+}
+```
+
+### Implementation Approach: fast-xml-parser
+
+**Install:**
+```bash
+npm install -D tsx fast-xml-parser
+```
+
+**Why `fast-xml-parser` v4:**
+- Actively maintained, TypeScript-first
+- Handles attribute parsing cleanly with `ignoreAttributes: false`
+- Well-documented, ~3M weekly downloads
+
+**CRITICAL: ES Module Syntax Required**
+
+`package.json` has `"type": "module"` — use `import`, NOT `require`:
+```typescript
+// ✅ Correct
+import { XMLParser } from 'fast-xml-parser';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+// ❌ Wrong — CommonJS, will fail with "type": "module"
+const { XMLParser } = require('fast-xml-parser');
+```
+
+**Key parser configuration:**
+```typescript
+import { XMLParser } from 'fast-xml-parser';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+
+const parser = new XMLParser({
+  ignoreAttributes: false,
+  attributeNamePrefix: '',   // No prefix on attribute names
+  textNodeName: '_text',     // Name for text content nodes
+  isArray: (name) => name === 'Card' || name === 'Cannon', // Force always-array
+});
+
+const xml = readFileSync('reference/PiratesCards.xml', 'utf-8');
+const parsed = parser.parse(xml);
+const cards = parsed.Cards.Card; // Always an array due to isArray config
+```
+
+**Text content extraction:**
+`<Ability>` and `<Description>` have NO attributes, so fast-xml-parser returns them as
+simple strings (not nested under `_text`). Guard for undefined (empty elements):
+```typescript
+const ability = typeof card.Ability === 'string' ? card.Ability : '';
+const description = typeof card.Description === 'string' ? card.Description : '';
+```
+
+**CRITICAL: XML Attribute Type Coercion**
+
+All XML attributes are strings. Must convert to correct types:
+```typescript
+// Boolean: "True" → true
+const limit = card.Modifiers?.Limit === 'True';
+
+// Integer: "5" → 5
+const buildBonus = parseInt(card.Modifiers?.BuildBonus ?? '0', 10);
+const masts = parseInt(card.Stats?.Masts ?? '0', 10);
+const pointValue = parseInt(card.Stats?.PointValue ?? '0', 10);
+
+// Cannon accuracy: "3" → 3 (then combined with range)
+const cannon = `${accuracy}${range}`; // e.g. "3S", "2L"
+```
+
+**JSON Output Format:**
+Write minified JSON (no indentation) for production file size. Use 2-space indent
+during development/debugging if desired, but final committed file should be compact:
+```typescript
+writeFileSync('static/data/cards.json', JSON.stringify(cards));
+// NOT: JSON.stringify(cards, null, 2)  ← pretty-print only for dev debugging
+```
+
+### Handling XML Edge Cases
+
+1. **BOM (Byte Order Mark):** The XML file starts with a UTF-8 BOM (`\uFEFF`). `readFileSync`
+   with `'utf-8'` encoding preserves it. Either strip it or use `fast-xml-parser` directly
+   on the buffer. The parser handles BOM-prefixed XML gracefully.
+
+2. **Empty text nodes:** Some cards have `<Ability></Ability>` or `<Description></Description>`.
+   fast-xml-parser may return `undefined` for empty tags. Default to `''`.
+
+3. **Empty `<Modifiers />`:** Self-closing with no attributes. fast-xml-parser returns `{}` or
+   the element may be missing. Always default to `{}`.
+
+4. **Missing `<Cannons>` on Crew/Treasure/Event:** Only Ship and Fort cards have `<Cannons>`.
+   Guard with `if (card.Cannons)`.
+
+5. **CardNumber with underscores:** `"046_2"` is valid. Do not sanitize card numbers.
+
+6. **Multiple `LinkCardIDs`:** Some crew link to multiple ships: `LinkCardIDs="5802,7848"`.
+   Always split on comma and trim: `linkCardIds.split(',').map(s => s.trim())`.
+
+7. **`Stats.TreasureValues` on Treasure cards:** Some Treasure cards have an extra
+   `TreasureValues` attribute on `<Stats>`. This is not in the target JSON schema — skip it.
+
+### Project Structure Notes
+
+#### Files to Create/Modify
+
+```
+scripts/
+  convert.ts          ← CREATE: the XML-to-JSON conversion script
+static/
+  data/
+    cards.json        ← CREATE: output of the script (committed to git)
+```
+
+#### Alignment with Architecture
+
+[Source: _bmad-output/planning-artifacts/architecture.md#Data Architecture]
+
+- Script lives at `scripts/convert.ts` — matches architecture "scripts/" convention
+- Output at `static/data/cards.json` — canonical location per AR3, AR4
+- `static/data/` directory does NOT exist from Story 1.1 — must be created
+- Script is run once and output committed — **do not add a `convert` npm script**
+  (run manually with `npx tsx scripts/convert.ts`)
+- `static/data/cards.json` must NOT be gitignored (it is a committed artifact)
+
+#### scripts/ Directory
+
+Story 1.1 created `scripts/.gitkeep` as a placeholder. Remove or ignore it when creating
+`scripts/convert.ts`.
+
+### Previous Story Intelligence (Story 1.1)
+
+**From Story 1.1 Dev Agent Record:** [Source: _bmad-output/implementation-artifacts/1-1-initialize-sveltekit-project-with-full-toolchain.md]
+
+- Project uses `"type": "module"` in `package.json` — ES module syntax required in scripts
+- TypeScript is strict mode — no implicit `any`, explicit types required
+- `@types/node` v24 is already installed — Node.js built-ins (`fs`, `path`) are typed
+- `tsx` is NOT currently installed (not in devDependencies) — must be added
+- `npm run build` output goes to `/build`, not `/dist`
+- Script runs at dev time only — not part of the build pipeline
+- Dev server runs fine — all Story 1.1 checks pass
+
+**Git context from last commit (da58153):**
+- `scripts/.gitkeep` exists — placeholder from Story 1.1
+- `static/images/cards/`, `thumbs/`, `flags/`, `backgrounds/` exist with `.gitkeep` files
+- `static/data/` does NOT exist yet
+
+### Testing Requirements for This Story
+
+No Vitest unit tests required. Verification is manual inspection of the output file:
+
+1. `npx tsx scripts/convert.ts` → exits 0, prints total card count
+2. Check total count = 550
+3. Spot-check one of each type (Ship, Crew, Treasure, Fort, Event)
+4. Verify camelCase field names throughout
+5. Verify `imageFilename` matches expected convention
+6. Verify Ship has `details.cannons` array, Crew has `details.limitCards`, Treasure has no `details`
+
+**Count verification:**
+```bash
+# Count Card elements in source:
+grep -c "<Card " reference/PiratesCards.xml
+# Expected: 550
+
+# Count entries in generated JSON (after running convert.ts):
+node -e "const d = JSON.parse(require('fs').readFileSync('static/data/cards.json', 'utf8')); console.log(d.length)"
+```
+
+### What This Story Explicitly Does NOT Do
+
+- Does NOT create TypeScript card type definitions (`src/lib/types/cardTypes.ts`) — that is Story 1.4
+- Does NOT generate thumbnail images — that is Story 1.3
+- Does NOT create any SvelteKit data loading infrastructure — that is Story 1.4
+- Does NOT add any npm scripts (no `"convert"` in package.json) — script is run manually
+- Does NOT modify any existing files except `package.json` (adding tsx + fast-xml-parser)
+
+### References
+
+- [Source: _bmad-output/planning-artifacts/epics.md#Story 1.2] — User story + acceptance criteria
+- [Source: _bmad-output/planning-artifacts/architecture.md#JSON Card Schema] — Canonical schema definition
+- [Source: _bmad-output/planning-artifacts/architecture.md#Data Architecture] — Decision rationale
+- [Source: _bmad-output/planning-artifacts/architecture.md#Naming Patterns] — camelCase field names
+- [Source: _bmad-output/planning-artifacts/epics.md#FR22, FR23] — Data pipeline requirements
+- [Source: reference/CardData.xsd] — XML schema definition
+- [Source: reference/PiratesCards.xml] — Source data (550 card records)
+
+## Dev Agent Record
+
+### Agent Model Used
+
+claude-sonnet-4-6
+
+### Debug Log References
+
+### Completion Notes List
+
+### File List
