@@ -59,7 +59,6 @@ const cards = rawCards.map((card) => {
     type,
     rarity: card.Rarity,
     nationality: card.Nationality,
-    tournamentStatus: card.TournamentStatus,
     pointValue: parseInt(String(stats.PointValue ?? '0'), 10),
     imageFilename: String(image.Filename ?? ''),
     ability: typeof card.Ability === 'string' ? card.Ability : '',
