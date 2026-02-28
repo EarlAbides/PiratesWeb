@@ -5,7 +5,7 @@
   /* =====================================================
      Set-specific background color tokens
      Texture images: static/images/backgrounds/TanBG.jpg,
-     RedBG.jpg, BlueBG.jpg (used in full design system — Story 2.1)
+     RedBG.jpg, BlueBG.jpg (wired via CSS vars in +layout.svelte)
      ===================================================== */
 
   /* Spanish Main: tan/parchment */
@@ -30,19 +30,42 @@
   --color-pip-long-dot:   #FFFFFF;
 }
 
+/* Base dark theme */
+html,
+body {
+  min-height: 100%;
+  background-color: oklch(10% 0.01 0);
+  color: oklch(95% 0.01 0);
+}
+
+/* Texture URL slots — injected by +layout.svelte via style: directive */
+:root {
+  --bg-texture-spanish-main: none;
+  --bg-texture-crimson-coast: none;
+  --bg-texture-revolution: none;
+}
+
 /* Set-colored row background utility classes */
-/* Story 2.1 will wire in texture background images */
 .bg-set-spanish-main {
   background-color: var(--color-set-spanish-main);
+  background-image: var(--bg-texture-spanish-main, none);
+  background-size: cover;
+  background-blend-mode: multiply;
   color: var(--color-set-spanish-main-text);
 }
 
 .bg-set-crimson-coast {
   background-color: var(--color-set-crimson-coast);
+  background-image: var(--bg-texture-crimson-coast, none);
+  background-size: cover;
+  background-blend-mode: multiply;
   color: var(--color-set-crimson-coast-text);
 }
 
 .bg-set-revolution {
   background-color: var(--color-set-revolution);
+  background-image: var(--bg-texture-revolution, none);
+  background-size: cover;
+  background-blend-mode: multiply;
   color: var(--color-set-revolution-text);
 }

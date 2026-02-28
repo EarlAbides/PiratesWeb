@@ -1,11 +1,22 @@
 <script lang="ts">
   import '../app.css';
+  import { base } from '$app/paths';
+  import AppHeader from '$lib/components/layout/AppHeader.svelte';
+  import type { Snippet } from 'svelte';
 
   interface Props {
-    children: import('svelte').Snippet;
+    children: Snippet;
   }
 
   let { children }: Props = $props();
 </script>
 
-{@render children()}
+<div
+  class="min-h-screen flex flex-col"
+  style:--bg-texture-spanish-main="url('{base}/images/backgrounds/TanBG.jpg')"
+  style:--bg-texture-crimson-coast="url('{base}/images/backgrounds/RedBG.jpg')"
+  style:--bg-texture-revolution="url('{base}/images/backgrounds/BlueBG.jpg')"
+>
+  <AppHeader />
+  {@render children()}
+</div>
