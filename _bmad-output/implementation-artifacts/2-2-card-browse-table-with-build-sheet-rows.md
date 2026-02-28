@@ -1,6 +1,6 @@
 # Story 2.2: Card Browse Table with Build-Sheet Rows
 
-Status: review
+Status: in-progress
 
 ## Story
 
@@ -138,6 +138,16 @@ so that I can scan hundreds of familiar cards at a glance and immediately recogn
   - [x] Manual: confirm Ship cards show stat icons (mast, cargo, move, cannons)
   - [x] Manual: confirm missing thumbnails show placeholder (not broken image)
   - [x] Manual: confirm Barbary nationality cards don't show broken flag icon
+
+### Review Follow-ups (AI)
+
+- [ ] [AI-Review][CRITICAL] Fix cannon format mismatch: `parseCannonPip` in `src/lib/components/icons/cannons/index.ts:12-22` expects type-first format ("S3") but `cards.json` data uses digit-first format ("3S"). Swap parse order to `roll = parseInt(cannon[0], 10)` and `type = cannon[1]`. Update unit tests in `src/lib/components/icons/cannons/index.test.ts` to match. AC 2 is broken — zero cannon pips render. [src/lib/components/icons/cannons/index.ts:16-17]
+- [ ] [AI-Review][MEDIUM] Improve sort header alignment: sort buttons in `CardTable.svelte` don't visually align with card row data columns. Consider giving header buttons fixed widths matching the row layout or using a shared CSS grid. [src/lib/components/cards/CardTable.svelte:16-31]
+- [ ] [AI-Review][MEDIUM] Fix CardRow.test.ts to not duplicate SET_CLASS: extract `SET_CLASS` mapping to a shared module imported by both `CardRow.svelte` and `CardRow.test.ts`, or add explicit comment noting the mirror copy. [src/lib/components/cards/CardRow.test.ts:7-11]
+- [ ] [AI-Review][MEDIUM] Add accessibility attributes to sort buttons: add `aria-label` with sort state info to `<button>` elements in `CardTable.svelte`. [src/lib/components/cards/CardTable.svelte:19-29]
+- [ ] [AI-Review][LOW] Use `{:else}` on `{#each}` for empty state instead of separate `{#if}` block. [src/lib/components/cards/CardTable.svelte:35-41]
+- [ ] [AI-Review][LOW] Exclude `_bmad/` from Tailwind content scanning to eliminate `[file:line]` CSS build warning.
+- [ ] [AI-Review][LOW] Guard `CannonDisplay` wrapper div with `{#if pips.length > 0}` to avoid rendering empty `<div>`. [src/lib/components/cards/CannonDisplay.svelte:22-26]
 
 ## Dev Notes
 
