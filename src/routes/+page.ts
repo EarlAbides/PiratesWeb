@@ -1,9 +1,10 @@
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
+import { base } from '$app/paths';
 import type { Card } from '$lib/types/cardTypes';
 
 export const load: PageLoad = async ({ fetch }) => {
-	const res = await fetch('/data/cards.json');
+	const res = await fetch(`${base}/data/cards.json`);
 	if (!res.ok) {
 		throw error(500, 'Failed to load card data');
 	}
