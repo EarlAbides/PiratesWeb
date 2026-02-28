@@ -1,6 +1,6 @@
 # Story 1.2: XML-to-JSON Card Data Conversion Script
 
-Status: in-progress
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -64,13 +64,13 @@ So that all 5000+ card records are available as a committed, version-controlled 
 
 ### Review Follow-ups (AI)
 
-- [ ] [AI-Review][HIGH] Add `'Pirates of the Spanish Main (Unlimited)': 'PPSMU'` to `CARD_SET_MAP` — 119 cards (21.6%) currently get the full name string instead of a short code. Decision: use `PPSMU` as distinct code. [scripts/convert.ts:5-9]
-- [ ] [AI-Review][MEDIUM] Make output paths absolute using `resolve()` — `mkdirSync` and `writeFileSync` use relative paths while `xmlPath` uses `resolve()`. All paths should be consistent. [scripts/convert.ts:104-105]
-- [ ] [AI-Review][MEDIUM] Reduce `eslint-disable` / `any` usage — 5 eslint-disable comments and 4 `: any` annotations in 107 lines. Use `Record<string, unknown>` or more specific types where possible. [scripts/convert.ts:22,25,27,37,51]
-- [ ] [AI-Review][MEDIUM] Remove `scripts/.gitkeep` — placeholder is unnecessary now that `convert.ts` exists. Dev Notes said to remove it. [scripts/.gitkeep]
-- [ ] [AI-Review][MEDIUM] Document architecture spec discrepancies in Dev Agent Record — Ship `crewSlots` in arch but not in XML/implementation; Fort `goldCost` in implementation but not in arch. Note for downstream story authors.
-- [ ] [AI-Review][LOW] Remove redundant `Array.isArray` guard in `parseCannons` — the `isArray` parser config already forces `Cannon` to be an array, making the fallback dead code. [scripts/convert.ts:28-29]
-- [ ] [AI-Review][LOW] Note: XML Rarity has 8 values (not 3 as documented in CLAUDE.md) — Common, Uncommon, Rare, Limited Edition, Super Rare, Common Treasure, Treasure, Super Rare Treasure. Affects Story 1.4 type definitions.
+- [x] [AI-Review][HIGH] Add `'Pirates of the Spanish Main (Unlimited)': 'PPSMU'` to `CARD_SET_MAP` — 119 cards (21.6%) currently get the full name string instead of a short code. Decision: use `PPSMU` as distinct code. [scripts/convert.ts:5-9]
+- [x] [AI-Review][MEDIUM] Make output paths absolute using `resolve()` — `mkdirSync` and `writeFileSync` use relative paths while `xmlPath` uses `resolve()`. All paths should be consistent. [scripts/convert.ts:104-105]
+- [x] [AI-Review][MEDIUM] Reduce `eslint-disable` / `any` usage — 5 eslint-disable comments and 4 `: any` annotations in 107 lines. Use `Record<string, unknown>` or more specific types where possible. [scripts/convert.ts:22,25,27,37,51]
+- [x] [AI-Review][MEDIUM] Remove `scripts/.gitkeep` — placeholder is unnecessary now that `convert.ts` exists. Dev Notes said to remove it. [scripts/.gitkeep]
+- [x] [AI-Review][MEDIUM] Document architecture spec discrepancies in Dev Agent Record — Ship `crewSlots` in arch but not in XML/implementation; Fort `goldCost` in implementation but not in arch. Note for downstream story authors.
+- [x] [AI-Review][LOW] Remove redundant `Array.isArray` guard in `parseCannons` — the `isArray` parser config already forces `Cannon` to be an array, making the fallback dead code. [scripts/convert.ts:28-29]
+- [x] [AI-Review][LOW] Note: XML Rarity has 8 values (not 3 as documented in CLAUDE.md) — Common, Uncommon, Rare, Limited Edition, Super Rare, Common Treasure, Treasure, Super Rare Treasure. Affects Story 1.4 type definitions.
 
 ## Dev Notes
 
@@ -531,17 +531,26 @@ No issues encountered. Implementation was straightforward following the detailed
 - `modifiers` top-level object includes only present attributes (empty `{}` for cards with no modifier attributes)
 - Output written as minified JSON (no indentation) per story spec
 - `static/data/cards.json` is tracked by git (not gitignored)
+- ✅ Resolved review finding [HIGH]: Added `'Pirates of the Spanish Main (Unlimited)': 'PPSMU'` to CARD_SET_MAP — all 119 PPSMU cards now map to short code, verified in output
+- ✅ Resolved review finding [MEDIUM]: Output paths made absolute via `resolve()` — `outputDir` and `outputPath` both now use `resolve()` consistent with `xmlPath`
+- ✅ Resolved review finding [MEDIUM]: Eliminated all 5 `eslint-disable` comments and all `any` annotations — introduced `type RawNode = Record<string, unknown>` alias used throughout; ESLint and `svelte-check` both pass clean
+- ✅ Resolved review finding [MEDIUM]: Deleted `scripts/.gitkeep` from disk and git index (`git rm`)
+- ✅ Resolved review finding [MEDIUM]: Architecture discrepancies documented — (1) Ship `crewSlots` appears in architecture.md but is absent from XML and was not implemented; Story 1.4 type author should note this field may need future consideration or removal from arch spec. (2) Fort `goldCost` is present in XML (`Stats.GoldCost`) and correctly implemented in `details.goldCost`, but was missing from the architecture.md schema — implementation is correct, arch doc lags behind XML reality.
+- ✅ Resolved review finding [LOW]: Removed redundant `Array.isArray` guard in `parseCannons` — `isArray` config guarantees `Cannon` is always an array; direct cast used instead
+- ✅ Resolved review finding [LOW]: Rarity values documented — XML contains 8 distinct rarity values: Common (239), Uncommon (108), Rare (121), Limited Edition (11), Super Rare (4), Common Treasure (59), Treasure (7), Super Rare Treasure (1). CLAUDE.md only documents 3; Story 1.4 TypeScript types must use the full 8-value union.
 
 ### File List
 
 - `package.json` — added `tsx` and `fast-xml-parser` to devDependencies
 - `package-lock.json` — updated by npm install
-- `scripts/convert.ts` — new XML-to-JSON conversion script
-- `static/data/cards.json` — new generated card data (550 cards, committed artifact)
-- `_bmad-output/implementation-artifacts/sprint-status.yaml` — status updated to review
+- `scripts/convert.ts` — XML-to-JSON conversion script (updated: PPSMU mapping, absolute paths, RawNode type, removed eslint-disable/any)
+- `scripts/.gitkeep` — deleted (placeholder removed)
+- `static/data/cards.json` — generated card data (550 cards, committed artifact; regenerated with PPSMU fix)
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` — status updated
 - `_bmad-output/implementation-artifacts/1-2-xml-to-json-card-data-conversion-script.md` — story updated
 
 ## Change Log
 
 - 2026-02-27: Story 1.2 implemented — created `scripts/convert.ts` that converts 550 cards from `reference/PiratesCards.xml` to `static/data/cards.json` with full camelCase field mapping, type-specific `details` objects, and correct `modifiers` structure
 - 2026-02-27: Code review (claude-opus-4-6) — 1 HIGH, 4 MEDIUM, 2 LOW issues found. All ACs verified as implemented. Critical finding: 119 cards with unmapped CardSet "Pirates of the Spanish Main (Unlimited)". 7 action items created. Status set to in-progress pending fixes.
+- 2026-02-27: Addressed code review findings — 7 items resolved (claude-sonnet-4-6). PPSMU mapping added (119 cards fixed), absolute output paths, zero any/eslint-disable, .gitkeep removed, arch discrepancies documented, redundant Array.isArray guard removed, 8 rarity values noted for Story 1.4.
