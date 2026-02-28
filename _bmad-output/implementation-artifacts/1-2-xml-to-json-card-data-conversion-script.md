@@ -1,6 +1,6 @@
 # Story 1.2: XML-to-JSON Card Data Conversion Script
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -33,34 +33,34 @@ So that all 5000+ card records are available as a committed, version-controlled 
 
 ## Tasks / Subtasks
 
-- [ ] Install `tsx` and `fast-xml-parser` dev dependencies (AC: all)
-  - [ ] Run `npm install -D tsx fast-xml-parser`
-  - [ ] Verify `tsx` and `fast-xml-parser` appear in `package.json` devDependencies
-- [ ] Create `static/data/` directory (AC: 1)
-  - [ ] `mkdir -p static/data` (or let the script create it)
-- [ ] Create `scripts/convert.ts` (AC: 1, 2, 3, 4)
-  - [ ] Import and configure `fast-xml-parser` to parse `reference/PiratesCards.xml`
-  - [ ] Map `CardSet` full names → short codes (`PPSM`, `PPCC`, `PPRV`)
-  - [ ] For each `<Card>` element, build the base card JSON object with all camelCase fields
-  - [ ] For Ship cards: build `details` with `masts`, `cargo`, `baseMove`, and `cannons` array
-  - [ ] For Crew cards: build `details` with `buildBonus`, `costReduction`, `cargoBonus`, `limitCards`
-  - [ ] For Fort cards: build `details` with `cannons` array and `goldCost`
-  - [ ] For Treasure/Event cards: omit `details` entirely
-  - [ ] Build `modifiers` object from `<Modifiers>` attributes (omit empty)
-  - [ ] Format cannon entries from `<Cannon Range="S" Accuracy="3" />` → `"3S"` strings
-  - [ ] Write output JSON array to `static/data/cards.json`
-  - [ ] Print summary line: total cards written
-- [ ] Run script and verify output (AC: 1, 2, 3, 4)
-  - [ ] `npx tsx scripts/convert.ts` exits 0 and prints count
-  - [ ] Open `static/data/cards.json` and spot-check: one Ship, one Crew, one Treasure, one Fort, one Event
-  - [ ] Verify total count matches 550 (count of `<Card` elements in source XML)
-  - [ ] Verify all field names are camelCase (no `CardID`, `PointValue`, etc.)
-  - [ ] Verify Ship `details` has `masts`, `cargo`, `baseMove`, and `cannons` array
-  - [ ] Verify Crew `details` has `buildBonus`, `costReduction`, `cargoBonus`, `limitCards`
-  - [ ] Verify a Treasure card has no `details` key
-  - [ ] Verify `imageFilename` matches source convention (e.g., `PPSM_EC-001.jpg`)
-- [ ] Commit `static/data/cards.json` to the repository (AC: 1)
-  - [ ] This is a committed artifact, not gitignored — verify it's tracked
+- [x] Install `tsx` and `fast-xml-parser` dev dependencies (AC: all)
+  - [x] Run `npm install -D tsx fast-xml-parser`
+  - [x] Verify `tsx` and `fast-xml-parser` appear in `package.json` devDependencies
+- [x] Create `static/data/` directory (AC: 1)
+  - [x] `mkdir -p static/data` (or let the script create it)
+- [x] Create `scripts/convert.ts` (AC: 1, 2, 3, 4)
+  - [x] Import and configure `fast-xml-parser` to parse `reference/PiratesCards.xml`
+  - [x] Map `CardSet` full names → short codes (`PPSM`, `PPCC`, `PPRV`)
+  - [x] For each `<Card>` element, build the base card JSON object with all camelCase fields
+  - [x] For Ship cards: build `details` with `masts`, `cargo`, `baseMove`, and `cannons` array
+  - [x] For Crew cards: build `details` with `buildBonus`, `costReduction`, `cargoBonus`, `limitCards`
+  - [x] For Fort cards: build `details` with `cannons` array and `goldCost`
+  - [x] For Treasure/Event cards: omit `details` entirely
+  - [x] Build `modifiers` object from `<Modifiers>` attributes (omit empty)
+  - [x] Format cannon entries from `<Cannon Range="S" Accuracy="3" />` → `"3S"` strings
+  - [x] Write output JSON array to `static/data/cards.json`
+  - [x] Print summary line: total cards written
+- [x] Run script and verify output (AC: 1, 2, 3, 4)
+  - [x] `npx tsx scripts/convert.ts` exits 0 and prints count
+  - [x] Open `static/data/cards.json` and spot-check: one Ship, one Crew, one Treasure, one Fort, one Event
+  - [x] Verify total count matches 550 (count of `<Card` elements in source XML)
+  - [x] Verify all field names are camelCase (no `CardID`, `PointValue`, etc.)
+  - [x] Verify Ship `details` has `masts`, `cargo`, `baseMove`, and `cannons` array
+  - [x] Verify Crew `details` has `buildBonus`, `costReduction`, `cargoBonus`, `limitCards`
+  - [x] Verify a Treasure card has no `details` key
+  - [x] Verify `imageFilename` matches source convention (e.g., `PPSM_EC-001.jpg`)
+- [x] Commit `static/data/cards.json` to the repository (AC: 1)
+  - [x] This is a committed artifact, not gitignored — verify it's tracked
 
 ## Dev Notes
 
@@ -505,6 +505,32 @@ claude-sonnet-4-6
 
 ### Debug Log References
 
+No issues encountered. Implementation was straightforward following the detailed Dev Notes.
+
 ### Completion Notes List
 
+- Installed `tsx` v4.21.0 and `fast-xml-parser` v5.4.1 as devDependencies (v5 confirmed backward-compatible API for `XMLParser` and `isArray` option)
+- Created `scripts/convert.ts` using ES module imports (`import`, not `require`) as required by `"type": "module"` in package.json
+- Parser configured with `ignoreAttributes: false`, `attributeNamePrefix: ''`, `textNodeName: '_text'`, `isArray` forced for `Card` and `Cannon` elements
+- All 550 cards converted successfully with zero data loss
+- All field names verified camelCase (0 PascalCase keys)
+- All 5 card types spot-checked and match story example JSON exactly (including `Adventure` Ship and `Administrator Scott Bratley` Crew with modifiers)
+- `imageFilename` uses existing `Filename` attribute from `<Image>` tag directly — no transformation needed
+- Treasure and Event cards correctly have no `details` key
+- Crew `limitCards` correctly parses comma-separated `LinkCardIDs` into string arrays
+- `modifiers` top-level object includes only present attributes (empty `{}` for cards with no modifier attributes)
+- Output written as minified JSON (no indentation) per story spec
+- `static/data/cards.json` is tracked by git (not gitignored)
+
 ### File List
+
+- `package.json` — added `tsx` and `fast-xml-parser` to devDependencies
+- `package-lock.json` — updated by npm install
+- `scripts/convert.ts` — new XML-to-JSON conversion script
+- `static/data/cards.json` — new generated card data (550 cards, committed artifact)
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` — status updated to review
+- `_bmad-output/implementation-artifacts/1-2-xml-to-json-card-data-conversion-script.md` — story updated
+
+## Change Log
+
+- 2026-02-27: Story 1.2 implemented — created `scripts/convert.ts` that converts 550 cards from `reference/PiratesCards.xml` to `static/data/cards.json` with full camelCase field mapping, type-specific `details` objects, and correct `modifiers` structure
