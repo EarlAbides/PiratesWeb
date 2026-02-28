@@ -129,17 +129,17 @@ N/A — this is a free community passion project. There is no monetization, no a
 
 ### Journey Requirements Summary
 
-| Capability | Captain Rex (Browse) | Captain Rex (Build) | Captain Rex (Edge Case) | Trader Anne | Phase |
-|---|---|---|---|---|---|
-| Card browsing & image display | Primary | Supporting | Supporting | Primary | 1 |
-| Multi-dimension filtering | Primary | Supporting | — | Primary | 1 |
-| Card detail view | Supporting | Supporting | Primary | Primary | 1 |
-| Text search | Supporting | — | — | Primary | 1 |
-| Fleet builder & point tracking | — | Primary | Primary | — | 2 |
-| Crew assignment to ships | — | Primary | Primary | — | 2 |
-| Rules enforcement (graceful) | — | Supporting | Primary | — | 3 |
-| Save/load fleet to local storage | — | Primary | Primary | — | 2 |
-| Cross-set browsing | Supporting | Supporting | — | Primary | 1 |
+| Capability                       | Captain Rex (Browse) | Captain Rex (Build) | Captain Rex (Edge Case) | Trader Anne | Phase |
+| -------------------------------- | -------------------- | ------------------- | ----------------------- | ----------- | ----- |
+| Card browsing & image display    | Primary              | Supporting          | Supporting              | Primary     | 1     |
+| Multi-dimension filtering        | Primary              | Supporting          | —                       | Primary     | 1     |
+| Card detail view                 | Supporting           | Supporting          | Primary                 | Primary     | 1     |
+| Text search                      | Supporting           | —                   | —                       | Primary     | 1     |
+| Fleet builder & point tracking   | —                    | Primary             | Primary                 | —           | 2     |
+| Crew assignment to ships         | —                    | Primary             | Primary                 | —           | 2     |
+| Rules enforcement (graceful)     | —                    | Supporting          | Primary                 | —           | 3     |
+| Save/load fleet to local storage | —                    | Primary             | Primary                 | —           | 2     |
+| Cross-set browsing               | Supporting           | Supporting          | —                       | Primary     | 1     |
 
 ## Web App Specific Requirements
 
@@ -158,7 +158,7 @@ PiratesWeb is a single-page application built with SvelteKit using adapter-stati
 ### Implementation Considerations
 
 - **Data Pipeline:** XML-to-JSON conversion is a build-time step, not runtime. The converted JSON is the app's sole data source.
-- **Image Handling:** 424 JPGs organized by set prefix (PPSM_*, PPCC_*, PPRV_*). Served as static assets. Thumbnails for browse view, full images for detail view. Cache-friendly headers since images are immutable.
+- **Image Handling:** 424 JPGs organized by set prefix (PPSM*\*, PPCC*_, PPRV\__). Served as static assets. Thumbnails for browse view, full images for detail view. Cache-friendly headers since images are immutable.
 - **State Management:** Fleet builds stored in browser local storage (Phase 2). Svelte's built-in reactivity handles UI state.
 - **Routing:** SvelteKit file-based routing. Key routes: card browse/filter, card detail, fleet builder (Phase 2).
 
@@ -173,10 +173,12 @@ PiratesWeb is a single-page application built with SvelteKit using adapter-stati
 ### Phase 1 — Card Browser (MVP)
 
 **Core User Journeys Supported:**
+
 - Captain Rex browsing journey (Journey 1, browsing portion)
 - Trader Anne's full journey (Journey 2)
 
 **Must-Have Capabilities:**
+
 - Card browsing across three expansion sets with card images
 - Filtering by set, type, nationality, rarity
 - Text search across card names and abilities
@@ -233,7 +235,7 @@ PiratesWeb is a single-page application built with SvelteKit using adapter-stati
 - **FR7:** Users can filter cards by type (Ship, Crew, Treasure, Fort, Event)
 - **FR8:** Users can filter cards by nationality
 - **FR9:** Users can filter cards by rarity
-- ~~**FR10:** Users can filter cards by tournament status~~ *(excluded — `tournamentStatus` field removed from data model; field has only one value in source data and provides no filter utility)*
+- ~~**FR10:** Users can filter cards by tournament status~~ _(excluded — `tournamentStatus` field removed from data model; field has only one value in source data and provides no filter utility)_
 - **FR11:** Users can combine multiple filters simultaneously (e.g., English Ships from Spanish Main)
 - **FR12:** Users can perform text search across card names and ability text
 - **FR13:** Users can clear all active filters to return to the full catalog

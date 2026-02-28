@@ -9,7 +9,11 @@ export const load: PageLoad = async ({ fetch }) => {
 		throw error(500, 'Failed to load card data');
 	}
 	const data: unknown = await res.json();
-	if (!Array.isArray(data) || data.length === 0 || typeof (data[0] as Record<string, unknown>).cardId !== 'string') {
+	if (
+		!Array.isArray(data) ||
+		data.length === 0 ||
+		typeof (data[0] as Record<string, unknown>).cardId !== 'string'
+	) {
 		throw error(500, 'Card data is malformed or empty');
 	}
 	const cards = data as Card[];

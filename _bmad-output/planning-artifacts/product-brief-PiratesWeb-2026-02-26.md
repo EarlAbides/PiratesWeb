@@ -32,6 +32,7 @@ There are effectively no existing solutions. The original deck builder was a sin
 ### Proposed Solution
 
 A static web application built with Svelte/SvelteKit that provides:
+
 - **Card browsing and filtering** across three expansion sets (Spanish Main, Crimson Coast, Revolution) with full card images
 - **Ship-centric fleet building** with point-based validation, duplicate limits, and card-specific restrictions faithful to the original game rules
 - **Save/load deck configurations** for reuse and sharing
@@ -80,6 +81,7 @@ N/A — This is a focused community tool. There are no admin, support, or oversi
 This is a passion project and community contribution with no business model or monetization. Success is measured by whether the tool is useful and appreciated by the Pirates CSG community.
 
 **User Success Indicators:**
+
 - Users can browse and filter the complete card catalog across all three sets without friction
 - Card images load cleanly and card data is accurate and complete
 - Fleet builder enforces game rules correctly — builds that should be valid are, and invalid ones are flagged with clear reasons
@@ -87,11 +89,13 @@ This is a passion project and community contribution with no business model or m
 - Zero-friction access: no signup, no install, just open and use
 
 **Community Success Indicators:**
+
 - The app gets shared on BoardGameGeek forums
 - Positive feedback from Pirates CSG fans
 - Players find it useful enough to bookmark and return to
 
 **Technical Success Indicators:**
+
 - Static site deploys reliably with no ongoing infrastructure cost
 - Page loads are fast — card browsing feels snappy even with 5000+ entries
 - Works across modern browsers (Chrome, Firefox, Safari, Edge)
@@ -103,6 +107,7 @@ N/A — This is a free community tool with no monetization, no accounts, and no 
 ### Key Performance Indicators
 
 Given the nature of this project, formal KPIs are not applicable. If analytics are ever added (optional), useful signals would be:
+
 - Unique visitors per month
 - Average time spent browsing cards
 - Number of fleets built per session
@@ -114,6 +119,7 @@ These would be nice-to-know, not need-to-know.
 ### Core Features
 
 **Card Browser & Filtering (Primary Feature)**
+
 - Browse complete card catalog across three expansion sets (Spanish Main, Crimson Coast, Revolution)
 - Display card images alongside full card stats and ability text
 - Rich filtering by: set, type (Ship/Crew/Treasure/Fort/Event), nationality, rarity, tournament status
@@ -121,18 +127,21 @@ These would be nice-to-know, not need-to-know.
 - Fast, responsive browsing across 5000+ entries
 
 **Card Detail View**
+
 - Full card image display
 - All card attributes: stats, abilities, description, modifiers
 - Ship-specific details: masts, cargo, base move, cannons
 - Crew-specific details: build bonuses, cost reductions
 
 **Fleet Builder (Secondary Feature)**
+
 - Ship-centric build model: select ships, assign crew
 - Point tracking against configurable fleet point limit
 - Rules validation ported from legacy app on a best-effort basis (duplicate limits, crew restrictions, card-specific constraints)
 - Save/load fleet configurations to browser local storage
 
 **Technical Foundation**
+
 - Svelte/SvelteKit static site with adapter-static
 - Card data converted from legacy XML to JSON
 - Card images optimized for web (thumbnails, lazy loading)

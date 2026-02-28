@@ -12,6 +12,7 @@
 This document specifies all SVG icons required for the `StatBar` and `CannonDisplay` components. Every icon is derived directly from the reference photograph of the physical Pirates CSG card — confirmed to be high enough fidelity for faithful SVG recreation.
 
 Icons are organized into two families:
+
 - **Stat Icons** (4): Mast, Cargo, Move, Cannon — used as stat category labels in the StatBar
 - **Cannon Pip Icons** (12): S1–S6, L1–L6 — used in CannonDisplay for individual cannon rendering
 
@@ -26,6 +27,7 @@ The `reference/deck-card.jpeg` (La Repulsa) shows the complete stats bar at suff
 ```
 
 Color palette observed from source:
+
 - Stats bar background: **black** (`#000000`)
 - Ship silhouette base: **white** (`#FFFFFF`)
 - Stat highlight element: **warm gold/amber** (`~#C8960C`)
@@ -43,6 +45,7 @@ These are the category-label icons that precede each numeric stat value in the S
 ### Coordinate System
 
 All stat icons share a common coordinate system:
+
 - **ViewBox:** `0 0 24 24`
 - **Canonical export size:** 24×24px (scales to 16–18px in row, 24px in detail view)
 - **Background:** Black (`#000000`) — included in the SVG so icons are self-contained and render correctly in any context
@@ -58,6 +61,7 @@ All stat icons share a common coordinate system:
 The gold highlight sits over the white ship, creating a clear focal point — the white base provides contrast against the black background, while the gold element draws the eye to exactly what the stat measures.
 
 **Color tokens for three-layer icons:**
+
 - Background: `#000000` (black)
 - Base ship silhouette: `#FFFFFF` (white)
 - Highlight element: `#C8960C` (warm gold — the stat being measured)
@@ -84,12 +88,14 @@ The entire ship (hull + masts + sails) is rendered in white (`#FFFFFF`) as the s
 **Represents:** Number of masts (ship's combat points)
 
 **Two-tone composition:**
+
 - **Dark base layer:** Full ship silhouette (hull + masts + sails) in `#3A2800`
 - **Gold highlight layer:** Masts and sails only, re-drawn in `#C8960C` on top — the mast verticals and sail shapes glow gold while the hull stays dark
 
 **Effect:** White ship on black. Masts and sails glow gold — everything else stays white. Immediately reads as "this icon is about the sails/masts."
 
 **SVG Structure:**
+
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
   <!-- Layer 1: Black background -->
@@ -109,6 +115,7 @@ The entire ship (hull + masts + sails) is rendered in white (`#FFFFFF`) as the s
 ```
 
 **Sizing notes:**
+
 - Hull occupies bottom ~40% of viewBox (y: 14–22)
 - Masts extend from y:4 to y:14 approximately
 - Leave 1px visual padding on all sides
@@ -120,6 +127,7 @@ The entire ship (hull + masts + sails) is rendered in white (`#FFFFFF`) as the s
 **Represents:** Cargo capacity (how many crew/treasure a ship can carry)
 
 **Two-tone composition:**
+
 - **Dark base layer:** Full ship silhouette (hull + masts + sails) in `#3A2800` — identical geometry to MastIcon
 - **Gold highlight layer:** The cargo hold area only, re-drawn in `#C8960C` — the central lower hull region, representing the hold where cargo is stored
 
@@ -128,6 +136,7 @@ The entire ship (hull + masts + sails) is rendered in white (`#FFFFFF`) as the s
 **Effect:** White ship on black. Masts and sails stay white; the hold glows gold. Immediately reads as "this icon is about the interior capacity of the hull."
 
 **SVG Structure:**
+
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
   <!-- Layer 1: Black background -->
@@ -155,6 +164,7 @@ The entire ship (hull + masts + sails) is rendered in white (`#FFFFFF`) as the s
 **Represents:** Base move distance (expressed as S, L, S+L, etc.)
 
 **Two-tone composition:**
+
 - **Dark base layer:** Full ship silhouette in `#3A2800` — same geometry as MastIcon/CargoIcon, but scaled slightly smaller (~80% width) to leave room for the arrow to the right
 - **Gold highlight layer:** A rightward-pointing arrow in `#C8960C` positioned to the right of/emerging from the ship's bow
 
@@ -163,6 +173,7 @@ The entire ship (hull + masts + sails) is rendered in white (`#FFFFFF`) as the s
 **Effect:** White ship on black with a gold arrow. The ship is context; the gold arrow is the stat. Reads as "this icon is about where the ship goes."
 
 **SVG Structure:**
+
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
   <!-- Layer 1: Black background -->
@@ -189,18 +200,21 @@ The entire ship (hull + masts + sails) is rendered in white (`#FFFFFF`) as the s
 
 **Represents:** Cannon category label (precedes the cannon pip sequence)
 **Shape description:** A side-view of a naval cannon on a wheeled carriage. This is the most detailed of the four stat icons. The reference shows:
+
 - A cylindrical cannon barrel extending left from a boxy breach/back
 - Two visible wheels (circles) below the carriage
 - The barrel tapers slightly toward the muzzle
 - Warm gold/amber fill with dark details
 
 **Visual characteristics from reference:**
+
 - Horizontal orientation (barrel points left, wheels on right)
 - Cannon barrel: elongated cylinder, ~60% of total width
 - Carriage: rectangular body with two circle-wheels visible below
 - Clearly identifiable as a cannon even at 16px — this icon has the most distinctive shape of the four
 
 **SVG Structure:**
+
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
   <!-- Layer 1: Black background -->
@@ -226,6 +240,7 @@ Cannon pips are individual indicators in the `CannonDisplay` component. Each pip
 ### Coordinate System
 
 All cannon pip icons share:
+
 - **ViewBox:** `0 0 16 16`
 - **Canonical export size:** 16×16px (scales to 14–16px in row, 20–24px in detail)
 - **Shape:** Rounded square (Short) or rotated square/diamond (Long)
@@ -241,19 +256,20 @@ All cannon pip icons share:
 
 **Dot patterns** follow standard Western die-face conventions:
 
-| Icon | Dots | Arrangement |
-|------|------|-------------|
-| S1 | 1 dot | Center |
-| S2 | 2 dots | Top-right, bottom-left (diagonal) |
-| S3 | 3 dots | Top-right, center, bottom-left |
-| S4 | 4 dots | Four corners |
-| S5 | 5 dots | Four corners + center |
-| S6 | 6 dots | Three left, three right (2 columns) |
+| Icon | Dots   | Arrangement                         |
+| ---- | ------ | ----------------------------------- |
+| S1   | 1 dot  | Center                              |
+| S2   | 2 dots | Top-right, bottom-left (diagonal)   |
+| S3   | 3 dots | Top-right, center, bottom-left      |
+| S4   | 4 dots | Four corners                        |
+| S5   | 5 dots | Four corners + center               |
+| S6   | 6 dots | Three left, three right (2 columns) |
 
 **Dot size:** `r="1.2"` at 16px viewBox scale (scales naturally)
 **Dot margin from edge:** 3px at 16px viewBox scale
 
 **SVG Structure (example S3):**
+
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
   <!-- Background square -->
@@ -279,6 +295,7 @@ All cannon pip icons share:
 **Dot positioning:** Adjusted for diamond rotation — use the same center points as Short, the diamond shape contextualizes them
 
 **SVG Structure (example L3):**
+
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
   <!-- Diamond background: polygon through midpoints of sides -->
@@ -348,21 +365,20 @@ theme: {
 ## Svelte Component Usage
 
 ### StatBar icon usage pattern:
+
 ```svelte
 <!-- Inline SVG import pattern (recommended for CSS theming) -->
-import MastIcon   from '$lib/assets/icons/stat/icon-mast.svg?component';
-import CargoIcon  from '$lib/assets/icons/stat/icon-cargo.svg?component';
-import MoveIcon   from '$lib/assets/icons/stat/icon-move.svg?component';
-import CannonIcon from '$lib/assets/icons/stat/icon-cannon.svg?component';
+import MastIcon from '$lib/assets/icons/stat/icon-mast.svg?component'; import CargoIcon from '$lib/assets/icons/stat/icon-cargo.svg?component';
+import MoveIcon from '$lib/assets/icons/stat/icon-move.svg?component'; import CannonIcon from '$lib/assets/icons/stat/icon-cannon.svg?component';
 ```
 
 ### CannonDisplay pip lookup pattern:
+
 ```svelte
 <!-- Dynamic pip selection based on cannon data -->
 <!-- Cannon data format: "S3" = Short range, needs 3 to hit -->
 <!-- Parse: type = data[0] ('S'|'L'), roll = parseInt(data[1]) -->
-import { CANNON_PIPS } from '$lib/assets/icons/cannon-pips';
-// CANNON_PIPS['S3'] → icon-S3.svg component
+import {CANNON_PIPS} from '$lib/assets/icons/cannon-pips'; // CANNON_PIPS['S3'] → icon-S3.svg component
 // CANNON_PIPS['L4'] → icon-L4.svg component
 ```
 
@@ -370,12 +386,12 @@ import { CANNON_PIPS } from '$lib/assets/icons/cannon-pips';
 
 ## Sizing Reference
 
-| Context | Stat Icon Size | Cannon Pip Size | Pip Gap |
-|---------|---------------|-----------------|---------|
-| Card row (compact) | 16px | 14px | 2px |
-| Card row (default) | 18px | 16px | 2px |
-| Detail view (expanded) | 24px | 20px | 3px |
-| Build panel (compact) | 14px | 12px | 2px |
+| Context                | Stat Icon Size | Cannon Pip Size | Pip Gap |
+| ---------------------- | -------------- | --------------- | ------- |
+| Card row (compact)     | 16px           | 14px            | 2px     |
+| Card row (default)     | 18px           | 16px            | 2px     |
+| Detail view (expanded) | 24px           | 20px            | 3px     |
+| Build panel (compact)  | 14px           | 12px            | 2px     |
 
 ---
 

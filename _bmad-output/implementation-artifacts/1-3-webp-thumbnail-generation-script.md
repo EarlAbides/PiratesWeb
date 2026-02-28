@@ -58,27 +58,32 @@ So that the card browse view has lightweight, browser-cache-friendly thumbnail i
 **The 424 source JPGs are NOT yet in the repository.** They must be copied from the legacy project first.
 
 **Source location (local machine):**
+
 ```
 /Users/jearl/Projects/Legacy/Pirates!/Pirates!/Images/
 ```
 
 **Destination:**
+
 ```
 static/images/cards/
 ```
 
 **Copy command:**
+
 ```bash
 cp "/Users/jearl/Projects/Legacy/Pirates!/Pirates!/Images/"*.jpg static/images/cards/
 ```
 
 **Verify count:**
+
 ```bash
 ls static/images/cards/*.jpg | wc -l
 # Expected: 424
 ```
 
 The `.gitkeep` placeholder in `static/images/cards/` can be removed after the JPGs are copied:
+
 ```bash
 rm static/images/cards/.gitkeep
 ```
@@ -90,11 +95,13 @@ rm static/images/cards/.gitkeep
 **Architecture specifies `sharp` as the image processing library.** [Source: architecture.md#Development Workflow]
 
 **Install:**
+
 ```bash
 npm install -D sharp
 ```
 
 **Why sharp:**
+
 - Industry standard for Node.js image processing
 - Excellent WebP conversion quality and speed
 - Native bindings for performance
@@ -105,6 +112,7 @@ npm install -D sharp
 **CRITICAL: ES Module Syntax Required**
 
 `package.json` has `"type": "module"` — use `import`, NOT `require`:
+
 ```typescript
 // ✅ Correct
 import sharp from 'sharp';
@@ -118,6 +126,7 @@ const sharp = require('sharp');
 ### Implementation Approach
 
 **Core logic:**
+
 ```typescript
 import sharp from 'sharp';
 import { readdirSync, mkdirSync } from 'node:fs';
@@ -129,26 +138,27 @@ const THUMB_WIDTH = 200;
 
 mkdirSync(outputDir, { recursive: true });
 
-const jpgFiles = readdirSync(inputDir).filter(f => extname(f).toLowerCase() === '.jpg');
+const jpgFiles = readdirSync(inputDir).filter((f) => extname(f).toLowerCase() === '.jpg');
 
 let count = 0;
 for (const file of jpgFiles) {
-  const inputPath = join(inputDir, file);
-  const outputName = basename(file, extname(file)) + '.webp';
-  const outputPath = join(outputDir, outputName);
+	const inputPath = join(inputDir, file);
+	const outputName = basename(file, extname(file)) + '.webp';
+	const outputPath = join(outputDir, outputName);
 
-  await sharp(inputPath)
-    .resize({ width: THUMB_WIDTH })   // preserves aspect ratio by default
-    .webp({ quality: 80 })
-    .toFile(outputPath);
+	await sharp(inputPath)
+		.resize({ width: THUMB_WIDTH }) // preserves aspect ratio by default
+		.webp({ quality: 80 })
+		.toFile(outputPath);
 
-  count++;
+	count++;
 }
 
 console.log(`Generated ${count} WebP thumbnails in ${outputDir}`);
 ```
 
 **Key `sharp` options:**
+
 - `resize({ width: 200 })` — resize to 200px wide, preserving aspect ratio (no crop)
 - `.webp({ quality: 80 })` — 80% quality is a good balance for card thumbnails
 - No `height` constraint needed — let the aspect ratio determine the height
@@ -170,6 +180,7 @@ Thumbnail: static/images/thumbs/PPRV_016.webp
 ```
 
 This convention is critical because:
+
 - The card data's `imageFilename` field (e.g., `"PPSM_EC-001.jpg"`) is the reference
 - Components will derive thumbnail URL by replacing `.jpg` with `.webp` and prepending `/images/thumbs/`
 - `cardUtils.ts` (Story 1.4) will have a `thumbUrl(card)` helper using this convention
@@ -177,11 +188,12 @@ This convention is critical because:
 ### URL Mapping for Components (Story 1.4 context)
 
 The thumbnail URL pattern that Story 1.4's `cardUtils.ts` will implement:
+
 ```typescript
 // Future: src/lib/utils/cardUtils.ts
 function thumbUrl(card: Card): string {
-  const webpName = card.imageFilename.replace(/\.jpg$/i, '.webp');
-  return `/images/thumbs/${webpName}`;
+	const webpName = card.imageFilename.replace(/\.jpg$/i, '.webp');
+	return `/images/thumbs/${webpName}`;
 }
 ```
 
@@ -190,6 +202,7 @@ This story's thumbnails must conform to this convention.
 ### Image Naming Edge Cases
 
 From `static/data/cards.json` (produced by Story 1.2):
+
 - Standard PPSM format: `PPSM_EC-001.jpg`, `PPSM_GS-001.jpg`, `PPSM_SS-001.jpg`
 - PPCC numbered format: `PPCC_001.jpg`, `PPCC_046_2.jpg` (note: underscore in card number)
 - PPRV numbered format: `PPRV_001.jpg`, `PPRV_144.jpg`
@@ -241,12 +254,14 @@ package.json               ← ADD sharp to devDependencies
 - `scripts/.gitkeep` was removed in Story 1.2 — scripts/ directory already clean
 
 **Key architecture discrepancy documented in Story 1.2:**
+
 - Ship `crewSlots` appears in architecture.md but is absent from the source XML — Story 1.3 is unaffected (no card data processing in this story)
 - Fort `goldCost` is correctly in the JSON data — Story 1.3 is unaffected
 
 ### Git Intelligence Summary
 
 **Recent commits (last 5):**
+
 - `8a7e507` — Mark stories done (sprint-status.yaml updated)
 - `36ba090` — Story 1-2: XML-to-JSON card data conversion script (#2)
 - `f7589af` — Story 1-2: Create story file for XML-to-JSON card data conversion script
@@ -254,12 +269,14 @@ package.json               ← ADD sharp to devDependencies
 - `292f81e` — Add SVG icon spec for StatBar and CannonDisplay components
 
 **Current state of `static/images/`:**
+
 - `static/images/cards/` — exists, contains only `.gitkeep` (JPGs NOT yet copied)
 - `static/images/thumbs/` — exists, contains only `.gitkeep` (no WebPs yet)
 - `static/images/backgrounds/` — exists, contains `.gitkeep`
 - `static/images/flags/` — exists, contains `.gitkeep`
 
 **Current state of `scripts/`:**
+
 - `scripts/convert.ts` — exists (Story 1.2)
 - `scripts/.gitkeep` was deleted in Story 1.2
 

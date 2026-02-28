@@ -87,14 +87,14 @@ The core experience of PiratesWeb is **filtering and scanning cards in a browse 
 
 ### Emotional Journey Mapping
 
-| Stage | Emotion | Design Driver |
-|-------|---------|---------------|
-| **Discovery** (BGG link click) | Curiosity, low expectations | "Someone made a deck builder?" — skepticism is the baseline |
-| **First impression** (site loads) | Surprise, recognition | Card images load, set colors appear, layout is clean and polished — this is real |
-| **First interaction** (apply a filter) | Confidence, delight | Results appear instantly, cards are correct, the tool responds like it should |
-| **Deep browsing** (scanning rows) | Satisfaction, nostalgia | Familiar stat layouts, point costs prominent, flags and set colors orient scanning |
-| **Card detail** (expand/click) | Appreciation, discovery | Full card art, complete stats — seeing a card you remember rendered beautifully |
-| **Return visit** | Comfort, ownership | "My tool" — bookmarked, trusted, part of their Pirates CSG routine |
+| Stage                                  | Emotion                     | Design Driver                                                                      |
+| -------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------- |
+| **Discovery** (BGG link click)         | Curiosity, low expectations | "Someone made a deck builder?" — skepticism is the baseline                        |
+| **First impression** (site loads)      | Surprise, recognition       | Card images load, set colors appear, layout is clean and polished — this is real   |
+| **First interaction** (apply a filter) | Confidence, delight         | Results appear instantly, cards are correct, the tool responds like it should      |
+| **Deep browsing** (scanning rows)      | Satisfaction, nostalgia     | Familiar stat layouts, point costs prominent, flags and set colors orient scanning |
+| **Card detail** (expand/click)         | Appreciation, discovery     | Full card art, complete stats — seeing a card you remember rendered beautifully    |
+| **Return visit**                       | Comfort, ownership          | "My tool" — bookmarked, trusted, part of their Pirates CSG routine                 |
 
 ### Micro-Emotions
 
@@ -131,15 +131,18 @@ The core experience of PiratesWeb is **filtering and scanning cards in a browse 
 ### Transferable UX Patterns
 
 **Navigation Patterns:**
+
 - **Filter bar + results table** (Scryfall/BGG) — Filters visible and always accessible alongside results. Active filters clearly indicated with individual clear controls. Direct fit for card browse.
 - **Split-panel browse+build** (Archidekt/Moxfield) — Card browser and fleet build visible simultaneously. Essential for Phase 2 fleet builder.
 
 **Interaction Patterns:**
+
 - **Instant filter response** (Scryfall) — Results update with no perceptible delay as filters change. Critical for the "filter fast, scan faster" principle.
 - **View mode toggle** (Scryfall) — Switch between image-rich grid and data-dense list. Serves both Captain Rex (list scanner) and Trader Anne (image browser). Consider for future enhancement.
 - **Running totals always visible** (Archidekt) — Point total, card count, and limit indicators persistently displayed during fleet building. Never hidden behind a click.
 
 **Visual Patterns:**
+
 - **Card images as primary visual anchor** (Scryfall) — Even in list view, card thumbnails are present. The image is the recognition hook.
 - **Clean UI, content carries the theme** (Scryfall) — Modern, unthemed interface chrome. The cards themselves provide all the visual personality needed.
 - **Smooth virtual scroll over pagination** (Scryfall) — Continuous scrolling through large result sets maintains browsing flow.
@@ -155,15 +158,18 @@ The core experience of PiratesWeb is **filtering and scanning cards in a browse 
 ### Design Inspiration Strategy
 
 **What to Adopt:**
+
 - Scryfall's instant filtering and clean-chrome-with-rich-content approach — directly supports our "polished and impressive" emotional goal
 - Archidekt's split-panel browse+build layout — the right model for Phase 2 fleet builder
 - BGG-level information density — our audience expects and prefers data-rich interfaces
 
 **What to Adapt:**
+
 - Scryfall's view toggle (grid/list) — our primary view is the build-sheet-inspired table row, but a future card gallery mode could serve Trader Anne's browsing style
 - Archidekt's categorized build view — adapt for ship-centric hierarchy with nested crew rather than card type categories
 
 **What to Avoid:**
+
 - Any fantasy/pirate UI theming on the interface chrome — content carries the theme
 - Pagination in any form — use virtual scroll or progressive rendering
 - Stats hidden for aesthetics — information density is a feature, not a problem to solve
@@ -213,12 +219,14 @@ This is PiratesWeb's core loop: filter → scan → optionally expand. It's what
 ### User Mental Model
 
 **What users bring to this tool:**
+
 - **Physical card layout** — Point cost top-left, stats in a bar, ability text in a box, nationality via flag. 20 years of muscle memory.
 - **Legacy build sheet format** — Compact horizontal rows with set-colored backgrounds, thumbnails, inline stats. Users who used the original app will recognize this immediately.
 - **Spreadsheet-based lookup** — The community's current solution is a fan-made Excel spreadsheet with card data (broader set coverage but no images, no build-sheet presentation, no polish). Users already think in terms of filter columns and sort orders.
 - **Sort by points** — Veterans naturally think about cards in terms of cost. Default sort by point value matches how players evaluate cards for fleet building.
 
 **Mental model implications:**
+
 - The table is not a compromise — it's what users expect and prefer
 - Sorting and filtering are not advanced features — they're the baseline expectation from spreadsheet experience
 - Card images are the differentiator — the spreadsheet doesn't have them, and they're what triggers the emotional response
@@ -237,15 +245,17 @@ This is PiratesWeb's core loop: filter → scan → optionally expand. It's what
 
 **Pattern classification: Established patterns, game-native presentation.**
 
-No novel interaction patterns are needed. The core experience uses universally understood UX: filter bar, sortable table, expandable rows. The innovation is in the *content presentation* — rendering card data in the build-sheet format with set colors, nationality flags, and visual stat indicators rather than a generic data grid. The patterns are familiar; the personality is unique.
+No novel interaction patterns are needed. The core experience uses universally understood UX: filter bar, sortable table, expandable rows. The innovation is in the _content presentation_ — rendering card data in the build-sheet format with set colors, nationality flags, and visual stat indicators rather than a generic data grid. The patterns are familiar; the personality is unique.
 
 **Established patterns adopted:**
+
 - Filter bar with dropdown selectors and text search (Scryfall/BGG)
 - Sortable table columns with visual sort indicators (spreadsheet convention)
 - Expandable row or slide-out panel for detail view (common in data-dense UIs)
 - Virtual scroll for large result sets (Scryfall)
 
 **Game-native twist:**
+
 - Card rows styled after the legacy build sheet, not generic table rows
 - Point cost as the visually dominant element (larger, bolder than other stats)
 - Set color-coded row backgrounds as a scanning aid
@@ -255,12 +265,14 @@ No novel interaction patterns are needed. The core experience uses universally u
 ### Experience Mechanics
 
 **1. Initiation — Landing on the site:**
+
 - User arrives (likely from a BGG link) and sees the card browser immediately — no splash page, no onboarding
 - Filter bar is visible and self-evident at the top or side
 - Card rows are already populated (default: all cards, sorted by point cost descending)
 - The set-colored rows and card thumbnails immediately signal "this is a Pirates CSG tool"
 
 **2. Interaction — Filtering and scanning:**
+
 - User selects filters (set, type, nationality, rarity) from dropdowns or clicks filter chips
 - User optionally types in the text search field for name/ability search
 - Results update instantly in the table below
@@ -268,12 +280,14 @@ No novel interaction patterns are needed. The core experience uses universally u
 - User clicks a column header to re-sort (point cost, name, set, type, etc.)
 
 **3. Feedback — Confirmation of success:**
+
 - Result count updates immediately ("Showing 12 English Ships from Spanish Main")
 - Active filters are visibly indicated with clear/remove controls
 - Sort column and direction shown with arrow indicator
 - Card rows render with set-colored backgrounds and familiar stat layout — instant recognition
 
 **4. Completion — Finding what you need:**
+
 - For quick lookup: the card row answers the question (stats, point cost, ability). User is done.
 - For deeper exploration: user clicks/expands a row to see full card image, complete ability text, description/flavor text, and all modifiers
 - For fleet building (Phase 2): user adds the card to a build from the browse view or detail view
@@ -283,6 +297,7 @@ No novel interaction patterns are needed. The core experience uses universally u
 ### Color System
 
 **UI Chrome — Dark Neutral Theme:**
+
 - **Background:** Dark gray/near-black (e.g., `#1a1a2e` or `#0f0f1a`) — deep enough to let set-colored rows and card images pop
 - **Surface:** Slightly lighter dark gray (e.g., `#16213e` or `#1c1c2e`) — for cards, panels, filter bar backgrounds
 - **Border/Divider:** Subtle light-on-dark separators (e.g., `#2a2a3e` or low-opacity white)
@@ -291,6 +306,7 @@ No novel interaction patterns are needed. The core experience uses universally u
 - **Text on set backgrounds:** Will need per-set text color tuning — dark text on Tan (Spanish Main), light text on Red (Crimson Coast) and Blue (Revolution)
 
 **Set Background Colors (from original website assets):**
+
 - **Pirates of the Spanish Main:** Warm tan/parchment — textured canvas background (`TanBG.jpg`). Light enough for dark text.
 - **Pirates of the Crimson Coast:** Deep burgundy/crimson — rich dark textured background (`RedBG.jpg`). Dark enough to require light text.
 - **Pirates of the Revolution:** Royal blue — bold textured background (`BlueBG.jpg`). Dark enough to require light text.
@@ -298,19 +314,23 @@ No novel interaction patterns are needed. The core experience uses universally u
 These textured backgrounds are the actual set identity assets from the original Pirates CSG website. They should be used as card row backgrounds (tiled or stretched), preserving the authentic set-color association players recognize.
 
 **Accent/Interactive Colors:**
+
 - **Primary accent:** To be determined — a color that stands out against the dark chrome and doesn't clash with any of the three set backgrounds. Consider a teal/cyan or a gold/amber for interactive elements (buttons, links, active filter indicators).
 - **Success/Warning/Error:** Standard semantic colors (green/amber/red) for fleet builder validation feedback (Phase 2-3). Must maintain contrast against the dark theme.
 
 **Point Cost Highlight:**
+
 - Point values should use a visually prominent treatment — bold weight, slightly larger size, and potentially an accent color or high-contrast badge. This is the loudest element in every card row.
 
 ### Typography System
 
 **Typeface: Geometric sans-serif**
+
 - **Primary font:** Inter or Plus Jakarta Sans — clean, geometric, excellent readability at small sizes on screen. Both are free, widely supported, and available via Google Fonts or self-hosted.
 - **Monospace (stat values):** Consider a monospace or tabular-number font for stat columns (point cost, masts, cargo, move) so values align vertically across rows. Inter has tabular number support built in.
 
 **Type Scale:**
+
 - **App title/branding:** TBD (name not finalized)
 - **Section headers (h2):** 1.25rem / semibold — filter panel headers, "Fleet Builder" header
 - **Card name (in row):** 1rem / semibold — the primary readable element in each card row
@@ -322,6 +342,7 @@ These textured backgrounds are the actual set identity assets from the original 
 - **Result count / metadata:** 0.75rem / regular — small supporting text
 
 **Line Heights:**
+
 - Headings: 1.2–1.3
 - Body text / card rows: 1.4–1.5
 - Compact stat labels: 1.2
@@ -329,6 +350,7 @@ These textured backgrounds are the actual set identity assets from the original 
 ### Spacing & Layout Foundation
 
 **Spacing System:**
+
 - **Base unit:** 4px
 - **Spacing scale:** 4px / 8px / 12px / 16px / 24px / 32px / 48px / 64px
 - **Card row padding:** 12px vertical, 16px horizontal — moderate breathing room, enough to read comfortably without feeling wasteful
@@ -337,12 +359,14 @@ These textured backgrounds are the actual set identity assets from the original 
 - **Detail view padding:** 24px — generous spacing for the expanded card view where users are reading, not scanning
 
 **Layout Structure:**
+
 - **Desktop primary layout:** Sidebar filters (left) + scrollable card table (main area). Filter sidebar is collapsible.
 - **Card table:** Full width of main area, virtual scroll for large result sets
 - **Card row height:** ~60–72px — enough for thumbnail, name, stats on one line, and truncated ability text on a second line. Set background texture fills the full row.
 - **Detail panel:** Expands below the row or slides out from the right — shows full card image, complete text, description/flavor. Does not navigate away from the table.
 
 **Grid System:**
+
 - No formal column grid — the layout is a two-panel structure (sidebar + main) with internal component spacing governed by the spacing scale
 - Card row internals use a flexible horizontal layout: [point cost badge] [thumbnail] [name + stats] [ability text] — with consistent gaps
 
@@ -403,6 +427,7 @@ The `StatBar` and `CannonDisplay` components are among the most important visual
 ### Implementation Approach
 
 **Phase 1 Components:**
+
 - `FilterSidebar` — Left panel with filter dropdowns, text search, active filter indicators, result count
 - `CardTable` — Virtual-scrolled list of `CardRow` components
 - `CardRow` — Build-sheet-inspired row: [PointBadge] [Thumbnail] [NationalityFlag] [CardInfo: name + iconic stat bar + ability] [TypeBadge]. Set-colored textured background.
@@ -413,6 +438,7 @@ The `StatBar` and `CannonDisplay` components are among the most important visual
 - `NationalityFlag` — Compact flag icon badge
 
 **Phase 2 Additional Components:**
+
 - `BuildPanel` — Right panel with fleet hierarchy, point tracking, build summary
 - `BuildShipCard` — Ship entry in build panel with nested crew list
 - `BuildSummary` — Running totals: ship count, crew count, points used/remaining
@@ -466,6 +492,7 @@ flowchart TD
 ```
 
 **Key interaction details:**
+
 - **Initial state:** All cards loaded, sorted by point cost descending. No filters active. Result count shows total (e.g., "5,231 cards").
 - **Filter application:** Each filter change updates results instantly. Multiple filters combine (AND logic). Active filters shown with individual clear controls.
 - **Sort interaction:** Click any column header to sort. Click again to reverse. Current sort indicated with arrow. Default: point cost descending.
@@ -504,6 +531,7 @@ flowchart TD
 ```
 
 **Key interaction details:**
+
 - **Expansion animation:** Smooth slide-down, not instant. Subtle enough to feel polished, fast enough to not feel slow (~200ms).
 - **Card type adaptation:** Detail panel content adapts to card type. Ship cards show full iconic stat bar. Crew cards show crew-specific attributes. Treasure/Events show ability and description only. No empty stat fields for non-applicable types.
 - **Description text styling:** Italic, slightly muted, in a styled block with a left border accent. This is the flavor text from card backs — discovery content that rewards curiosity.
@@ -556,6 +584,7 @@ flowchart TD
 ```
 
 **Key interaction details:**
+
 - **Mode transition:** Switching to Build mode adds the right panel and slightly narrows the card table. Filter sidebar remains unchanged. The transition should feel smooth, not jarring.
 - **Add to fleet:** Primary method is a button/icon on each card row (visible only in build mode). Secondary method could be drag-and-drop for power users.
 - **Crew assignment:** When adding crew, the user must specify which ship. If only one ship in the fleet, auto-assign. If multiple ships, show a quick picker or allow drag to specific ship.
@@ -589,6 +618,7 @@ flowchart TD
 ```
 
 **Key interaction details:**
+
 - **Graceful degradation:** The rules engine should never block a user from saving a build. Violations are warnings, not gates.
 - **Clear violation feedback:** When a rule is violated, the affected card row in the build panel shows a warning icon. Clicking/hovering reveals the specific rule and which cards are involved.
 - **No false confidence:** The system should not display "Build is valid" if some rules are not yet implemented. Instead, show what was checked: "3 rules checked, all passed" rather than implying comprehensive validation.
@@ -597,17 +627,20 @@ flowchart TD
 ### Journey Patterns
 
 **Navigation Patterns:**
+
 - **Filter → Scan → Act** — The universal loop across all journeys. Filter narrows the set, scanning finds the target, action is context-dependent (expand for detail, add for building).
 - **Mode switching via tabs** — Browse mode (Phase 1 layout) and Build mode (Phase 2 three-panel) are distinct contexts. Tab navigation makes the switch explicit and reversible.
 - **Single-expansion accordion** — Only one card row expanded at a time in the table. Keeps the list scannable and prevents vertical sprawl.
 
 **Feedback Patterns:**
+
 - **Instant result counts** — Every filter change immediately shows how many cards match. Orientation and confidence in one number.
 - **Active filter indicators** — Every applied filter is visibly shown with individual clear controls. Users always know why they're seeing what they're seeing.
 - **Running point totals** — In build mode, the point total updates in real-time with color-coded budget status (green/amber/red).
 - **Sort state indication** — Current sort column and direction always visible via arrow indicator on the column header.
 
 **Error & Edge Case Patterns:**
+
 - **Warnings, not gates** — Rule violations and edge cases produce informational warnings, never block the user from proceeding.
 - **Transparent coverage** — The system communicates what it does and doesn't validate rather than implying comprehensive coverage.
 - **Graceful empty states** — Empty filter results show a clear "No cards match your filters" message with a suggestion to clear or adjust filters. Empty fleet shows an inviting "Add your first ship" prompt.
@@ -625,16 +658,16 @@ flowchart TD
 
 Components available from DaisyUI that will be themed to match PiratesWeb's dark UI:
 
-| Component | Usage | Customization |
-|-----------|-------|---------------|
-| **Select/Dropdown** | Filter sidebar selectors (set, type, nationality, rarity, tournament) | Dark theme, compact sizing |
-| **Input** | Text search field | Dark theme, search icon, rounded |
-| **Button** | Clear filters, save fleet, add to build, remove card | Dark theme, accent color variants |
-| **Tabs** | Browse/Build mode toggle | Accent underline style |
-| **Modal** | Save fleet dialog, load confirmation, delete confirmation | Dark overlay, centered |
-| **Tooltip** | Stat icon explanations, accessibility text labels | Dark style, small delay |
-| **Badge** | Rarity indicator, card type label, active filter chips | Set-colored and neutral variants |
-| **Collapse** | Potential assist for row expansion animation | Customized for inline card detail |
+| Component           | Usage                                                                 | Customization                     |
+| ------------------- | --------------------------------------------------------------------- | --------------------------------- |
+| **Select/Dropdown** | Filter sidebar selectors (set, type, nationality, rarity, tournament) | Dark theme, compact sizing        |
+| **Input**           | Text search field                                                     | Dark theme, search icon, rounded  |
+| **Button**          | Clear filters, save fleet, add to build, remove card                  | Dark theme, accent color variants |
+| **Tabs**            | Browse/Build mode toggle                                              | Accent underline style            |
+| **Modal**           | Save fleet dialog, load confirmation, delete confirmation             | Dark overlay, centered            |
+| **Tooltip**         | Stat icon explanations, accessibility text labels                     | Dark style, small delay           |
+| **Badge**           | Rarity indicator, card type label, active filter chips                | Set-colored and neutral variants  |
+| **Collapse**        | Potential assist for row expansion animation                          | Customized for inline card detail |
 
 ### Custom Components
 
@@ -643,12 +676,14 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 **Purpose:** The defining UI element — a build-sheet-inspired card row that renders a single card entry in the browse table.
 
 **Anatomy:**
+
 ```
 [PointBadge] [Thumbnail] [NationalityFlag] [CardName] [StatBar] [AbilityPreview] [TypeBadge]
 |_________________________ set-colored textured background _________________________|
 ```
 
 **Content:**
+
 - Point cost badge (left-most, visually dominant)
 - Card thumbnail image (48x36px approximate)
 - Nationality flag icon
@@ -658,12 +693,14 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 - Card type badge (Ship/Crew/Treasure/Fort/Event, muted)
 
 **States:**
+
 - Default — set-colored background (Spanish Main tan, Crimson Coast red, Revolution blue)
 - Hover — slight brightness increase on background
 - Active/expanded — accent border (cyan), bottom corners squared to connect with expansion panel
 - Focus — visible focus ring for keyboard navigation
 
 **Variants:**
+
 - Ship row — full stat bar with masts, cargo, move, cannons
 - Crew row — type label instead of ship stats, crew-specific info
 - Fort row — cannon display only
@@ -676,6 +713,7 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 **Purpose:** Inline detail panel that appears below a clicked CardRow, showing full card information.
 
 **Anatomy:**
+
 ```
 [Full Card Image]  |  [Card Identity: name, set, nationality, rarity]
                    |  [Iconic StatBar — full size]
@@ -685,16 +723,19 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 ```
 
 **Content:**
+
 - Left column: Full-size card image (~240px wide)
 - Right column: Complete card information — all attributes, untruncated
 - Description text styled as a quote block (italic, muted, left border accent)
 
 **States:**
+
 - Expanding — smooth slide-down animation (~200ms)
 - Collapsing — smooth slide-up animation (~150ms)
 - Only one expanded at a time across the entire table
 
 **Behavior:**
+
 - Clicking an expanded row collapses it
 - Clicking a different row collapses the current and expands the new one
 - Sorting or filter changes collapse any expanded row
@@ -707,12 +748,14 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 **Anatomy:** Rounded rectangle containing the numeric point value.
 
 **Styling:**
+
 - Size: ~40x40px in card rows, larger in detail view
 - Background: Semi-transparent dark overlay on set-colored row
 - Text: Bold, 18px in rows, larger in detail
 - Must be the first element the eye is drawn to in any card representation
 
 **Variants:**
+
 - Row size (compact)
 - Detail view size (larger)
 - Build panel size (medium)
@@ -722,21 +765,25 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 **Purpose:** Iconic stat display faithful to the physical Pirates CSG card layout. This is NOT a text display — it uses the game's original icon language.
 
 **Anatomy (Ship):**
+
 ```
 [MastIcon] {value}  [CargoIcon] {value}  [MoveIcon] {S/L value}  [CannonPip][CannonPip][CannonPip]...
 ```
 
 **Icons (from legacy assets, to be recreated as SVGs):**
+
 - **MastIcon** — Golden ship silhouette with masts (`Masts.gif` → SVG). Displayed alongside numeric mast count.
 - **CargoIcon** — Ship silhouette representing cargo hold (`Cargo.gif` → SVG). Displayed alongside numeric cargo capacity.
 - **MoveIcon** — Ship silhouette with motion indicators (`Movement.gif` → SVG). Displayed alongside S/L movement value.
 - **CannonIcon** — Golden cannon on wheels (`Cannon.gif` → SVG). Used as a label/header for the cannon pip sequence.
 
 **Sizing:**
+
 - Row stat bar: Icons at ~16-18px, values at 14px
 - Detail view: Icons at ~24px, values at 16px
 
 **Card type variants:**
+
 - Ship: Full stat bar (masts + cargo + move + cannon pips)
 - Crew: No stat bar — shows crew type/role text instead
 - Fort: Cannon pips only
@@ -749,12 +796,14 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 **Anatomy:** A horizontal sequence of individual cannon pips, one per cannon on the ship.
 
 **Cannon Pip Variants (12 total):**
+
 - **S1–S6 (Short Range):** White/light square background with 1-6 dots arranged in standard die-face pattern. Represents short-range cannons needing that roll to hit.
 - **L1–L6 (Long Range):** Red diamond background with 1-6 dots in white, arranged in standard die-face pattern. Represents long-range cannons needing that roll to hit.
 
 **Source Assets:** `icon-SD4.gif` (short, need 4), `icon-LD3.gif` (long, need 3). Full set of 12 variants to be recreated as SVGs from better source images.
 
 **Sizing:**
+
 - Row display: ~14-16px per pip with 2px gaps
 - Detail view: ~20-24px per pip with 3px gaps
 
@@ -767,6 +816,7 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 **Flags needed:** England, Spain, France, Pirate, and any other nationalities in the three sets (American, Barbary Corsair, etc. — to be confirmed from card data).
 
 **Styling:**
+
 - Size: ~24x16px in card rows, larger in detail view
 - Rounded corners (2px radius)
 - Recognizable at small size
@@ -778,6 +828,7 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 **Purpose:** Left panel containing all filter controls for the card browser.
 
 **Anatomy:**
+
 ```
 [Search Input — full width]
 ---
@@ -794,11 +845,13 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 ```
 
 **States:**
+
 - Default — all filters at "All" state
 - Filtered — active filter chips shown, result count updated
 - Collapsible — sidebar can be toggled closed on narrower screens
 
 **Behavior:**
+
 - Each filter change triggers instant result update
 - Multiple filters combine with AND logic
 - Active filters shown as removable chips below the dropdowns
@@ -809,6 +862,7 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 **Purpose:** Right panel showing the current fleet build with ship-centric hierarchy.
 
 **Anatomy:**
+
 ```
 [Fleet Name — editable input]
 [Point Display — "27 / 40 pts"]
@@ -825,6 +879,7 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 ```
 
 **States:**
+
 - Empty — inviting "Add your first ship" prompt
 - Building — ships and crew listed with running totals
 - Over budget — point total in red, warning indicator
@@ -835,12 +890,14 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 **Purpose:** Ship entry in the build panel showing the ship and its assigned crew.
 
 **Anatomy:**
+
 - Ship name + point cost
 - Compact stat summary (masts, cargo, move, cannon count)
 - Nested crew list with left border connector
 - Remove button (×)
 
 **Crew nesting:**
+
 - Crew entries indented below their ship
 - Left border line connects crew to ship
 - Each crew shows name + point cost + remove button
@@ -851,6 +908,7 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 **Build order aligned with phases:**
 
 **Phase 1 — Core Browse Components:**
+
 1. `StatBar` + `CannonDisplay` — The most important custom components. Must be pixel-perfect faithful to the game's icon language. SVG icon recreation is a prerequisite.
 2. `CardRow` — The defining UI element. Depends on StatBar, PointBadge, NationalityFlag.
 3. `CardRowExpanded` — Inline detail panel. Depends on CardRow being complete.
@@ -858,12 +916,10 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 5. `NationalityFlag` — Flag icon set. Can be parallel with other work.
 6. `FilterSidebar` — Assembled from DaisyUI selects + custom layout.
 
-**Phase 2 — Build Components:**
-7. `BuildPanel` — Fleet build container with point tracking.
-8. `BuildShipCard` — Ship entries with nested crew.
-9. Mode toggle tabs (DaisyUI tabs, themed).
+**Phase 2 — Build Components:** 7. `BuildPanel` — Fleet build container with point tracking. 8. `BuildShipCard` — Ship entries with nested crew. 9. Mode toggle tabs (DaisyUI tabs, themed).
 
 **SVG Icon Pipeline:**
+
 - Source: Better photographs of legacy icons (pending from Captain)
 - Process: Photograph → trace/recreate as clean SVGs → optimize for web
 - Output: 12 cannon pip SVGs (S1-S6, L1-L6) + 4 stat icons (mast, cargo, move, cannon) + nationality flag set
@@ -874,18 +930,21 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 ### Filtering & Search Patterns
 
 **Filter Application:**
+
 - Filters apply instantly on selection — no "Apply" button needed
 - Multiple filters combine with AND logic (e.g., "English" + "Ships" = English Ships only)
 - Each filter dropdown shows the current selection; "All" is the default state
 - Changing a filter preserves other active filters
 
 **Active Filter Display:**
+
 - Active filters rendered as chips below the filter dropdowns in the sidebar
 - Each chip shows the filter category and value (e.g., "Type: Ship")
 - Each chip has a × button to remove that individual filter
 - "Clear all" text button appears when any filter is active
 
 **Text Search:**
+
 - Single search input at the top of the filter sidebar
 - Searches across card name and ability text simultaneously
 - Search triggers on input (debounced ~150ms) — no submit button needed
@@ -893,11 +952,13 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 - Clearing the search input clears the search filter
 
 **Result Count:**
+
 - Always visible at the top of the card table: "Showing {filtered} of {total} cards"
 - Updates instantly with every filter/search change
 - When no filters active, shows total count only: "5,231 cards"
 
 **Sort Behavior:**
+
 - Click any sortable column header to sort by that column
 - First click: descending (highest first for numeric, Z-A for text)
 - Second click: ascending
@@ -909,18 +970,21 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 ### Feedback Patterns
 
 **Instant Visual Feedback:**
+
 - Filter changes → result count updates immediately, card list re-renders
 - Sort changes → arrow icon updates, list re-orders
 - Row click → row highlights with accent border, expansion animates open
 - Add to fleet → card appears in build panel, point total animates update
 
 **Point Budget Feedback (Phase 2):**
+
 - Running total always visible: "{used} / {limit} pts"
 - Remaining points shown below: "Remaining: {remaining} pts"
 - Color coding: green (under 75% budget), amber (75-100%), red (over budget)
 - Over-budget state does not block actions — it's informational, not gating
 
 **Validation Feedback (Phase 3):**
+
 - Rule violations shown as warning icons on affected cards in the build panel
 - Hover/click on warning icon reveals violation detail: which rule, which cards, what would fix it
 - Validation summary in build panel: "3 rules checked, 1 warning"
@@ -928,6 +992,7 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 - Violations are warnings, never gates — users can always save
 
 **Transition & Animation:**
+
 - Card row expansion: slide-down, ~200ms ease-out
 - Card row collapse: slide-up, ~150ms ease-in
 - Filter result updates: no animation, instant swap (speed > smoothness for the core loop)
@@ -937,24 +1002,28 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 ### Empty & Loading States
 
 **Empty Filter Results:**
+
 - Message: "No cards match your filters"
 - Subtext: "Try removing a filter or adjusting your search"
 - Show active filter chips so the user can see what's constraining results
 - No card rows rendered — clean empty state, not a "0 results" row
 
 **Empty Fleet (Phase 2):**
+
 - Build panel shows an inviting empty state
 - Message: "Add your first ship"
 - Subtext: "Browse cards and click + to add ships to your fleet"
 - Point total shows "0 / {limit} pts"
 
 **Image Loading:**
+
 - Card thumbnails in rows: show a subtle placeholder (set-colored, matching row background) until the image loads
 - Full card image in expanded detail: show a larger placeholder with a subtle loading indicator
 - Lazy load images — only render thumbnails for rows in the viewport (virtual scroll)
 - Once loaded, images are cached by the browser — repeat views are instant
 
 **Initial Page Load:**
+
 - Card data (JSON) loads at build time — no runtime fetch needed
 - Card table renders immediately with all data available
 - Card images lazy-load as the user scrolls
@@ -963,49 +1032,58 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 ### Button Hierarchy
 
 **Primary Action (accent color, filled):**
+
 - "Save Fleet" — the main fleet builder action
 - Used sparingly — only for the single most important action in a given context
 
 **Secondary Action (outlined, subtle):**
+
 - "Clear All Filters" — helpful but not the main action
 - "New Fleet" — starts a new build
 - "Load Fleet" — loads a saved build
 
 **Destructive Action (red/warning, requires confirmation):**
+
 - "Delete Fleet" — removes a saved fleet from local storage
 - Always confirms via modal before executing
 
 **Inline/Icon Actions (minimal chrome):**
+
 - × on filter chips — remove individual filter
 - × on build panel cards — remove ship/crew from fleet
-- + on card rows in build mode — add card to fleet
+- - on card rows in build mode — add card to fleet
 - Sort arrows on column headers
 
 **Ghost/Text Actions (text only, no button chrome):**
+
 - "Clear all" filters link
 - "Showing X of Y cards" is informational, not a button
 
 ### Navigation Patterns
 
 **Mode Switching:**
+
 - Tab bar at the top of the main content area: "Card Browser" | "Fleet Builder"
 - Active tab indicated with accent underline and text color
 - Switching modes preserves filter state — returning to browse mode shows the same filters
 - Build mode adds the right panel; browse mode removes it and expands the table to full width
 
 **Sidebar Behavior:**
+
 - Filter sidebar is always visible on desktop in both modes
 - Sidebar is collapsible via a toggle button (hamburger or collapse icon) for users who want maximum table width
 - Collapsed state remembered across the session (not persisted to local storage)
 - On narrower viewports, sidebar collapses by default
 
 **Card Table Scrolling:**
+
 - Virtual scroll for the card list — only visible rows are rendered in the DOM
 - Smooth scrolling behavior
 - Scroll position preserved when filters change (reset to top only if the result set changes significantly)
 - When a row expands, scroll to ensure the expanded content is visible
 
 **Keyboard Navigation:**
+
 - Tab key moves between filter controls, then to the card table
 - Arrow keys navigate between card rows in the table
 - Enter/Space expands/collapses the focused card row
@@ -1015,17 +1093,20 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 ### Data Persistence Patterns (Phase 2)
 
 **Local Storage Strategy:**
+
 - Fleet builds saved to browser local storage as JSON
 - Each fleet stored with: name, cards (ship + crew assignments), point limit, timestamp
 - No server-side persistence — all data is client-local
 - Storage key namespaced to avoid conflicts: `piratesweb-fleets`
 
 **Save/Load Flow:**
+
 - Save: User clicks "Save Fleet" → modal with fleet name input → confirm → saved to local storage → success feedback
 - Load: User clicks "Load Fleet" → dropdown/list of saved fleets → select → build panel populates (with confirmation if current build has unsaved changes)
 - Delete: User clicks delete icon on a saved fleet → confirmation modal → removed from local storage
 
 **Data Loss Prevention:**
+
 - If user switches from Build mode to Browse mode with an unsaved fleet, no warning needed (fleet state preserved in memory for the session)
 - If user starts a new fleet with an existing unsaved build, prompt: "Save current fleet before starting a new one?"
 - Browser refresh loses unsaved builds — this is acceptable for MVP. Consider auto-save in a future enhancement.
@@ -1039,6 +1120,7 @@ Components available from DaisyUI that will be themed to match PiratesWeb's dark
 PiratesWeb is designed for desktop browsers where the build-sheet card row layout, sidebar filters, and three-panel fleet builder can breathe. Tablet and mobile receive functional layouts that preserve core capabilities but adapt the information density to fit narrower screens.
 
 **Desktop (1024px+) — Primary Experience:**
+
 - Full two-panel layout: filter sidebar (240px) + card table (remaining width)
 - Card rows render the complete build-sheet format: point badge, thumbnail, flag, name, iconic stat bar, ability text, type badge
 - Inline card expansion with full image + complete details
@@ -1046,6 +1128,7 @@ PiratesWeb is designed for desktop browsers where the build-sheet card row layou
 - All features fully available
 
 **Tablet (768px–1023px) — Adapted Experience:**
+
 - Filter sidebar collapses to a slide-out drawer (triggered by a filter icon button)
 - Card table gets full viewport width when sidebar is collapsed
 - Card rows retain build-sheet format but with tighter spacing
@@ -1054,6 +1137,7 @@ PiratesWeb is designed for desktop browsers where the build-sheet card row layou
 - Touch targets enlarged to minimum 44x44px for all interactive elements
 
 **Mobile (320px–767px) — Simplified Experience:**
+
 - No sidebar — filters accessible via a full-screen filter overlay (triggered by filter button in a sticky top bar)
 - Card rows simplified: [PointBadge] [NationalityFlag] [CardName] [TypeBadge] — one line per card
 - Stat bar moves entirely into the expanded detail view — not shown inline on mobile rows
@@ -1065,16 +1149,17 @@ PiratesWeb is designed for desktop browsers where the build-sheet card row layou
 
 **Tailwind breakpoint configuration (desktop-first):**
 
-| Breakpoint | Width | Layout Behavior |
-|-----------|-------|-----------------|
-| `default` | 1024px+ | Full desktop layout — sidebar + table (+ build panel in Phase 2) |
-| `lg` max | 1023px | Sidebar becomes drawer, table full-width |
-| `md` max | 767px | Mobile layout — simplified rows, filter overlay, stacked detail |
-| `sm` max | 479px | Small mobile — further tightened spacing, smaller thumbnails |
+| Breakpoint | Width   | Layout Behavior                                                  |
+| ---------- | ------- | ---------------------------------------------------------------- |
+| `default`  | 1024px+ | Full desktop layout — sidebar + table (+ build panel in Phase 2) |
+| `lg` max   | 1023px  | Sidebar becomes drawer, table full-width                         |
+| `md` max   | 767px   | Mobile layout — simplified rows, filter overlay, stacked detail  |
+| `sm` max   | 479px   | Small mobile — further tightened spacing, smaller thumbnails     |
 
 **Implementation approach:** Desktop-first using Tailwind's responsive utilities. Base styles are the desktop layout; `max-lg:`, `max-md:`, and `max-sm:` prefixes apply overrides for smaller screens.
 
 **Key adaptation points:**
+
 - **1024px:** Sidebar transitions from persistent to drawer
 - **768px:** Card rows simplify, inline expansion switches to stacked layout, filter becomes overlay
 - **480px:** Additional spacing tightening for small phones
@@ -1086,6 +1171,7 @@ PiratesWeb is designed for desktop browsers where the build-sheet card row layou
 PiratesWeb is a free community tool with no legal compliance requirements. The goal is to follow standard accessibility good practices that benefit all users, not to achieve formal certification. The desktop-first, keyboard-navigable, high-contrast dark theme naturally supports many accessibility needs.
 
 **Color & Contrast:**
+
 - Off-white text (#e8e8e8) on dark background (#1a1a2e) — exceeds 4.5:1 contrast ratio
 - Text on set-colored row backgrounds tested per set:
   - Spanish Main (tan): Dark text (#1a1208) on tan — high contrast
@@ -1098,6 +1184,7 @@ PiratesWeb is a free community tool with no legal compliance requirements. The g
   - Cannon range: shape (square vs diamond) + color (white vs red) — dual encoding
 
 **Keyboard Navigation:**
+
 - Full keyboard navigation through filter controls, card table, and expanded details
 - Tab order: search → filter dropdowns → card table → expanded detail (when open)
 - Arrow keys for card row navigation within the table
@@ -1106,6 +1193,7 @@ PiratesWeb is a free community tool with no legal compliance requirements. The g
 - Visible focus indicators on all interactive elements (high-contrast focus ring against dark theme)
 
 **Screen Reader Support:**
+
 - Semantic HTML: `<table>` or ARIA grid roles for card table, `<nav>` for sidebar, `<main>` for content area
 - ARIA labels on icon-only elements (stat icons, cannon pips, nationality flags, sort arrows)
 - Stat bar icons include `aria-label` text equivalents: "4 masts, 6 cargo, move S+L, cannons: 2 short 4 long 2 short 3 long"
@@ -1113,6 +1201,7 @@ PiratesWeb is a free community tool with no legal compliance requirements. The g
 - Expanded card detail announced via `aria-expanded` on the triggering row
 
 **Assistive Technology Considerations:**
+
 - Stat bar icons are decorative with ARIA labels — screen readers get text descriptions, sighted users get iconic visuals
 - Cannon pips encode range via shape AND color (square/white = short, diamond/red = long) — not color alone
 - Point budget uses color AND numeric value — accessible to colorblind users
@@ -1121,12 +1210,14 @@ PiratesWeb is a free community tool with no legal compliance requirements. The g
 ### Testing Strategy
 
 **Responsive Testing (pragmatic for solo developer):**
+
 - Chrome DevTools device emulation for primary breakpoint testing
 - Physical testing on at least one iOS and one Android device
 - Browser testing: Chrome + Firefox (primary), Safari + Edge (secondary)
 - Focus on desktop experience quality; tablet/mobile tested for basic functionality
 
 **Accessibility Testing (lightweight):**
+
 - Browser dev tools accessibility audit (Chrome Lighthouse)
 - Manual keyboard-only navigation test: can all features be reached without a mouse?
 - Color contrast check with browser dev tools on all text/background combinations
@@ -1134,6 +1225,7 @@ PiratesWeb is a free community tool with no legal compliance requirements. The g
 - No formal screen reader testing with NVDA/JAWS (Windows) — out of scope for solo dev
 
 **Not in scope:**
+
 - Formal WCAG audit or certification
 - Cross-platform assistive technology matrix testing
 - Automated accessibility CI pipeline
@@ -1142,6 +1234,7 @@ PiratesWeb is a free community tool with no legal compliance requirements. The g
 ### Implementation Guidelines
 
 **Responsive Development:**
+
 - Use Tailwind responsive utilities with desktop-first approach (`max-lg:`, `max-md:` prefixes)
 - Card row component accepts a `compact` prop for mobile variant rendering
 - Filter sidebar and build panel implement a `drawer` mode for tablet/mobile
@@ -1149,6 +1242,7 @@ PiratesWeb is a free community tool with no legal compliance requirements. The g
 - Test virtual scroll behavior on mobile (touch scrolling performance)
 
 **Accessibility Development:**
+
 - Use semantic HTML elements as the foundation (`<table>`, `<nav>`, `<main>`, `<button>`)
 - Add `aria-label` to all icon-only interactive elements and stat bar icons
 - Implement `aria-expanded` on expandable card rows

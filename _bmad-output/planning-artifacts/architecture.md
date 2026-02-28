@@ -27,6 +27,7 @@ _This document builds collaboratively through step-by-step discovery. Sections a
 39 requirements across 5 categories and 3 delivery phases. Phase 1 (Card Browser MVP) covers card browsing, filtering, text search, card detail view, and the XML-to-JSON data pipeline. Phase 2 adds the ship-centric fleet builder with local storage persistence. Phase 3 adds the rules enforcement engine with graceful handling of unimplemented rules. The phased structure means each phase must stand alone as a coherent user experience.
 
 **Non-Functional Requirements:**
+
 - Perceived-instant filter response for in-memory queries over 5000+ records
 - Progressive image loading (lazy thumbnails, full images on demand, browser caching)
 - Static site deployment — zero infrastructure cost, zero runtime dependencies
@@ -50,7 +51,7 @@ _This document builds collaboratively through step-by-step discovery. Sections a
 - **SvelteKit + adapter-static** — Already decided. SSR must be disabled; all data available at build time. No server-side rendering in production.
 - **Tailwind CSS + DaisyUI** — Already decided in UX spec. Design system foundation.
 - **Legacy XML source data** — PiratesCards.xml (437 KB, ~5000+ entries) is the sole card data source. XSD schema (CardData.xsd) documents the data model. Conversion must be lossless and produce a well-typed JSON schema.
-- **424 JPGs organized by set prefix** — Filename convention (PPSM_*, PPCC_*, PPRV_*) is the image-to-card mapping mechanism. No renaming or restructuring of images assumed.
+- **424 JPGs organized by set prefix** — Filename convention (PPSM*\*, PPCC*_, PPRV\__) is the image-to-card mapping mechanism. No renaming or restructuring of images assumed.
 - **No backend, no runtime API** — All data at build time. No server to query.
 - **Browser localStorage** — Only client-side persistence mechanism available.
 
@@ -124,6 +125,7 @@ Runes-based reactivity (`$state`, `$derived`, `$effect`) replaces Svelte 4's `le
 ### Decision Priority Analysis
 
 **Critical Decisions (Block Implementation):**
+
 - JSON schema design (single cards.json)
 - XML-to-JSON conversion approach (pre-committed)
 - Image optimization strategy (pre-generated WebP thumbnails)
@@ -131,10 +133,12 @@ Runes-based reactivity (`$state`, `$derived`, `$effect`) replaces Svelte 4's `le
 - Rules engine extensibility contract (validation function array)
 
 **Important Decisions (Shape Architecture):**
+
 - Card detail UX pattern (inline expansion, per UX spec)
 - Hosting platform (GitHub Pages, with re-hosting available if needed)
 
 **Deferred Decisions (Post-MVP):**
+
 - CDN/image performance optimization (revisit if needed after GitHub Pages)
 - Mobile-optimized layout
 - Shareable fleet links
@@ -142,16 +146,19 @@ Runes-based reactivity (`$state`, `$derived`, `$effect`) replaces Svelte 4's `le
 ### Data Architecture
 
 **JSON Schema — Single File**
+
 - Decision: All card data in a single `static/data/cards.json`
 - Rationale: ~150KB gzipped is trivial to load upfront. In-memory filtering stays fully synchronous — no async loading states, no fetch coordination, no edge cases when combining filters across sets. Loaded once, cached by the browser indefinitely.
 - Provided by starter: No — custom implementation required
 
 **XML-to-JSON Conversion — Pre-committed Output**
+
 - Decision: Convert once via `scripts/convert.ts`, commit `static/data/cards.json` to the repository. Re-run the script only if source data changes.
 - Rationale: The source XML (PiratesCards.xml) is stable — the game is out of print and no new sets are forthcoming. Committing the output makes it a first-class reviewable artifact, eliminates build-time conversion complexity, and ensures the exact data served is always visible in version history. The conversion script lives in `scripts/` for re-runs and documentation.
 - Provided by starter: No — custom Node.js/TypeScript script required
 
 **Image Optimization — Pre-generated WebP Thumbnails**
+
 - Decision: Generate WebP thumbnails once via `scripts/generate-thumbnails.ts`, commit to `static/images/thumbs/`. Original JPGs in `static/images/` serve as full-size detail view assets.
 - Rationale: Same stability reasoning as JSON conversion — 424 card images are a fixed, immutable set. Pre-generating and committing gives zero build complexity, optimal browser caching (committed files get stable URLs), and ~30-50% size reduction over original JPGs for the browse thumbnail case. WebP with ~200px width is appropriate for card row thumbnails.
 - Provided by starter: No — custom image processing script required (sharp)
@@ -167,6 +174,7 @@ Not applicable. All data is bundled at build time. There are no runtime API call
 ### Frontend Architecture
 
 **State Management — Svelte 5 Runes Only**
+
 - Decision: Use Svelte 5 runes (`$state`, `$derived`, `$effect`) exclusively. Global state lives in reactive `.svelte.ts` modules under `src/lib/state/`. No Svelte 4-style `writable`/`readable` stores.
 - Rationale: Runes are the idiomatic Svelte 5 approach. Reactive `.svelte.ts` modules can be imported across components and behave exactly like local rune state. Mixing store and rune paradigms adds cognitive overhead with no benefit. Key state modules: `filterState.svelte.ts`, `cardData.svelte.ts`, `fleetState.svelte.ts` (Phase 2).
 - Provided by starter: Partial — Svelte 5 runes are built-in; module organization is custom
@@ -176,11 +184,13 @@ Not applicable. All data is bundled at build time. There are no runtime API call
   - Do NOT use: `import { cards, cardById } from '$lib/state/cardData.svelte'` (module-level rune exports are not supported)
 
 **Card Detail Pattern — Inline Expansion**
+
 - Decision: Clicking a card row expands an inline detail panel below the row. No route change, no modal, no page navigation. Only one row expanded at a time.
 - Rationale: Confirmed per UX spec Direction A+F. Keeps users in browsing flow, makes the full table width available in Phase 1, and is consistent with the filter-scan-expand mental model the UX spec establishes.
 - Provided by starter: No — custom component behavior
 
 **Routing Structure**
+
 - Phase 1: Single route (`/`) for card browser. No card detail routes.
 - Phase 2: Add `/fleet` or tab-based mode toggle within the same layout.
 - Phase 3: No new routes anticipated.
@@ -189,17 +199,20 @@ Not applicable. All data is bundled at build time. There are no runtime API call
 ### Infrastructure & Deployment
 
 **Hosting — GitHub Pages**
+
 - Decision: Deploy to GitHub Pages via GitHub Actions on push to `main`.
 - Rationale: Zero friction to set up, free, direct Git integration. If card image performance becomes a bottleneck (large asset CDN latency), migration to Cloudflare Pages is straightforward — same static build output, no code changes required.
 - SvelteKit adapter-static outputs to `/build`; GitHub Pages serves from `/build` or configured root.
 
 **CI/CD — GitHub Actions**
+
 - Decision: Simple GitHub Actions workflow on push to `main`: install → build → deploy to GitHub Pages.
 - No staging environment needed — solo developer, passion project.
 
 ### Decision Impact Analysis
 
 **Implementation Sequence:**
+
 1. Project init (`npx sv create`) + DaisyUI setup
 2. XML-to-JSON conversion script → commit `cards.json`
 3. Image thumbnail generation script → commit thumbnails
@@ -213,6 +226,7 @@ Not applicable. All data is bundled at build time. There are no runtime API call
 11. (Phase 3) Rules engine implementation
 
 **Cross-Component Dependencies:**
+
 - `cards.json` schema → TypeScript card types → all components
 - Card types → filterState logic → FilterSidebar + CardTable
 - CardRow component → reused in both CardTable (Phase 1) and BuildPanel (Phase 2)
@@ -228,6 +242,7 @@ Not applicable. All data is bundled at build time. There are no runtime API call
 ### Naming Patterns
 
 **File & Directory Naming:**
+
 - Svelte components: PascalCase `.svelte` — `CardRow.svelte`, `FilterSidebar.svelte`
 - Rune state modules: camelCase `.svelte.ts` — `filterState.svelte.ts`, `cardData.svelte.ts`
 - TypeScript type files: camelCase `.ts` — `cardTypes.ts`, `fleetTypes.ts`
@@ -237,6 +252,7 @@ Not applicable. All data is bundled at build time. There are no runtime API call
 - Thumbnail images: match source filename convention with new extension — `PPSM_EC-001.webp`
 
 **TypeScript Naming Conventions:**
+
 - Interfaces / Types: PascalCase — `Card`, `ShipCard`, `FilterState`, `Fleet`
 - Enums: PascalCase — `CardType`, `Nationality`, `CardSet`, `Rarity`
 - Functions: camelCase — `filterCards()`, `loadCardData()`
@@ -249,23 +265,24 @@ Not applicable. All data is bundled at build time. There are no runtime API call
 
 ```json
 {
-  "cardId": "5758",
-  "cardSet": "PPSM",
-  "cardNumber": "EC-001",
-  "name": "Admiral Morgan",
-  "type": "Crew",
-  "rarity": "Rare",
-  "nationality": "English",
-  "pointValue": 5,
-  "imageFilename": "PPSM_EC-001.jpg",
-  "ability": "...",
-  "description": "...",
-  "modifiers": {},
-  "details": {}
+	"cardId": "5758",
+	"cardSet": "PPSM",
+	"cardNumber": "EC-001",
+	"name": "Admiral Morgan",
+	"type": "Crew",
+	"rarity": "Rare",
+	"nationality": "English",
+	"pointValue": 5,
+	"imageFilename": "PPSM_EC-001.jpg",
+	"ability": "...",
+	"description": "...",
+	"modifiers": {},
+	"details": {}
 }
 ```
 
 **Type-specific fields nested under `details`:**
+
 ```json
 // Ship
 "details": { "masts": 4, "cargo": 6, "baseMove": "S+L", "cannons": ["3S","3S","3L","3L"], "crewSlots": 4 }
@@ -280,12 +297,14 @@ Not applicable. All data is bundled at build time. There are no runtime API call
 ### Structure Patterns
 
 **Test Location: Co-located with source files**
+
 ```
 src/lib/utils/filterUtils.ts
 src/lib/utils/filterUtils.test.ts
 ```
 
 **Component Organization: By domain role**
+
 ```
 src/lib/components/
   cards/        ← CardRow, CardRowExpanded, StatBar, CannonDisplay, PointBadge, NationalityFlag
@@ -295,6 +314,7 @@ src/lib/components/
 ```
 
 **State Module Organization:**
+
 ```
 src/lib/state/
   cardData.svelte.ts      ← loaded card array, derived lookups by ID
@@ -305,9 +325,13 @@ src/lib/state/
 ### Component Patterns (Svelte 5)
 
 **Props: Always typed via `$props()` with explicit TypeScript interface**
+
 ```typescript
 // ✅ Correct
-interface Props { card: Card; isExpanded?: boolean; }
+interface Props {
+	card: Card;
+	isExpanded?: boolean;
+}
 let { card, isExpanded = false }: Props = $props();
 
 // ❌ Wrong — untyped, no defaults declared
@@ -315,15 +339,19 @@ let { card, isExpanded } = $props();
 ```
 
 **Callbacks over Svelte events (Svelte 5 pattern):**
+
 ```typescript
 // ✅ Correct — callback prop
-interface Props { onexpand: (cardId: string) => void; }
+interface Props {
+	onexpand: (cardId: string) => void;
+}
 
 // ❌ Wrong — Svelte 4 pattern, do not use
 import { createEventDispatcher } from 'svelte';
 ```
 
 **State access: Components import from state modules directly — no prop-drilling global state more than one level:**
+
 ```typescript
 // ✅ Correct
 import { filterState } from '$lib/state/filterState.svelte';
@@ -332,28 +360,32 @@ import { filterState } from '$lib/state/filterState.svelte';
 ```
 
 **Data loading: Always in SvelteKit `+page.ts` `load()` functions — never fetch inside components:**
+
 ```typescript
 // ✅ Correct — src/routes/+page.ts
 export async function load(): Promise<{ cards: Card[] }> {
-  const res = await fetch('/data/cards.json');
-  return { cards: await res.json() };
+	const res = await fetch('/data/cards.json');
+	return { cards: await res.json() };
 }
 ```
 
 ### Styling Patterns
 
 **Tool selection hierarchy — use the lowest-level tool that solves the problem:**
+
 1. **Tailwind utilities first** — spacing, color, typography, layout, responsive breakpoints
 2. **DaisyUI components second** — buttons, dropdowns, modals, badges, tooltips (standard UI elements)
 3. **Custom CSS only** — game-native elements with no standard equivalent (set-colored row backgrounds using texture images, cannon pip circles, stat bar icon layout)
 
 **Set background colors: Always via design token classes, never hardcoded hex or inline styles:**
+
 ```html
 <!-- ✅ Correct -->
 <tr class="bg-set-spanish-main text-set-spanish-main-text">
+	<!-- ❌ Wrong -->
+</tr>
 
-<!-- ❌ Wrong -->
-<tr style="background-color: #c4a882">
+<tr style="background-color: #c4a882"></tr>
 ```
 
 **No `style=` attributes** except for genuinely dynamic computed values (e.g., a JS-calculated pixel width). All static visual properties belong in Tailwind/CSS classes.
@@ -361,14 +393,16 @@ export async function load(): Promise<{ cards: Card[] }> {
 ### Error Handling Patterns
 
 **Missing card images: Render a placeholder, never a broken image icon:**
+
 ```svelte
 <img src={thumbUrl} alt={card.name} onerror={() => handleImageError(card.cardId)} />
 ```
 
 **Empty filter results: Display an empty state message — never an error, never a spinner:**
+
 ```svelte
 {#if filteredCards.length === 0}
-  <p class="empty-state">No cards match your current filters.</p>
+	<p class="empty-state">No cards match your current filters.</p>
 {/if}
 ```
 
@@ -377,6 +411,7 @@ export async function load(): Promise<{ cards: Card[] }> {
 ### Enforcement Guidelines
 
 **All AI agents MUST:**
+
 - Use camelCase for all JSON card schema fields (never PascalCase from the source XML)
 - Use `$props()` with explicit TypeScript interfaces for all Svelte 5 components
 - Use callback props (not `createEventDispatcher`) for component events
@@ -388,6 +423,7 @@ export async function load(): Promise<{ cards: Card[] }> {
 - Load card data in `+page.ts` `load()` functions, never inside components
 
 **Anti-Patterns to Avoid:**
+
 - PascalCase JSON field names (XML convention does not carry over)
 - Svelte 4 `createEventDispatcher` — this project uses Svelte 5 callback props
 - Svelte 4 `writable`/`readable` stores — use runes in `.svelte.ts` modules
@@ -501,12 +537,14 @@ pirates-web/
 ### Architectural Boundaries
 
 **Data Boundaries:**
+
 - `reference/PiratesCards.xml` → (scripts/convert.ts, one-time) → `static/data/cards.json`
 - `static/data/cards.json` → (SvelteKit load()) → `cardData.svelte.ts` → all components
 - `src/lib/state/fleetState.svelte.ts` ↔ `localStorage` (Phase 2, serialize/deserialize on change)
 - Components NEVER import from `reference/` or call `fetch()` directly for card data
 
 **Component Boundaries:**
+
 - `+page.svelte` owns the top-level layout; imports `FilterSidebar` and `CardTable`
 - `CardTable` owns the list; imports `CardRow`; handles virtual scroll logic
 - `CardRow` is a pure display component; emits `onexpand` callback; never touches state directly
@@ -515,12 +553,13 @@ pirates-web/
 - `StatBar` and `CannonDisplay` are purely presentational — no state, no side effects
 
 **Rules Engine Boundary (Phase 2 stub → Phase 3 implementation):**
+
 ```typescript
 // src/lib/utils/rulesEngine.ts
 export type ValidationRule = (fleet: Fleet) => ValidationResult[];
 export const rules: ValidationRule[] = []; // Phase 2: empty — no rules enforced
 export function validateFleet(fleet: Fleet): ValidationResult[] {
-  return rules.flatMap(rule => rule(fleet));
+	return rules.flatMap((rule) => rule(fleet));
 }
 // Phase 3: push rule functions into the `rules` array — no other files change
 ```
@@ -569,6 +608,7 @@ Runtime (Phase 2 additions):
 ### Development Workflow
 
 **One-time setup:**
+
 ```bash
 npx sv create pirates-web --template minimal --types ts \
   --add tailwindcss eslint prettier vitest playwright \
@@ -614,16 +654,36 @@ Card type narrowing pattern established here for agent consistency:
 type CardType = 'Ship' | 'Crew' | 'Treasure' | 'Fort' | 'Event';
 
 interface BaseCard {
-  cardId: string; cardSet: CardSet; cardNumber: string; name: string;
-  type: CardType; rarity: string; nationality: string;
-  pointValue: number; // Note: tournamentStatus excluded — field is always 'Active' in source data
-  imageFilename: string; ability: string; description: string;
+	cardId: string;
+	cardSet: CardSet;
+	cardNumber: string;
+	name: string;
+	type: CardType;
+	rarity: string;
+	nationality: string;
+	pointValue: number; // Note: tournamentStatus excluded — field is always 'Active' in source data
+	imageFilename: string;
+	ability: string;
+	description: string;
 }
-interface ShipCard extends BaseCard { type: 'Ship'; details: ShipDetails; }
-interface CrewCard extends BaseCard { type: 'Crew'; details: CrewDetails; }
-interface TreasureCard extends BaseCard { type: 'Treasure'; }
-interface FortCard extends BaseCard { type: 'Fort'; details: FortDetails; }
-interface EventCard extends BaseCard { type: 'Event'; }
+interface ShipCard extends BaseCard {
+	type: 'Ship';
+	details: ShipDetails;
+}
+interface CrewCard extends BaseCard {
+	type: 'Crew';
+	details: CrewDetails;
+}
+interface TreasureCard extends BaseCard {
+	type: 'Treasure';
+}
+interface FortCard extends BaseCard {
+	type: 'Fort';
+	details: FortDetails;
+}
+interface EventCard extends BaseCard {
+	type: 'Event';
+}
 type Card = ShipCard | CrewCard | TreasureCard | FortCard | EventCard;
 ```
 
@@ -632,12 +692,14 @@ Narrowing: `if (card.type === 'Ship') { card.details.masts ... }` — no casting
 ### Architecture Completeness Checklist
 
 **✅ Requirements Analysis**
+
 - [x] Project context thoroughly analyzed
 - [x] Scale and complexity assessed
 - [x] Technical constraints identified
 - [x] Cross-cutting concerns mapped
 
 **✅ Architectural Decisions**
+
 - [x] Critical decisions documented with versions
 - [x] Technology stack fully specified
 - [x] Deployment strategy defined
@@ -645,6 +707,7 @@ Narrowing: `if (card.type === 'Ship') { card.details.masts ... }` — no casting
 - [x] Phase extensibility (rules engine) specified
 
 **✅ Implementation Patterns**
+
 - [x] Naming conventions established (files, types, JSON fields)
 - [x] Component patterns specified (Svelte 5 runes, callback props)
 - [x] Structure patterns defined (co-located tests, domain-role components)
@@ -653,6 +716,7 @@ Narrowing: `if (card.type === 'Ship') { card.details.masts ... }` — no casting
 - [x] Anti-patterns explicitly documented
 
 **✅ Project Structure**
+
 - [x] Complete directory structure defined (every file named)
 - [x] Component boundaries established
 - [x] Data flow fully traced
@@ -666,6 +730,7 @@ Narrowing: `if (card.type === 'Ship') { card.details.masts ... }` — no casting
 **Confidence Level:** High — all critical decisions made, all requirements covered, no ambiguous implementation paths remain.
 
 **Key Strengths:**
+
 - Pre-committed data artifacts eliminate build complexity entirely
 - Svelte 5 runes-only approach prevents paradigm mixing across agents
 - Rules engine stub is defined before it's needed — Phase 3 adds zero refactoring
@@ -673,6 +738,7 @@ Narrowing: `if (card.type === 'Ship') { card.details.masts ... }` — no casting
 - Anti-patterns explicitly documented prevent the most common Svelte 4→5 mistakes
 
 **Areas for Future Enhancement:**
+
 - Virtual scroll (add @tanstack/svelte-virtual if DOM performance warrants it)
 - CDN migration (Cloudflare Pages if GitHub Pages image CDN is too slow)
 - Mobile-optimized layout (deferred, no phase assigned)
@@ -681,6 +747,7 @@ Narrowing: `if (card.type === 'Ship') { card.details.masts ... }` — no casting
 ### Implementation Handoff
 
 **AI Agent Guidelines:**
+
 - Follow all architectural decisions exactly as documented
 - Use implementation patterns consistently — refer to anti-patterns list
 - Respect file structure: every new file belongs in the defined location
@@ -689,10 +756,12 @@ Narrowing: `if (card.type === 'Ship') { card.details.masts ... }` — no casting
 - Load card data in +page.ts load() — never fetch inside components
 
 **First Implementation Priority:**
+
 ```bash
 npx sv create pirates-web --template minimal --types ts \
   --add tailwindcss eslint prettier vitest playwright \
   --add sveltekit-adapter="adapter:static"
 npm install -D daisyui@latest sharp
 ```
+
 Then: XML-to-JSON conversion script → thumbnail generation script → TypeScript types → state modules → UI components.

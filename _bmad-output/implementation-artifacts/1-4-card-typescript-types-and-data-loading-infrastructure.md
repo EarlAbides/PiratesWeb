@@ -111,30 +111,33 @@ so that all UI components in subsequent epics have a type-safe, reactive, global
 The architecture document (`architecture.md#Gap Analysis`) documented a minor gap regarding `crewSlots`. **Story 1.3 confirmed: `crewSlots` is absent from the actual `static/data/cards.json`** — it does not exist in the source XML. Do NOT include `crewSlots` in `ShipDetails`.
 
 **Actual `ShipDetails` from inspecting `static/data/cards.json`:**
+
 ```typescript
 interface ShipDetails {
-  masts: number;
-  cargo: number;
-  baseMove: string;      // e.g., "L", "S+L", "S+S+L"
-  cannons: string[];     // e.g., ["3S", "3L", "3S"] — no crewSlots
+	masts: number;
+	cargo: number;
+	baseMove: string; // e.g., "L", "S+L", "S+S+L"
+	cannons: string[]; // e.g., ["3S", "3L", "3S"] — no crewSlots
 }
 ```
 
 **Actual `FortDetails` from JSON (architecture only mentioned `cannons`):**
+
 ```typescript
 interface FortDetails {
-  cannons: string[];     // e.g., ["3L","3L","3L","3L"]
-  goldCost: number;      // e.g., 3 — present in actual data!
+	cannons: string[]; // e.g., ["3L","3L","3L","3L"]
+	goldCost: number; // e.g., 3 — present in actual data!
 }
 ```
 
 **Actual `CrewDetails`:**
+
 ```typescript
 interface CrewDetails {
-  buildBonus: number;
-  costReduction: number;
-  cargoBonus: number;
-  limitCards: string[];  // array of cardId strings (e.g., ["7909"]) — can be empty
+	buildBonus: number;
+	costReduction: number;
+	cargoBonus: number;
+	limitCards: string[]; // array of cardId strings (e.g., ["7909"]) — can be empty
 }
 ```
 
@@ -142,13 +145,13 @@ interface CrewDetails {
 
 ### Actual Card Data Facts (from `static/data/cards.json`)
 
-| Property | Values |
-|---|---|
-| Total cards | 550 |
-| `type` | `'Ship' \| 'Crew' \| 'Treasure' \| 'Fort' \| 'Event'` |
-| `cardSet` | `'PPSM' \| 'PPCC' \| 'PPRV' \| 'PPSMU'` |
-| `rarity` | `'Common' \| 'Uncommon' \| 'Rare' \| 'Super Rare' \| 'Limited Edition' \| 'Common Treasure' \| 'Treasure' \| 'Super Rare Treasure'` |
-| `nationality` | `'English' \| 'Spanish' \| 'Pirates' \| 'French' \| 'American' \| 'Barbary'` |
+| Property      | Values                                                                                                                              |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Total cards   | 550                                                                                                                                 |
+| `type`        | `'Ship' \| 'Crew' \| 'Treasure' \| 'Fort' \| 'Event'`                                                                               |
+| `cardSet`     | `'PPSM' \| 'PPCC' \| 'PPRV' \| 'PPSMU'`                                                                                             |
+| `rarity`      | `'Common' \| 'Uncommon' \| 'Rare' \| 'Super Rare' \| 'Limited Edition' \| 'Common Treasure' \| 'Treasure' \| 'Super Rare Treasure'` |
+| `nationality` | `'English' \| 'Spanish' \| 'Pirates' \| 'French' \| 'American' \| 'Barbary'`                                                        |
 
 **Important:** `PPSMU` (Pirates of the Spanish Main Unlimited) exists in the data as a 4th set — not mentioned in the architecture. Include it in the `CardSet` union type.
 
@@ -164,75 +167,75 @@ export type CardSet = 'PPSM' | 'PPCC' | 'PPRV' | 'PPSMU';
 export type CardType = 'Ship' | 'Crew' | 'Treasure' | 'Fort' | 'Event';
 
 export type Rarity =
-  | 'Common'
-  | 'Uncommon'
-  | 'Rare'
-  | 'Super Rare'
-  | 'Limited Edition'
-  | 'Common Treasure'
-  | 'Treasure'
-  | 'Super Rare Treasure';
+	| 'Common'
+	| 'Uncommon'
+	| 'Rare'
+	| 'Super Rare'
+	| 'Limited Edition'
+	| 'Common Treasure'
+	| 'Treasure'
+	| 'Super Rare Treasure';
 
 export type Nationality = 'English' | 'Spanish' | 'Pirates' | 'French' | 'American' | 'Barbary';
 
 export interface ShipDetails {
-  masts: number;
-  cargo: number;
-  baseMove: string;
-  cannons: string[];
-  // NOTE: crewSlots intentionally omitted — absent from source XML and cards.json
+	masts: number;
+	cargo: number;
+	baseMove: string;
+	cannons: string[];
+	// NOTE: crewSlots intentionally omitted — absent from source XML and cards.json
 }
 
 export interface CrewDetails {
-  buildBonus: number;
-  costReduction: number;
-  cargoBonus: number;
-  limitCards: string[];
+	buildBonus: number;
+	costReduction: number;
+	cargoBonus: number;
+	limitCards: string[];
 }
 
 export interface FortDetails {
-  cannons: string[];
-  goldCost: number;
+	cannons: string[];
+	goldCost: number;
 }
 
 export interface BaseCard {
-  cardId: string;
-  cardSet: CardSet;
-  cardNumber: string;
-  name: string;
-  type: CardType;
-  rarity: Rarity;
-  nationality: Nationality;
-  pointValue: number;
-  imageFilename: string;
-  ability: string;
-  description: string;
-  modifiers: Record<string, unknown>;
+	cardId: string;
+	cardSet: CardSet;
+	cardNumber: string;
+	name: string;
+	type: CardType;
+	rarity: Rarity;
+	nationality: Nationality;
+	pointValue: number;
+	imageFilename: string;
+	ability: string;
+	description: string;
+	modifiers: Record<string, unknown>;
 }
 
 export interface ShipCard extends BaseCard {
-  type: 'Ship';
-  details: ShipDetails;
+	type: 'Ship';
+	details: ShipDetails;
 }
 
 export interface CrewCard extends BaseCard {
-  type: 'Crew';
-  details: CrewDetails;
+	type: 'Crew';
+	details: CrewDetails;
 }
 
 export interface TreasureCard extends BaseCard {
-  type: 'Treasure';
-  // no details property
+	type: 'Treasure';
+	// no details property
 }
 
 export interface FortCard extends BaseCard {
-  type: 'Fort';
-  details: FortDetails;
+	type: 'Fort';
+	details: FortDetails;
 }
 
 export interface EventCard extends BaseCard {
-  type: 'Event';
-  // no details property
+	type: 'Event';
+	// no details property
 }
 
 export type Card = ShipCard | CrewCard | TreasureCard | FortCard | EventCard;
@@ -248,18 +251,17 @@ import type { Card } from '$lib/types/cardTypes';
 
 let cards = $state<Card[]>([]);
 
-const cardById = $derived(
-  new Map(cards.map((c) => [c.cardId, c]))
-);
+const cardById = $derived(new Map(cards.map((c) => [c.cardId, c])));
 
 export function setCards(newCards: Card[]) {
-  cards = newCards;
+	cards = newCards;
 }
 
 export { cards, cardById };
 ```
 
 **Key pattern notes:**
+
 - `$state` and `$derived` are Svelte 5 runes — they work at module level in `.svelte.ts` files
 - The module is NOT a class — it uses module-level rune variables
 - `setCards()` is the single write entry point, called from `+page.svelte` after `load()`
@@ -277,12 +279,12 @@ import { error } from '@sveltejs/kit';
 import type { Card } from '$lib/types/cardTypes';
 
 export const load: PageLoad = async ({ fetch }) => {
-  const res = await fetch('/data/cards.json');
-  if (!res.ok) {
-    throw error(500, 'Failed to load card data');
-  }
-  const cards: Card[] = await res.json();
-  return { cards };
+	const res = await fetch('/data/cards.json');
+	if (!res.ok) {
+		throw error(500, 'Failed to load card data');
+	}
+	const cards: Card[] = await res.json();
+	return { cards };
 };
 ```
 
@@ -295,13 +297,13 @@ export const load: PageLoad = async ({ fetch }) => {
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import type { PageData } from './$types';
-  import { setCards } from '$lib/state/cardData.svelte';
+	import type { PageData } from './$types';
+	import { setCards } from '$lib/state/cardData.svelte';
 
-  let { data }: { data: PageData } = $props();
+	let { data }: { data: PageData } = $props();
 
-  // Populate state from load() result
-  setCards(data.cards);
+	// Populate state from load() result
+	setCards(data.cards);
 </script>
 
 <p>Loaded {data.cards.length} cards</p>
@@ -318,20 +320,21 @@ From Story 1.3 notes: thumbnail URL is derived by replacing `.jpg` with `.webp` 
 import type { Card } from '$lib/types/cardTypes';
 
 export function thumbUrl(card: Card): string {
-  const webpName = card.imageFilename.replace(/\.jpg$/i, '.webp');
-  return `/images/thumbs/${webpName}`;
+	const webpName = card.imageFilename.replace(/\.jpg$/i, '.webp');
+	return `/images/thumbs/${webpName}`;
 }
 
 export function imageUrl(card: Card): string {
-  return `/images/cards/${card.imageFilename}`;
+	return `/images/cards/${card.imageFilename}`;
 }
 
 export function formatMove(baseMove: string): string {
-  return baseMove; // e.g., "S+L", "L", "S+S+L" — display as-is
+	return baseMove; // e.g., "S+L", "L", "S+S+L" — display as-is
 }
 ```
 
 **Unit tests for `cardUtils.test.ts`:**
+
 - `thumbUrl`: PPSM card → `/images/thumbs/PPSM_EC-001.webp`
 - `thumbUrl`: PPCC card with underscore → `/images/thumbs/PPCC_046_2.webp`
 - `imageUrl`: returns `/images/cards/PPSM_EC-001.jpg`
@@ -366,6 +369,7 @@ src/routes/+layout.ts       ← EXISTS (prerender = true) — do not touch
 #### Alignment with Architecture
 
 All file locations match `architecture.md#Complete Project Directory Structure`:
+
 - `cardTypes.ts` → `src/lib/types/cardTypes.ts` ✓
 - `cardData.svelte.ts` → `src/lib/state/cardData.svelte.ts` ✓
 - `cardUtils.ts` + `cardUtils.test.ts` → `src/lib/utils/` ✓ (co-located)
@@ -378,6 +382,7 @@ All file locations match `architecture.md#Complete Project Directory Structure`:
 The file extension `.svelte.ts` tells the Svelte compiler to process rune syntax. A plain `.ts` file will NOT process runes — the `.svelte.ts` extension is mandatory.
 
 **Anti-patterns explicitly forbidden (architecture.md#Anti-Patterns):**
+
 - ❌ `import { writable } from 'svelte/store'`
 - ❌ `import { readable } from 'svelte/store'`
 - ❌ `import { derived } from 'svelte/store'`
@@ -398,12 +403,14 @@ From Story 1.3 Dev Agent Record:
 - **`static/images/cards/*.jpg` is gitignored** — only the zip archive is committed
 
 **From Story 1.2 Dev Agent Record:**
+
 - `cards.json` uses camelCase field names throughout (converted from XML PascalCase)
 - All 550 cards successfully converted with zero data loss
 
 ### Git Intelligence Summary
 
 **Recent commits:**
+
 - `24fc5ff` — Add branching to dev story workflow (BMAD infra update)
 - `e585f8b` — Mark stories done (sprint-status.yaml updated)
 - `80e49dd` — Story 1-3: WebP thumbnail generation script (#3)
@@ -411,6 +418,7 @@ From Story 1.3 Dev Agent Record:
 - `da58153` — Story 1-1: Initialize SvelteKit project with full toolchain (#1)
 
 **Current state of `src/`:**
+
 - `src/routes/+page.ts` — does NOT exist yet (needs to be created)
 - `src/routes/+page.svelte` — exists with placeholder content only
 - `src/routes/+error.svelte` — exists with status+message display
@@ -430,50 +438,50 @@ import { thumbUrl, imageUrl, formatMove } from './cardUtils';
 import type { Card } from '$lib/types/cardTypes';
 
 const mockShip: Card = {
-  cardId: '1234',
-  cardSet: 'PPSM',
-  cardNumber: 'EC-001',
-  name: 'Test Ship',
-  type: 'Ship',
-  rarity: 'Rare',
-  nationality: 'English',
-  pointValue: 5,
-  imageFilename: 'PPSM_EC-001.jpg',
-  ability: 'Test ability',
-  description: 'Test description',
-  modifiers: {},
-  details: { masts: 3, cargo: 4, baseMove: 'S+L', cannons: ['3S', '3L', '3S'] }
+	cardId: '1234',
+	cardSet: 'PPSM',
+	cardNumber: 'EC-001',
+	name: 'Test Ship',
+	type: 'Ship',
+	rarity: 'Rare',
+	nationality: 'English',
+	pointValue: 5,
+	imageFilename: 'PPSM_EC-001.jpg',
+	ability: 'Test ability',
+	description: 'Test description',
+	modifiers: {},
+	details: { masts: 3, cargo: 4, baseMove: 'S+L', cannons: ['3S', '3L', '3S'] }
 };
 
 const mockCrewWithUnderscore: Card = {
-  ...mockShip,
-  cardNumber: '046_2',
-  type: 'Crew',
-  imageFilename: 'PPCC_046_2.jpg',
-  details: { buildBonus: 0, costReduction: 0, cargoBonus: 0, limitCards: [] }
+	...mockShip,
+	cardNumber: '046_2',
+	type: 'Crew',
+	imageFilename: 'PPCC_046_2.jpg',
+	details: { buildBonus: 0, costReduction: 0, cargoBonus: 0, limitCards: [] }
 };
 
 describe('thumbUrl', () => {
-  it('converts .jpg to .webp and prepends thumbs path', () => {
-    expect(thumbUrl(mockShip)).toBe('/images/thumbs/PPSM_EC-001.webp');
-  });
-  it('handles underscores in filename correctly', () => {
-    expect(thumbUrl(mockCrewWithUnderscore)).toBe('/images/thumbs/PPCC_046_2.webp');
-  });
+	it('converts .jpg to .webp and prepends thumbs path', () => {
+		expect(thumbUrl(mockShip)).toBe('/images/thumbs/PPSM_EC-001.webp');
+	});
+	it('handles underscores in filename correctly', () => {
+		expect(thumbUrl(mockCrewWithUnderscore)).toBe('/images/thumbs/PPCC_046_2.webp');
+	});
 });
 
 describe('imageUrl', () => {
-  it('prepends cards path to imageFilename', () => {
-    expect(imageUrl(mockShip)).toBe('/images/cards/PPSM_EC-001.jpg');
-  });
+	it('prepends cards path to imageFilename', () => {
+		expect(imageUrl(mockShip)).toBe('/images/cards/PPSM_EC-001.jpg');
+	});
 });
 
 describe('formatMove', () => {
-  it('returns baseMove string unchanged', () => {
-    expect(formatMove('S+L')).toBe('S+L');
-    expect(formatMove('L')).toBe('L');
-    expect(formatMove('S+S+L')).toBe('S+S+L');
-  });
+	it('returns baseMove string unchanged', () => {
+		expect(formatMove('S+L')).toBe('S+L');
+		expect(formatMove('L')).toBe('L');
+		expect(formatMove('S+S+L')).toBe('S+S+L');
+	});
 });
 ```
 
@@ -513,6 +521,7 @@ claude-sonnet-4-6
 ### Debug Log References
 
 **Svelte 5 module export constraints (resolved):**
+
 - `$state` that is reassigned cannot be exported from a `.svelte.ts` module (error: `state_invalid_export`). Attempted splice-in-place workaround, then discovered `$derived` also cannot be exported (`derived_invalid_export`). Resolution: class-based store pattern — `CardDataStore` class with `$state` and `$derived.by()` as class properties, exported as `export const cardData = new CardDataStore()`. This is the canonical Svelte 5 pattern.
 - Svelte 5 warning `state_referenced_locally` triggered by calling `setCards(data.cards)` at module scope in `+page.svelte`. Fixed by wrapping in `$effect(() => { cardData.setCards(data.cards); })`.
 

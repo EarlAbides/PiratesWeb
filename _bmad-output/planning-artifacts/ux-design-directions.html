@@ -1,1673 +1,2008 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PiratesWeb — Design Direction Mockups</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>PiratesWeb — Design Direction Mockups</title>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
 
-  :root {
-    --bg-deep: #0f0f1a;
-    --bg-surface: #1a1a2e;
-    --bg-elevated: #22223a;
-    --border: #2a2a3e;
-    --text-primary: #e8e8e8;
-    --text-secondary: #a0a0b0;
-    --text-muted: #6a6a7a;
-    --accent-cyan: #00d4aa;
-    --accent-amber: #f0a030;
-    --accent-blue: #4a90d9;
-    --set-tan: #c4a85a;
-    --set-tan-bg: #8b7340;
-    --set-red: #6b2020;
-    --set-red-bg: #4a1515;
-    --set-blue: #2a5a9a;
-    --set-blue-bg: #1e4070;
-    --success: #4ade80;
-    --warning: #fbbf24;
-    --error: #f87171;
-  }
+			:root {
+				--bg-deep: #0f0f1a;
+				--bg-surface: #1a1a2e;
+				--bg-elevated: #22223a;
+				--border: #2a2a3e;
+				--text-primary: #e8e8e8;
+				--text-secondary: #a0a0b0;
+				--text-muted: #6a6a7a;
+				--accent-cyan: #00d4aa;
+				--accent-amber: #f0a030;
+				--accent-blue: #4a90d9;
+				--set-tan: #c4a85a;
+				--set-tan-bg: #8b7340;
+				--set-red: #6b2020;
+				--set-red-bg: #4a1515;
+				--set-blue: #2a5a9a;
+				--set-blue-bg: #1e4070;
+				--success: #4ade80;
+				--warning: #fbbf24;
+				--error: #f87171;
+			}
 
-  body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: var(--bg-deep);
-    color: var(--text-primary);
-    line-height: 1.5;
-  }
+			body {
+				font-family:
+					'Inter',
+					system-ui,
+					-apple-system,
+					sans-serif;
+				background: var(--bg-deep);
+				color: var(--text-primary);
+				line-height: 1.5;
+			}
 
-  /* Navigation */
-  .nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 24px;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .nav h1 {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    white-space: nowrap;
-  }
-  .nav-buttons {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .nav-btn {
-    padding: 6px 14px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: transparent;
-    color: var(--text-secondary);
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .nav-btn:hover { border-color: var(--accent-cyan); color: var(--text-primary); }
-  .nav-btn.active { background: var(--accent-cyan); color: var(--bg-deep); border-color: var(--accent-cyan); }
+			/* Navigation */
+			.nav {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				background: var(--bg-surface);
+				border-bottom: 1px solid var(--border);
+				padding: 12px 24px;
+				z-index: 100;
+				display: flex;
+				align-items: center;
+				gap: 16px;
+				flex-wrap: wrap;
+			}
+			.nav h1 {
+				font-size: 14px;
+				font-weight: 600;
+				color: var(--text-secondary);
+				white-space: nowrap;
+			}
+			.nav-buttons {
+				display: flex;
+				gap: 6px;
+				flex-wrap: wrap;
+			}
+			.nav-btn {
+				padding: 6px 14px;
+				border: 1px solid var(--border);
+				border-radius: 6px;
+				background: transparent;
+				color: var(--text-secondary);
+				font-family: inherit;
+				font-size: 12px;
+				font-weight: 500;
+				cursor: pointer;
+				transition: all 0.2s;
+			}
+			.nav-btn:hover {
+				border-color: var(--accent-cyan);
+				color: var(--text-primary);
+			}
+			.nav-btn.active {
+				background: var(--accent-cyan);
+				color: var(--bg-deep);
+				border-color: var(--accent-cyan);
+			}
 
-  /* Sections */
-  .section {
-    display: none;
-    padding: 80px 24px 48px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-  .section.active { display: block; }
-  .section-title {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .section-desc {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-bottom: 32px;
-    max-width: 700px;
-    line-height: 1.6;
-  }
+			/* Sections */
+			.section {
+				display: none;
+				padding: 80px 24px 48px;
+				max-width: 1400px;
+				margin: 0 auto;
+			}
+			.section.active {
+				display: block;
+			}
+			.section-title {
+				font-size: 20px;
+				font-weight: 700;
+				margin-bottom: 6px;
+			}
+			.section-desc {
+				font-size: 14px;
+				color: var(--text-secondary);
+				margin-bottom: 32px;
+				max-width: 700px;
+				line-height: 1.6;
+			}
 
-  /* Mockup Container */
-  .mockup {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-  }
+			/* Mockup Container */
+			.mockup {
+				background: var(--bg-surface);
+				border: 1px solid var(--border);
+				border-radius: 12px;
+				overflow: hidden;
+			}
 
-  /* ==========================================
+			/* ==========================================
      DIRECTION A: Sidebar Filters + Table Rows
      ========================================== */
-  .dir-a {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    min-height: 600px;
-  }
-  .dir-a .sidebar {
-    background: var(--bg-elevated);
-    border-right: 1px solid var(--border);
-    padding: 20px 16px;
-  }
-  .dir-a .sidebar h3 {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-  }
-  .dir-a .filter-group { margin-bottom: 20px; }
-  .dir-a .filter-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 6px;
-    display: block;
-  }
-  .dir-a .filter-select {
-    width: 100%;
-    padding: 8px 10px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text-primary);
-    font-family: inherit;
-    font-size: 13px;
-  }
-  .dir-a .filter-search {
-    width: 100%;
-    padding: 8px 10px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text-primary);
-    font-family: inherit;
-    font-size: 13px;
-    margin-bottom: 16px;
-  }
-  .dir-a .main { padding: 16px 20px; overflow: auto; }
-  .dir-a .results-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
-  .dir-a .sort-indicator { font-size: 11px; color: var(--text-muted); }
+			.dir-a {
+				display: grid;
+				grid-template-columns: 240px 1fr;
+				min-height: 600px;
+			}
+			.dir-a .sidebar {
+				background: var(--bg-elevated);
+				border-right: 1px solid var(--border);
+				padding: 20px 16px;
+			}
+			.dir-a .sidebar h3 {
+				font-size: 11px;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				color: var(--text-muted);
+				margin-bottom: 12px;
+			}
+			.dir-a .filter-group {
+				margin-bottom: 20px;
+			}
+			.dir-a .filter-label {
+				font-size: 12px;
+				font-weight: 500;
+				color: var(--text-secondary);
+				margin-bottom: 6px;
+				display: block;
+			}
+			.dir-a .filter-select {
+				width: 100%;
+				padding: 8px 10px;
+				background: var(--bg-surface);
+				border: 1px solid var(--border);
+				border-radius: 6px;
+				color: var(--text-primary);
+				font-family: inherit;
+				font-size: 13px;
+			}
+			.dir-a .filter-search {
+				width: 100%;
+				padding: 8px 10px;
+				background: var(--bg-surface);
+				border: 1px solid var(--border);
+				border-radius: 6px;
+				color: var(--text-primary);
+				font-family: inherit;
+				font-size: 13px;
+				margin-bottom: 16px;
+			}
+			.dir-a .main {
+				padding: 16px 20px;
+				overflow: auto;
+			}
+			.dir-a .results-bar {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 12px;
+				font-size: 12px;
+				color: var(--text-secondary);
+			}
+			.dir-a .sort-indicator {
+				font-size: 11px;
+				color: var(--text-muted);
+			}
 
-  /* Card Rows — Build Sheet Style */
-  .card-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin-bottom: 4px;
-    transition: all 0.15s;
-    cursor: pointer;
-    position: relative;
-  }
-  .card-row:hover { filter: brightness(1.15); }
-  .card-row.set-sm { background: linear-gradient(135deg, #9a8244 0%, #b89950 50%, #8a7238 100%); color: #1a1208; }
-  .card-row.set-cc { background: linear-gradient(135deg, #5a1a1a 0%, #7a2828 50%, #4a1212 100%); color: #f0d8d8; }
-  .card-row.set-rv { background: linear-gradient(135deg, #1a4070 0%, #2a5a9a 50%, #183868 100%); color: #d8e4f0; }
+			/* Card Rows — Build Sheet Style */
+			.card-row {
+				display: flex;
+				align-items: center;
+				gap: 14px;
+				padding: 12px 16px;
+				border-radius: 8px;
+				margin-bottom: 4px;
+				transition: all 0.15s;
+				cursor: pointer;
+				position: relative;
+			}
+			.card-row:hover {
+				filter: brightness(1.15);
+			}
+			.card-row.set-sm {
+				background: linear-gradient(135deg, #9a8244 0%, #b89950 50%, #8a7238 100%);
+				color: #1a1208;
+			}
+			.card-row.set-cc {
+				background: linear-gradient(135deg, #5a1a1a 0%, #7a2828 50%, #4a1212 100%);
+				color: #f0d8d8;
+			}
+			.card-row.set-rv {
+				background: linear-gradient(135deg, #1a4070 0%, #2a5a9a 50%, #183868 100%);
+				color: #d8e4f0;
+			}
 
-  .point-badge {
-    min-width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 700;
-    border-radius: 8px;
-    flex-shrink: 0;
-  }
-  .set-sm .point-badge { background: rgba(0,0,0,0.25); color: #fff; }
-  .set-cc .point-badge { background: rgba(0,0,0,0.35); color: #ffd4d4; }
-  .set-rv .point-badge { background: rgba(0,0,0,0.3); color: #d4e4ff; }
+			.point-badge {
+				min-width: 40px;
+				height: 40px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 18px;
+				font-weight: 700;
+				border-radius: 8px;
+				flex-shrink: 0;
+			}
+			.set-sm .point-badge {
+				background: rgba(0, 0, 0, 0.25);
+				color: #fff;
+			}
+			.set-cc .point-badge {
+				background: rgba(0, 0, 0, 0.35);
+				color: #ffd4d4;
+			}
+			.set-rv .point-badge {
+				background: rgba(0, 0, 0, 0.3);
+				color: #d4e4ff;
+			}
 
-  .card-thumb {
-    width: 48px;
-    height: 36px;
-    background: rgba(0,0,0,0.2);
-    border-radius: 4px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    opacity: 0.6;
-  }
+			.card-thumb {
+				width: 48px;
+				height: 36px;
+				background: rgba(0, 0, 0, 0.2);
+				border-radius: 4px;
+				flex-shrink: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 10px;
+				opacity: 0.6;
+			}
 
-  .card-info { flex: 1; min-width: 0; }
-  .card-name { font-size: 14px; font-weight: 600; }
-  .card-stats {
-    font-size: 12px;
-    font-weight: 500;
-    opacity: 0.85;
-    display: flex;
-    gap: 12px;
-    margin-top: 2px;
-  }
-  .stat-item { display: flex; align-items: center; gap: 3px; }
-  .stat-label { opacity: 0.7; font-size: 10px; text-transform: uppercase; }
+			.card-info {
+				flex: 1;
+				min-width: 0;
+			}
+			.card-name {
+				font-size: 14px;
+				font-weight: 600;
+			}
+			.card-stats {
+				font-size: 12px;
+				font-weight: 500;
+				opacity: 0.85;
+				display: flex;
+				gap: 12px;
+				margin-top: 2px;
+			}
+			.stat-item {
+				display: flex;
+				align-items: center;
+				gap: 3px;
+			}
+			.stat-label {
+				opacity: 0.7;
+				font-size: 10px;
+				text-transform: uppercase;
+			}
 
-  .card-ability {
-    font-size: 12px;
-    opacity: 0.75;
-    margin-top: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 500px;
-  }
+			.card-ability {
+				font-size: 12px;
+				opacity: 0.75;
+				margin-top: 3px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				max-width: 500px;
+			}
 
-  .card-flag {
-    width: 24px;
-    height: 16px;
-    border-radius: 2px;
-    flex-shrink: 0;
-    font-size: 9px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-  }
-  .flag-eng { background: #c41e3a; color: white; }
-  .flag-esp { background: #f4c430; color: #333; }
-  .flag-fra { background: #0055a4; color: white; }
-  .flag-pir { background: #1a1a1a; color: #ccc; border: 1px solid #444; }
+			.card-flag {
+				width: 24px;
+				height: 16px;
+				border-radius: 2px;
+				flex-shrink: 0;
+				font-size: 9px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: 600;
+			}
+			.flag-eng {
+				background: #c41e3a;
+				color: white;
+			}
+			.flag-esp {
+				background: #f4c430;
+				color: #333;
+			}
+			.flag-fra {
+				background: #0055a4;
+				color: white;
+			}
+			.flag-pir {
+				background: #1a1a1a;
+				color: #ccc;
+				border: 1px solid #444;
+			}
 
-  .card-type-badge {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    opacity: 0.65;
-    flex-shrink: 0;
-  }
+			.card-type-badge {
+				font-size: 10px;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+				opacity: 0.65;
+				flex-shrink: 0;
+			}
 
-  /* Cannon indicators */
-  .cannon-display { display: flex; gap: 2px; align-items: center; }
-  .cannon-pip {
-    width: 14px; height: 14px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 8px; font-weight: 700;
-  }
-  .cannon-s { background: rgba(255,255,255,0.25); }
-  .cannon-l { background: rgba(255,0,0,0.3); }
+			/* Cannon indicators */
+			.cannon-display {
+				display: flex;
+				gap: 2px;
+				align-items: center;
+			}
+			.cannon-pip {
+				width: 14px;
+				height: 14px;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 8px;
+				font-weight: 700;
+			}
+			.cannon-s {
+				background: rgba(255, 255, 255, 0.25);
+			}
+			.cannon-l {
+				background: rgba(255, 0, 0, 0.3);
+			}
 
-  /* ==========================================
+			/* ==========================================
      DIRECTION B: Top Filter Bar + Table Rows
      ========================================== */
-  .dir-b .top-bar {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-    background: var(--bg-elevated);
-  }
-  .dir-b .chip {
-    padding: 6px 14px;
-    border-radius: 20px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .dir-b .chip:hover { border-color: var(--accent-cyan); color: var(--text-primary); }
-  .dir-b .chip.active { background: var(--accent-cyan); color: var(--bg-deep); border-color: var(--accent-cyan); }
-  .dir-b .search-bar {
-    flex: 1;
-    min-width: 200px;
-    padding: 8px 14px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    color: var(--text-primary);
-    font-family: inherit;
-    font-size: 13px;
-  }
-  .dir-b .main { padding: 16px 20px; }
-  .dir-b .results-bar {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
+			.dir-b .top-bar {
+				padding: 16px 20px;
+				border-bottom: 1px solid var(--border);
+				display: flex;
+				gap: 12px;
+				align-items: center;
+				flex-wrap: wrap;
+				background: var(--bg-elevated);
+			}
+			.dir-b .chip {
+				padding: 6px 14px;
+				border-radius: 20px;
+				background: var(--bg-surface);
+				border: 1px solid var(--border);
+				font-size: 12px;
+				font-weight: 500;
+				color: var(--text-secondary);
+				cursor: pointer;
+				transition: all 0.15s;
+			}
+			.dir-b .chip:hover {
+				border-color: var(--accent-cyan);
+				color: var(--text-primary);
+			}
+			.dir-b .chip.active {
+				background: var(--accent-cyan);
+				color: var(--bg-deep);
+				border-color: var(--accent-cyan);
+			}
+			.dir-b .search-bar {
+				flex: 1;
+				min-width: 200px;
+				padding: 8px 14px;
+				background: var(--bg-surface);
+				border: 1px solid var(--border);
+				border-radius: 20px;
+				color: var(--text-primary);
+				font-family: inherit;
+				font-size: 13px;
+			}
+			.dir-b .main {
+				padding: 16px 20px;
+			}
+			.dir-b .results-bar {
+				display: flex;
+				justify-content: space-between;
+				margin-bottom: 12px;
+				font-size: 12px;
+				color: var(--text-secondary);
+			}
 
-  /* ==========================================
+			/* ==========================================
      DIRECTION C: Sidebar + Compact Rows (Dense)
      ========================================== */
-  .dir-c {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    min-height: 600px;
-  }
-  .dir-c .sidebar {
-    background: var(--bg-elevated);
-    border-right: 1px solid var(--border);
-    padding: 16px 12px;
-  }
-  .dir-c .sidebar h3 {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-  }
-  .dir-c .filter-group { margin-bottom: 14px; }
-  .dir-c .filter-select {
-    width: 100%;
-    padding: 5px 8px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--text-primary);
-    font-family: inherit;
-    font-size: 12px;
-  }
-  .dir-c .main { padding: 12px 16px; overflow: auto; }
+			.dir-c {
+				display: grid;
+				grid-template-columns: 200px 1fr;
+				min-height: 600px;
+			}
+			.dir-c .sidebar {
+				background: var(--bg-elevated);
+				border-right: 1px solid var(--border);
+				padding: 16px 12px;
+			}
+			.dir-c .sidebar h3 {
+				font-size: 10px;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				color: var(--text-muted);
+				margin-bottom: 8px;
+			}
+			.dir-c .filter-group {
+				margin-bottom: 14px;
+			}
+			.dir-c .filter-select {
+				width: 100%;
+				padding: 5px 8px;
+				background: var(--bg-surface);
+				border: 1px solid var(--border);
+				border-radius: 4px;
+				color: var(--text-primary);
+				font-family: inherit;
+				font-size: 12px;
+			}
+			.dir-c .main {
+				padding: 12px 16px;
+				overflow: auto;
+			}
 
-  .card-row-compact {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 12px;
-    border-radius: 4px;
-    margin-bottom: 2px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: all 0.15s;
-  }
-  .card-row-compact:hover { filter: brightness(1.15); }
-  .card-row-compact.set-sm { background: linear-gradient(135deg, #9a8244 0%, #b89950 50%, #8a7238 100%); color: #1a1208; }
-  .card-row-compact.set-cc { background: linear-gradient(135deg, #5a1a1a 0%, #7a2828 50%, #4a1212 100%); color: #f0d8d8; }
-  .card-row-compact.set-rv { background: linear-gradient(135deg, #1a4070 0%, #2a5a9a 50%, #183868 100%); color: #d8e4f0; }
+			.card-row-compact {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				padding: 6px 12px;
+				border-radius: 4px;
+				margin-bottom: 2px;
+				cursor: pointer;
+				font-size: 13px;
+				transition: all 0.15s;
+			}
+			.card-row-compact:hover {
+				filter: brightness(1.15);
+			}
+			.card-row-compact.set-sm {
+				background: linear-gradient(135deg, #9a8244 0%, #b89950 50%, #8a7238 100%);
+				color: #1a1208;
+			}
+			.card-row-compact.set-cc {
+				background: linear-gradient(135deg, #5a1a1a 0%, #7a2828 50%, #4a1212 100%);
+				color: #f0d8d8;
+			}
+			.card-row-compact.set-rv {
+				background: linear-gradient(135deg, #1a4070 0%, #2a5a9a 50%, #183868 100%);
+				color: #d8e4f0;
+			}
 
-  .compact-points {
-    font-size: 15px;
-    font-weight: 700;
-    min-width: 28px;
-    text-align: center;
-  }
-  .compact-thumb {
-    width: 36px;
-    height: 27px;
-    background: rgba(0,0,0,0.2);
-    border-radius: 3px;
-    flex-shrink: 0;
-  }
-  .compact-name { font-weight: 600; font-size: 13px; flex: 0 0 180px; }
-  .compact-stats {
-    display: flex;
-    gap: 10px;
-    font-size: 12px;
-    font-weight: 500;
-    opacity: 0.85;
-    flex: 0 0 200px;
-  }
-  .compact-ability {
-    font-size: 11px;
-    opacity: 0.7;
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+			.compact-points {
+				font-size: 15px;
+				font-weight: 700;
+				min-width: 28px;
+				text-align: center;
+			}
+			.compact-thumb {
+				width: 36px;
+				height: 27px;
+				background: rgba(0, 0, 0, 0.2);
+				border-radius: 3px;
+				flex-shrink: 0;
+			}
+			.compact-name {
+				font-weight: 600;
+				font-size: 13px;
+				flex: 0 0 180px;
+			}
+			.compact-stats {
+				display: flex;
+				gap: 10px;
+				font-size: 12px;
+				font-weight: 500;
+				opacity: 0.85;
+				flex: 0 0 200px;
+			}
+			.compact-ability {
+				font-size: 11px;
+				opacity: 0.7;
+				flex: 1;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 
-  /* ==========================================
+			/* ==========================================
      DIRECTION D: Sidebar + Expanded Detail Panel
      ========================================== */
-  .dir-d {
-    display: grid;
-    grid-template-columns: 240px 1fr 320px;
-    min-height: 600px;
-  }
-  .dir-d .sidebar {
-    background: var(--bg-elevated);
-    border-right: 1px solid var(--border);
-    padding: 20px 16px;
-  }
-  .dir-d .sidebar h3 {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-  }
-  .dir-d .filter-group { margin-bottom: 20px; }
-  .dir-d .filter-select {
-    width: 100%;
-    padding: 8px 10px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text-primary);
-    font-family: inherit;
-    font-size: 13px;
-    display: block;
-    margin-bottom: 6px;
-  }
-  .dir-d .main { padding: 16px 20px; overflow: auto; border-right: 1px solid var(--border); }
+			.dir-d {
+				display: grid;
+				grid-template-columns: 240px 1fr 320px;
+				min-height: 600px;
+			}
+			.dir-d .sidebar {
+				background: var(--bg-elevated);
+				border-right: 1px solid var(--border);
+				padding: 20px 16px;
+			}
+			.dir-d .sidebar h3 {
+				font-size: 11px;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				color: var(--text-muted);
+				margin-bottom: 12px;
+			}
+			.dir-d .filter-group {
+				margin-bottom: 20px;
+			}
+			.dir-d .filter-select {
+				width: 100%;
+				padding: 8px 10px;
+				background: var(--bg-surface);
+				border: 1px solid var(--border);
+				border-radius: 6px;
+				color: var(--text-primary);
+				font-family: inherit;
+				font-size: 13px;
+				display: block;
+				margin-bottom: 6px;
+			}
+			.dir-d .main {
+				padding: 16px 20px;
+				overflow: auto;
+				border-right: 1px solid var(--border);
+			}
 
-  .detail-panel {
-    padding: 24px 20px;
-    background: var(--bg-elevated);
-  }
-  .detail-panel .card-image-placeholder {
-    width: 100%;
-    height: 200px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-muted);
-    font-size: 13px;
-    margin-bottom: 20px;
-    border: 1px dashed var(--border);
-  }
-  .detail-panel h2 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-  .detail-panel .detail-set {
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin-bottom: 16px;
-  }
-  .detail-panel .detail-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-  .detail-panel .detail-stat {
-    background: var(--bg-surface);
-    padding: 8px 12px;
-    border-radius: 6px;
-  }
-  .detail-panel .detail-stat-label {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-  .detail-panel .detail-stat-value {
-    font-size: 16px;
-    font-weight: 700;
-    margin-top: 2px;
-  }
-  .detail-panel .detail-ability-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-  }
-  .detail-panel .detail-ability-text {
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text-secondary);
-    margin-bottom: 16px;
-  }
-  .detail-panel .detail-description {
-    font-size: 12px;
-    font-style: italic;
-    color: var(--text-muted);
-    line-height: 1.6;
-    padding: 12px;
-    background: var(--bg-surface);
-    border-radius: 6px;
-    border-left: 3px solid var(--border);
-  }
+			.detail-panel {
+				padding: 24px 20px;
+				background: var(--bg-elevated);
+			}
+			.detail-panel .card-image-placeholder {
+				width: 100%;
+				height: 200px;
+				background: rgba(255, 255, 255, 0.05);
+				border-radius: 8px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: var(--text-muted);
+				font-size: 13px;
+				margin-bottom: 20px;
+				border: 1px dashed var(--border);
+			}
+			.detail-panel h2 {
+				font-size: 18px;
+				font-weight: 700;
+				margin-bottom: 4px;
+			}
+			.detail-panel .detail-set {
+				font-size: 12px;
+				color: var(--text-secondary);
+				margin-bottom: 16px;
+			}
+			.detail-panel .detail-stats {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 8px;
+				margin-bottom: 20px;
+			}
+			.detail-panel .detail-stat {
+				background: var(--bg-surface);
+				padding: 8px 12px;
+				border-radius: 6px;
+			}
+			.detail-panel .detail-stat-label {
+				font-size: 10px;
+				font-weight: 600;
+				text-transform: uppercase;
+				color: var(--text-muted);
+			}
+			.detail-panel .detail-stat-value {
+				font-size: 16px;
+				font-weight: 700;
+				margin-top: 2px;
+			}
+			.detail-panel .detail-ability-label {
+				font-size: 11px;
+				font-weight: 600;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				margin-bottom: 6px;
+			}
+			.detail-panel .detail-ability-text {
+				font-size: 13px;
+				line-height: 1.6;
+				color: var(--text-secondary);
+				margin-bottom: 16px;
+			}
+			.detail-panel .detail-description {
+				font-size: 12px;
+				font-style: italic;
+				color: var(--text-muted);
+				line-height: 1.6;
+				padding: 12px;
+				background: var(--bg-surface);
+				border-radius: 6px;
+				border-left: 3px solid var(--border);
+			}
 
-  /* ==========================================
+			/* ==========================================
      DIRECTION E: Top Filters + Card Grid (Gallery)
      ========================================== */
-  .dir-e .top-bar {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-    background: var(--bg-elevated);
-  }
-  .dir-e .search-bar {
-    flex: 1;
-    min-width: 200px;
-    padding: 8px 14px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    color: var(--text-primary);
-    font-family: inherit;
-    font-size: 13px;
-  }
-  .dir-e .chip {
-    padding: 6px 14px;
-    border-radius: 20px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-  }
-  .dir-e .chip.active { background: var(--accent-cyan); color: var(--bg-deep); border-color: var(--accent-cyan); }
-  .dir-e .view-toggle {
-    display: flex;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-  .dir-e .toggle-btn {
-    padding: 6px 12px;
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 500;
-    cursor: pointer;
-  }
-  .dir-e .toggle-btn.active { background: var(--accent-cyan); color: var(--bg-deep); }
-  .dir-e .main { padding: 20px; }
-  .dir-e .results-bar {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
-  }
-  .card-tile {
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  .card-tile:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
-  .card-tile .tile-image {
-    height: 140px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    color: rgba(255,255,255,0.4);
-  }
-  .card-tile.set-sm .tile-image { background: linear-gradient(135deg, #9a8244, #b89950); }
-  .card-tile.set-cc .tile-image { background: linear-gradient(135deg, #5a1a1a, #7a2828); }
-  .card-tile.set-rv .tile-image { background: linear-gradient(135deg, #1a4070, #2a5a9a); }
-  .card-tile .tile-info {
-    padding: 10px 12px;
-    background: var(--bg-elevated);
-  }
-  .card-tile .tile-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4px;
-  }
-  .card-tile .tile-name { font-size: 13px; font-weight: 600; }
-  .card-tile .tile-points {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--accent-amber);
-  }
-  .card-tile .tile-stats {
-    font-size: 11px;
-    color: var(--text-secondary);
-  }
+			.dir-e .top-bar {
+				padding: 16px 20px;
+				border-bottom: 1px solid var(--border);
+				display: flex;
+				gap: 12px;
+				align-items: center;
+				flex-wrap: wrap;
+				background: var(--bg-elevated);
+			}
+			.dir-e .search-bar {
+				flex: 1;
+				min-width: 200px;
+				padding: 8px 14px;
+				background: var(--bg-surface);
+				border: 1px solid var(--border);
+				border-radius: 20px;
+				color: var(--text-primary);
+				font-family: inherit;
+				font-size: 13px;
+			}
+			.dir-e .chip {
+				padding: 6px 14px;
+				border-radius: 20px;
+				background: var(--bg-surface);
+				border: 1px solid var(--border);
+				font-size: 12px;
+				font-weight: 500;
+				color: var(--text-secondary);
+			}
+			.dir-e .chip.active {
+				background: var(--accent-cyan);
+				color: var(--bg-deep);
+				border-color: var(--accent-cyan);
+			}
+			.dir-e .view-toggle {
+				display: flex;
+				border: 1px solid var(--border);
+				border-radius: 6px;
+				overflow: hidden;
+			}
+			.dir-e .toggle-btn {
+				padding: 6px 12px;
+				background: transparent;
+				border: none;
+				color: var(--text-secondary);
+				font-family: inherit;
+				font-size: 11px;
+				font-weight: 500;
+				cursor: pointer;
+			}
+			.dir-e .toggle-btn.active {
+				background: var(--accent-cyan);
+				color: var(--bg-deep);
+			}
+			.dir-e .main {
+				padding: 20px;
+			}
+			.dir-e .results-bar {
+				display: flex;
+				justify-content: space-between;
+				margin-bottom: 16px;
+				font-size: 12px;
+				color: var(--text-secondary);
+			}
+			.card-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+				gap: 16px;
+			}
+			.card-tile {
+				border-radius: 8px;
+				overflow: hidden;
+				cursor: pointer;
+				transition:
+					transform 0.15s,
+					box-shadow 0.15s;
+			}
+			.card-tile:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+			}
+			.card-tile .tile-image {
+				height: 140px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 11px;
+				color: rgba(255, 255, 255, 0.4);
+			}
+			.card-tile.set-sm .tile-image {
+				background: linear-gradient(135deg, #9a8244, #b89950);
+			}
+			.card-tile.set-cc .tile-image {
+				background: linear-gradient(135deg, #5a1a1a, #7a2828);
+			}
+			.card-tile.set-rv .tile-image {
+				background: linear-gradient(135deg, #1a4070, #2a5a9a);
+			}
+			.card-tile .tile-info {
+				padding: 10px 12px;
+				background: var(--bg-elevated);
+			}
+			.card-tile .tile-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 4px;
+			}
+			.card-tile .tile-name {
+				font-size: 13px;
+				font-weight: 600;
+			}
+			.card-tile .tile-points {
+				font-size: 16px;
+				font-weight: 700;
+				color: var(--accent-amber);
+			}
+			.card-tile .tile-stats {
+				font-size: 11px;
+				color: var(--text-secondary);
+			}
 
-  /* ==========================================
+			/* ==========================================
      DIRECTION F: Sidebar + Inline Expanded Row
      ========================================== */
-  .dir-f {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    min-height: 600px;
-  }
-  .dir-f .sidebar {
-    background: var(--bg-elevated);
-    border-right: 1px solid var(--border);
-    padding: 20px 16px;
-  }
-  .dir-f .sidebar h3 {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-  }
-  .dir-f .filter-group { margin-bottom: 20px; }
-  .dir-f .filter-select {
-    width: 100%;
-    padding: 8px 10px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text-primary);
-    font-family: inherit;
-    font-size: 13px;
-    display: block;
-    margin-bottom: 6px;
-  }
-  .dir-f .main { padding: 16px 20px; overflow: auto; }
+			.dir-f {
+				display: grid;
+				grid-template-columns: 240px 1fr;
+				min-height: 600px;
+			}
+			.dir-f .sidebar {
+				background: var(--bg-elevated);
+				border-right: 1px solid var(--border);
+				padding: 20px 16px;
+			}
+			.dir-f .sidebar h3 {
+				font-size: 11px;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				color: var(--text-muted);
+				margin-bottom: 12px;
+			}
+			.dir-f .filter-group {
+				margin-bottom: 20px;
+			}
+			.dir-f .filter-select {
+				width: 100%;
+				padding: 8px 10px;
+				background: var(--bg-surface);
+				border: 1px solid var(--border);
+				border-radius: 6px;
+				color: var(--text-primary);
+				font-family: inherit;
+				font-size: 13px;
+				display: block;
+				margin-bottom: 6px;
+			}
+			.dir-f .main {
+				padding: 16px 20px;
+				overflow: auto;
+			}
 
-  .expanded-detail {
-    padding: 20px;
-    background: var(--bg-elevated);
-    border-radius: 0 0 8px 8px;
-    margin-top: -4px;
-    margin-bottom: 4px;
-    border: 1px solid var(--border);
-    border-top: none;
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 24px;
-  }
-  .expanded-detail .detail-image {
-    width: 240px;
-    height: 180px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-muted);
-    font-size: 12px;
-    border: 1px dashed var(--border);
-  }
-  .expanded-detail .detail-content h3 {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    color: var(--text-primary);
-  }
-  .expanded-detail .detail-stats-grid {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-  .expanded-detail .stat-box {
-    background: var(--bg-surface);
-    padding: 8px 14px;
-    border-radius: 6px;
-    text-align: center;
-  }
-  .expanded-detail .stat-box-label {
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-  .expanded-detail .stat-box-value {
-    font-size: 18px;
-    font-weight: 700;
-  }
-  .expanded-detail .ability-section {
-    margin-bottom: 12px;
-  }
-  .expanded-detail .ability-label {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 4px;
-  }
-  .expanded-detail .ability-text {
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-  .expanded-detail .description-text {
-    font-size: 12px;
-    font-style: italic;
-    color: var(--text-muted);
-    line-height: 1.6;
-    padding: 10px 14px;
-    background: var(--bg-surface);
-    border-radius: 6px;
-    border-left: 3px solid var(--border);
-  }
+			.expanded-detail {
+				padding: 20px;
+				background: var(--bg-elevated);
+				border-radius: 0 0 8px 8px;
+				margin-top: -4px;
+				margin-bottom: 4px;
+				border: 1px solid var(--border);
+				border-top: none;
+				display: grid;
+				grid-template-columns: 240px 1fr;
+				gap: 24px;
+			}
+			.expanded-detail .detail-image {
+				width: 240px;
+				height: 180px;
+				background: rgba(255, 255, 255, 0.05);
+				border-radius: 8px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: var(--text-muted);
+				font-size: 12px;
+				border: 1px dashed var(--border);
+			}
+			.expanded-detail .detail-content h3 {
+				font-size: 16px;
+				font-weight: 700;
+				margin-bottom: 12px;
+				color: var(--text-primary);
+			}
+			.expanded-detail .detail-stats-grid {
+				display: flex;
+				gap: 16px;
+				margin-bottom: 16px;
+			}
+			.expanded-detail .stat-box {
+				background: var(--bg-surface);
+				padding: 8px 14px;
+				border-radius: 6px;
+				text-align: center;
+			}
+			.expanded-detail .stat-box-label {
+				font-size: 9px;
+				font-weight: 600;
+				text-transform: uppercase;
+				color: var(--text-muted);
+			}
+			.expanded-detail .stat-box-value {
+				font-size: 18px;
+				font-weight: 700;
+			}
+			.expanded-detail .ability-section {
+				margin-bottom: 12px;
+			}
+			.expanded-detail .ability-label {
+				font-size: 10px;
+				font-weight: 600;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				margin-bottom: 4px;
+			}
+			.expanded-detail .ability-text {
+				font-size: 13px;
+				color: var(--text-secondary);
+				line-height: 1.6;
+			}
+			.expanded-detail .description-text {
+				font-size: 12px;
+				font-style: italic;
+				color: var(--text-muted);
+				line-height: 1.6;
+				padding: 10px 14px;
+				background: var(--bg-surface);
+				border-radius: 6px;
+				border-left: 3px solid var(--border);
+			}
 
-  /* Active row indicator */
-  .card-row.active-row {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    outline: 1px solid var(--accent-cyan);
-    outline-offset: -1px;
-  }
+			/* Active row indicator */
+			.card-row.active-row {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+				outline: 1px solid var(--accent-cyan);
+				outline-offset: -1px;
+			}
 
-  /* ==========================================
+			/* ==========================================
      DIRECTION G: Hybrid — Sidebar + Table + Phase 2 Split
      ========================================== */
-  .dir-g {
-    min-height: 600px;
-  }
-  .dir-g .phase-tabs {
-    display: flex;
-    background: var(--bg-elevated);
-    border-bottom: 1px solid var(--border);
-  }
-  .dir-g .phase-tab {
-    padding: 12px 24px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    border-bottom: 2px solid transparent;
-    cursor: pointer;
-  }
-  .dir-g .phase-tab.active {
-    color: var(--accent-cyan);
-    border-bottom-color: var(--accent-cyan);
-  }
-  .dir-g .phase-content {
-    display: grid;
-    grid-template-columns: 220px 1fr 300px;
-    min-height: 540px;
-  }
-  .dir-g .sidebar {
-    background: var(--bg-elevated);
-    border-right: 1px solid var(--border);
-    padding: 16px 14px;
-  }
-  .dir-g .sidebar h3 {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-  }
-  .dir-g .filter-select {
-    width: 100%;
-    padding: 7px 10px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text-primary);
-    font-family: inherit;
-    font-size: 12px;
-    display: block;
-    margin-bottom: 8px;
-  }
-  .dir-g .main { padding: 14px 16px; overflow: auto; }
-  .dir-g .build-panel {
-    background: var(--bg-elevated);
-    border-left: 1px solid var(--border);
-    padding: 16px 14px;
-  }
-  .dir-g .build-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  .dir-g .build-title {
-    font-size: 13px;
-    font-weight: 600;
-  }
-  .dir-g .build-points {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--accent-amber);
-  }
-  .dir-g .build-points span {
-    font-size: 12px;
-    color: var(--text-secondary);
-    font-weight: 500;
-  }
-  .dir-g .build-ship {
-    background: var(--bg-surface);
-    border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 8px;
-  }
-  .dir-g .build-ship-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-  .dir-g .build-ship-name { font-size: 13px; font-weight: 600; }
-  .dir-g .build-ship-pts { font-size: 14px; font-weight: 700; color: var(--accent-amber); }
-  .dir-g .build-crew {
-    padding: 4px 0 4px 16px;
-    font-size: 12px;
-    color: var(--text-secondary);
-    border-left: 2px solid var(--border);
-    margin-top: 4px;
-  }
-  .dir-g .build-crew-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 3px 0;
-  }
+			.dir-g {
+				min-height: 600px;
+			}
+			.dir-g .phase-tabs {
+				display: flex;
+				background: var(--bg-elevated);
+				border-bottom: 1px solid var(--border);
+			}
+			.dir-g .phase-tab {
+				padding: 12px 24px;
+				font-size: 13px;
+				font-weight: 600;
+				color: var(--text-secondary);
+				border-bottom: 2px solid transparent;
+				cursor: pointer;
+			}
+			.dir-g .phase-tab.active {
+				color: var(--accent-cyan);
+				border-bottom-color: var(--accent-cyan);
+			}
+			.dir-g .phase-content {
+				display: grid;
+				grid-template-columns: 220px 1fr 300px;
+				min-height: 540px;
+			}
+			.dir-g .sidebar {
+				background: var(--bg-elevated);
+				border-right: 1px solid var(--border);
+				padding: 16px 14px;
+			}
+			.dir-g .sidebar h3 {
+				font-size: 11px;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				color: var(--text-muted);
+				margin-bottom: 10px;
+			}
+			.dir-g .filter-select {
+				width: 100%;
+				padding: 7px 10px;
+				background: var(--bg-surface);
+				border: 1px solid var(--border);
+				border-radius: 6px;
+				color: var(--text-primary);
+				font-family: inherit;
+				font-size: 12px;
+				display: block;
+				margin-bottom: 8px;
+			}
+			.dir-g .main {
+				padding: 14px 16px;
+				overflow: auto;
+			}
+			.dir-g .build-panel {
+				background: var(--bg-elevated);
+				border-left: 1px solid var(--border);
+				padding: 16px 14px;
+			}
+			.dir-g .build-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 16px;
+			}
+			.dir-g .build-title {
+				font-size: 13px;
+				font-weight: 600;
+			}
+			.dir-g .build-points {
+				font-size: 18px;
+				font-weight: 700;
+				color: var(--accent-amber);
+			}
+			.dir-g .build-points span {
+				font-size: 12px;
+				color: var(--text-secondary);
+				font-weight: 500;
+			}
+			.dir-g .build-ship {
+				background: var(--bg-surface);
+				border-radius: 8px;
+				padding: 12px;
+				margin-bottom: 8px;
+			}
+			.dir-g .build-ship-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 8px;
+			}
+			.dir-g .build-ship-name {
+				font-size: 13px;
+				font-weight: 600;
+			}
+			.dir-g .build-ship-pts {
+				font-size: 14px;
+				font-weight: 700;
+				color: var(--accent-amber);
+			}
+			.dir-g .build-crew {
+				padding: 4px 0 4px 16px;
+				font-size: 12px;
+				color: var(--text-secondary);
+				border-left: 2px solid var(--border);
+				margin-top: 4px;
+			}
+			.dir-g .build-crew-item {
+				display: flex;
+				justify-content: space-between;
+				padding: 3px 0;
+			}
 
-  /* Notes section */
-  .direction-notes {
-    margin-top: 16px;
-    padding: 16px;
-    background: var(--bg-elevated);
-    border-radius: 8px;
-    border: 1px solid var(--border);
-  }
-  .direction-notes h4 {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--accent-cyan);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .direction-notes ul {
-    list-style: none;
-    padding: 0;
-  }
-  .direction-notes li {
-    font-size: 13px;
-    color: var(--text-secondary);
-    padding: 3px 0;
-    padding-left: 16px;
-    position: relative;
-  }
-  .direction-notes li:before {
-    content: "—";
-    position: absolute;
-    left: 0;
-    color: var(--text-muted);
-  }
-</style>
-</head>
-<body>
+			/* Notes section */
+			.direction-notes {
+				margin-top: 16px;
+				padding: 16px;
+				background: var(--bg-elevated);
+				border-radius: 8px;
+				border: 1px solid var(--border);
+			}
+			.direction-notes h4 {
+				font-size: 12px;
+				font-weight: 600;
+				color: var(--accent-cyan);
+				margin-bottom: 8px;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+			}
+			.direction-notes ul {
+				list-style: none;
+				padding: 0;
+			}
+			.direction-notes li {
+				font-size: 13px;
+				color: var(--text-secondary);
+				padding: 3px 0;
+				padding-left: 16px;
+				position: relative;
+			}
+			.direction-notes li:before {
+				content: '—';
+				position: absolute;
+				left: 0;
+				color: var(--text-muted);
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="nav">
+			<h1>PiratesWeb Design Directions</h1>
+			<div class="nav-buttons">
+				<button class="nav-btn active" onclick="showSection('a')">A: Sidebar + Rows</button>
+				<button class="nav-btn" onclick="showSection('b')">B: Top Bar + Rows</button>
+				<button class="nav-btn" onclick="showSection('c')">C: Compact Dense</button>
+				<button class="nav-btn" onclick="showSection('d')">D: Three-Panel</button>
+				<button class="nav-btn" onclick="showSection('e')">E: Card Gallery</button>
+				<button class="nav-btn" onclick="showSection('f')">F: Inline Expand</button>
+				<button class="nav-btn" onclick="showSection('g')">G: Build Mode</button>
+			</div>
+		</nav>
 
-<nav class="nav">
-  <h1>PiratesWeb Design Directions</h1>
-  <div class="nav-buttons">
-    <button class="nav-btn active" onclick="showSection('a')">A: Sidebar + Rows</button>
-    <button class="nav-btn" onclick="showSection('b')">B: Top Bar + Rows</button>
-    <button class="nav-btn" onclick="showSection('c')">C: Compact Dense</button>
-    <button class="nav-btn" onclick="showSection('d')">D: Three-Panel</button>
-    <button class="nav-btn" onclick="showSection('e')">E: Card Gallery</button>
-    <button class="nav-btn" onclick="showSection('f')">F: Inline Expand</button>
-    <button class="nav-btn" onclick="showSection('g')">G: Build Mode</button>
-  </div>
-</nav>
+		<!-- DIRECTION A: Sidebar Filters + Build-Sheet Rows -->
+		<div id="section-a" class="section active">
+			<div class="section-title">Direction A: Sidebar Filters + Build-Sheet Rows</div>
+			<div class="section-desc">
+				Left sidebar with filter dropdowns. Card rows use the build-sheet layout with set-colored
+				backgrounds, prominent point badges, thumbnails, and inline stats. The primary recommended
+				layout for Phase 1.
+			</div>
 
-<!-- DIRECTION A: Sidebar Filters + Build-Sheet Rows -->
-<div id="section-a" class="section active">
-  <div class="section-title">Direction A: Sidebar Filters + Build-Sheet Rows</div>
-  <div class="section-desc">Left sidebar with filter dropdowns. Card rows use the build-sheet layout with set-colored backgrounds, prominent point badges, thumbnails, and inline stats. The primary recommended layout for Phase 1.</div>
+			<div class="mockup dir-a">
+				<div class="sidebar">
+					<h3>Filters</h3>
+					<div class="filter-group">
+						<input class="filter-search" placeholder="Search cards..." />
+					</div>
+					<div class="filter-group">
+						<label class="filter-label">Expansion Set</label>
+						<select class="filter-select">
+							<option>All Sets</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<label class="filter-label">Card Type</label>
+						<select class="filter-select">
+							<option>All Types</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<label class="filter-label">Nationality</label>
+						<select class="filter-select">
+							<option>All Nations</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<label class="filter-label">Rarity</label>
+						<select class="filter-select">
+							<option>All Rarities</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<label class="filter-label">Tournament Status</label>
+						<select class="filter-select">
+							<option>All</option>
+						</select>
+					</div>
+				</div>
+				<div class="main">
+					<div class="results-bar">
+						<span>Showing 47 of 5,231 cards</span>
+						<span class="sort-indicator">Sorted by: Points (high → low) ▼</span>
+					</div>
 
-  <div class="mockup dir-a">
-    <div class="sidebar">
-      <h3>Filters</h3>
-      <div class="filter-group">
-        <input class="filter-search" placeholder="Search cards..." />
-      </div>
-      <div class="filter-group">
-        <label class="filter-label">Expansion Set</label>
-        <select class="filter-select"><option>All Sets</option></select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label">Card Type</label>
-        <select class="filter-select"><option>All Types</option></select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label">Nationality</label>
-        <select class="filter-select"><option>All Nations</option></select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label">Rarity</label>
-        <select class="filter-select"><option>All Rarities</option></select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label">Tournament Status</label>
-        <select class="filter-select"><option>All</option></select>
-      </div>
-    </div>
-    <div class="main">
-      <div class="results-bar">
-        <span>Showing 47 of 5,231 cards</span>
-        <span class="sort-indicator">Sorted by: Points (high → low) ▼</span>
-      </div>
+					<div class="card-row set-sm">
+						<div class="point-badge">17</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-eng">EN</div>
+						<div class="card-info">
+							<div class="card-name">HMS Endeavour</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 4</span>
+								<span class="stat-item"><span class="stat-label">C</span> 6</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
+								<span class="stat-item">
+									<span class="stat-label">Cn</span>
+									<span class="cannon-display"
+										><span class="cannon-pip cannon-s">2S</span
+										><span class="cannon-pip cannon-s">2S</span
+										><span class="cannon-pip cannon-l">3L</span
+										><span class="cannon-pip cannon-s">2S</span></span
+									>
+								</span>
+							</div>
+							<div class="card-ability">
+								This ship gets +1 to her cannon rolls against Pirate ships.
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
 
-      <div class="card-row set-sm">
-        <div class="point-badge">17</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-eng">EN</div>
-        <div class="card-info">
-          <div class="card-name">HMS Endeavour</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 4</span>
-            <span class="stat-item"><span class="stat-label">C</span> 6</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
-            <span class="stat-item">
-              <span class="stat-label">Cn</span>
-              <span class="cannon-display"><span class="cannon-pip cannon-s">2S</span><span class="cannon-pip cannon-s">2S</span><span class="cannon-pip cannon-l">3L</span><span class="cannon-pip cannon-s">2S</span></span>
-            </span>
-          </div>
-          <div class="card-ability">This ship gets +1 to her cannon rolls against Pirate ships.</div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
+					<div class="card-row set-cc">
+						<div class="point-badge">14</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-esp">ES</div>
+						<div class="card-info">
+							<div class="card-name">La Repulsa</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 4</span>
+								<span class="stat-item"><span class="stat-label">C</span> 5</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> S+S</span>
+								<span class="stat-item">
+									<span class="stat-label">Cn</span>
+									<span class="cannon-display"
+										><span class="cannon-pip cannon-s">1S</span
+										><span class="cannon-pip cannon-l">2L</span
+										><span class="cannon-pip cannon-s">1S</span
+										><span class="cannon-pip cannon-l">2L</span></span
+									>
+								</span>
+							</div>
+							<div class="card-ability">
+								This ship gets +1 to her cannon rolls for every friendly ship within S of her.
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
 
-      <div class="card-row set-cc">
-        <div class="point-badge">14</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-esp">ES</div>
-        <div class="card-info">
-          <div class="card-name">La Repulsa</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 4</span>
-            <span class="stat-item"><span class="stat-label">C</span> 5</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> S+S</span>
-            <span class="stat-item">
-              <span class="stat-label">Cn</span>
-              <span class="cannon-display"><span class="cannon-pip cannon-s">1S</span><span class="cannon-pip cannon-l">2L</span><span class="cannon-pip cannon-s">1S</span><span class="cannon-pip cannon-l">2L</span></span>
-            </span>
-          </div>
-          <div class="card-ability">This ship gets +1 to her cannon rolls for every friendly ship within S of her.</div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
+					<div class="card-row set-rv">
+						<div class="point-badge">10</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-eng">EN</div>
+						<div class="card-info">
+							<div class="card-name">HMS Lord Cauldwell</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 3</span>
+								<span class="stat-item"><span class="stat-label">C</span> 4</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> L</span>
+								<span class="stat-item">
+									<span class="stat-label">Cn</span>
+									<span class="cannon-display"
+										><span class="cannon-pip cannon-s">2S</span
+										><span class="cannon-pip cannon-l">4L</span
+										><span class="cannon-pip cannon-s">2S</span></span
+									>
+								</span>
+							</div>
+							<div class="card-ability">
+								Two hits from the same shoot action are required to eliminate one of this ship's
+								masts.
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
 
-      <div class="card-row set-rv">
-        <div class="point-badge">10</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-eng">EN</div>
-        <div class="card-info">
-          <div class="card-name">HMS Lord Cauldwell</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 3</span>
-            <span class="stat-item"><span class="stat-label">C</span> 4</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> L</span>
-            <span class="stat-item">
-              <span class="stat-label">Cn</span>
-              <span class="cannon-display"><span class="cannon-pip cannon-s">2S</span><span class="cannon-pip cannon-l">4L</span><span class="cannon-pip cannon-s">2S</span></span>
-            </span>
-          </div>
-          <div class="card-ability">Two hits from the same shoot action are required to eliminate one of this ship's masts.</div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
+					<div class="card-row set-sm">
+						<div class="point-badge">9</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-fra">FR</div>
+						<div class="card-info">
+							<div class="card-name">L'Amazone</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 2</span>
+								<span class="stat-item"><span class="stat-label">C</span> 4</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
+								<span class="stat-item">
+									<span class="stat-label">Cn</span>
+									<span class="cannon-display"
+										><span class="cannon-pip cannon-s">2S</span
+										><span class="cannon-pip cannon-l">3L</span></span
+									>
+								</span>
+							</div>
+							<div class="card-ability">
+								This ship gets +1 to her cannon rolls against Spanish ships.
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
 
-      <div class="card-row set-sm">
-        <div class="point-badge">9</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-fra">FR</div>
-        <div class="card-info">
-          <div class="card-name">L'Amazone</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 2</span>
-            <span class="stat-item"><span class="stat-label">C</span> 4</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
-            <span class="stat-item">
-              <span class="stat-label">Cn</span>
-              <span class="cannon-display"><span class="cannon-pip cannon-s">2S</span><span class="cannon-pip cannon-l">3L</span></span>
-            </span>
-          </div>
-          <div class="card-ability">This ship gets +1 to her cannon rolls against Spanish ships.</div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
+					<div class="card-row set-rv">
+						<div class="point-badge">8</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-pir">PR</div>
+						<div class="card-info">
+							<div class="card-name">Carthage</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 3</span>
+								<span class="stat-item"><span class="stat-label">C</span> 5</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
+								<span class="stat-item">
+									<span class="stat-label">Cn</span>
+									<span class="cannon-display"
+										><span class="cannon-pip cannon-s">1S</span
+										><span class="cannon-pip cannon-l">3L</span
+										><span class="cannon-pip cannon-s">1S</span></span
+									>
+								</span>
+							</div>
+							<div class="card-ability">Galley. This ship may not be shot at while docked.</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
 
-      <div class="card-row set-rv">
-        <div class="point-badge">8</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-pir">PR</div>
-        <div class="card-info">
-          <div class="card-name">Carthage</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 3</span>
-            <span class="stat-item"><span class="stat-label">C</span> 5</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
-            <span class="stat-item">
-              <span class="stat-label">Cn</span>
-              <span class="cannon-display"><span class="cannon-pip cannon-s">1S</span><span class="cannon-pip cannon-l">3L</span><span class="cannon-pip cannon-s">1S</span></span>
-            </span>
-          </div>
-          <div class="card-ability">Galley. This ship may not be shot at while docked.</div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
+					<div class="card-row set-sm">
+						<div class="point-badge">5</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-eng">EN</div>
+						<div class="card-info">
+							<div class="card-name">Admiral Morgan</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">Type</span> Crew</span>
+							</div>
+							<div class="card-ability">
+								Captain. This ship's crew can't be eliminated unless she's sunk.
+							</div>
+						</div>
+						<div class="card-type-badge">Crew</div>
+					</div>
 
-      <div class="card-row set-sm">
-        <div class="point-badge">5</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-eng">EN</div>
-        <div class="card-info">
-          <div class="card-name">Admiral Morgan</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">Type</span> Crew</span>
-          </div>
-          <div class="card-ability">Captain. This ship's crew can't be eliminated unless she's sunk.</div>
-        </div>
-        <div class="card-type-badge">Crew</div>
-      </div>
+					<div class="card-row set-cc">
+						<div class="point-badge">2</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-pir">PR</div>
+						<div class="card-info">
+							<div class="card-name">Cannoneer</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">Type</span> Crew</span>
+							</div>
+							<div class="card-ability">
+								Once per turn, one of this ship's cannons may shoot again if it misses.
+							</div>
+						</div>
+						<div class="card-type-badge">Crew</div>
+					</div>
+				</div>
+			</div>
 
-      <div class="card-row set-cc">
-        <div class="point-badge">2</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-pir">PR</div>
-        <div class="card-info">
-          <div class="card-name">Cannoneer</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">Type</span> Crew</span>
-          </div>
-          <div class="card-ability">Once per turn, one of this ship's cannons may shoot again if it misses.</div>
-        </div>
-        <div class="card-type-badge">Crew</div>
-      </div>
-    </div>
-  </div>
+			<div class="direction-notes">
+				<h4>Design Notes</h4>
+				<ul>
+					<li>Build-sheet-inspired rows with set-colored gradient backgrounds</li>
+					<li>Point cost badge is the loudest element (large, boxed, left-most)</li>
+					<li>Nationality flags as compact inline badges</li>
+					<li>Cannon pips rendered visually with S/L color differentiation</li>
+					<li>Crew cards gracefully degrade — ship-specific stats replaced with type label</li>
+					<li>Sidebar always visible for filter refinement</li>
+				</ul>
+			</div>
+		</div>
 
-  <div class="direction-notes">
-    <h4>Design Notes</h4>
-    <ul>
-      <li>Build-sheet-inspired rows with set-colored gradient backgrounds</li>
-      <li>Point cost badge is the loudest element (large, boxed, left-most)</li>
-      <li>Nationality flags as compact inline badges</li>
-      <li>Cannon pips rendered visually with S/L color differentiation</li>
-      <li>Crew cards gracefully degrade — ship-specific stats replaced with type label</li>
-      <li>Sidebar always visible for filter refinement</li>
-    </ul>
-  </div>
-</div>
+		<!-- DIRECTION B: Top Filter Bar + Rows -->
+		<div id="section-b" class="section">
+			<div class="section-title">Direction B: Top Filter Bar + Build-Sheet Rows</div>
+			<div class="section-desc">
+				Horizontal filter bar with chip-style selectors. Maximizes card table width. Filters as pill
+				chips with active state. Good for wide screens where sidebar isn't needed.
+			</div>
 
-<!-- DIRECTION B: Top Filter Bar + Rows -->
-<div id="section-b" class="section">
-  <div class="section-title">Direction B: Top Filter Bar + Build-Sheet Rows</div>
-  <div class="section-desc">Horizontal filter bar with chip-style selectors. Maximizes card table width. Filters as pill chips with active state. Good for wide screens where sidebar isn't needed.</div>
+			<div class="mockup dir-b">
+				<div class="top-bar">
+					<input class="search-bar" placeholder="Search cards by name or ability..." />
+					<span class="chip active">All Sets</span>
+					<span class="chip">Ships</span>
+					<span class="chip">Crew</span>
+					<span class="chip">Treasure</span>
+					<span class="chip">Forts</span>
+					<span class="chip">Events</span>
+					<span class="chip">English</span>
+					<span class="chip">Spanish</span>
+					<span class="chip">French</span>
+					<span class="chip">Pirate</span>
+				</div>
+				<div class="main">
+					<div class="results-bar">
+						<span>Showing 5,231 cards</span>
+						<span class="sort-indicator">Sorted by: Points ▼</span>
+					</div>
+					<div class="card-row set-sm">
+						<div class="point-badge">17</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-eng">EN</div>
+						<div class="card-info">
+							<div class="card-name">HMS Endeavour</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 4</span>
+								<span class="stat-item"><span class="stat-label">C</span> 6</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
+								<span class="stat-item"><span class="stat-label">Cn</span> 2S 2S 3L 2S</span>
+							</div>
+							<div class="card-ability">
+								This ship gets +1 to her cannon rolls against Pirate ships.
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
+					<div class="card-row set-cc">
+						<div class="point-badge">14</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-esp">ES</div>
+						<div class="card-info">
+							<div class="card-name">La Repulsa</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 4</span>
+								<span class="stat-item"><span class="stat-label">C</span> 5</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> S+S</span>
+								<span class="stat-item"><span class="stat-label">Cn</span> 1S 2L 1S 2L</span>
+							</div>
+							<div class="card-ability">
+								This ship gets +1 to her cannon rolls for every friendly ship within S of her.
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
+					<div class="card-row set-rv">
+						<div class="point-badge">10</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-eng">EN</div>
+						<div class="card-info">
+							<div class="card-name">HMS Lord Cauldwell</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 3</span>
+								<span class="stat-item"><span class="stat-label">C</span> 4</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> L</span>
+								<span class="stat-item"><span class="stat-label">Cn</span> 2S 4L 2S</span>
+							</div>
+							<div class="card-ability">
+								Two hits from the same shoot action are required to eliminate one of this ship's
+								masts.
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
+				</div>
+			</div>
 
-  <div class="mockup dir-b">
-    <div class="top-bar">
-      <input class="search-bar" placeholder="Search cards by name or ability..." />
-      <span class="chip active">All Sets</span>
-      <span class="chip">Ships</span>
-      <span class="chip">Crew</span>
-      <span class="chip">Treasure</span>
-      <span class="chip">Forts</span>
-      <span class="chip">Events</span>
-      <span class="chip">English</span>
-      <span class="chip">Spanish</span>
-      <span class="chip">French</span>
-      <span class="chip">Pirate</span>
-    </div>
-    <div class="main">
-      <div class="results-bar">
-        <span>Showing 5,231 cards</span>
-        <span class="sort-indicator">Sorted by: Points ▼</span>
-      </div>
-      <div class="card-row set-sm">
-        <div class="point-badge">17</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-eng">EN</div>
-        <div class="card-info">
-          <div class="card-name">HMS Endeavour</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 4</span>
-            <span class="stat-item"><span class="stat-label">C</span> 6</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
-            <span class="stat-item"><span class="stat-label">Cn</span> 2S 2S 3L 2S</span>
-          </div>
-          <div class="card-ability">This ship gets +1 to her cannon rolls against Pirate ships.</div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
-      <div class="card-row set-cc">
-        <div class="point-badge">14</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-esp">ES</div>
-        <div class="card-info">
-          <div class="card-name">La Repulsa</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 4</span>
-            <span class="stat-item"><span class="stat-label">C</span> 5</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> S+S</span>
-            <span class="stat-item"><span class="stat-label">Cn</span> 1S 2L 1S 2L</span>
-          </div>
-          <div class="card-ability">This ship gets +1 to her cannon rolls for every friendly ship within S of her.</div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
-      <div class="card-row set-rv">
-        <div class="point-badge">10</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-eng">EN</div>
-        <div class="card-info">
-          <div class="card-name">HMS Lord Cauldwell</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 3</span>
-            <span class="stat-item"><span class="stat-label">C</span> 4</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> L</span>
-            <span class="stat-item"><span class="stat-label">Cn</span> 2S 4L 2S</span>
-          </div>
-          <div class="card-ability">Two hits from the same shoot action are required to eliminate one of this ship's masts.</div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
-    </div>
-  </div>
+			<div class="direction-notes">
+				<h4>Design Notes</h4>
+				<ul>
+					<li>All horizontal space used for card rows — no sidebar stealing width</li>
+					<li>Filter chips allow quick toggling — good for type and nationality</li>
+					<li>Less suitable for complex filter combinations (set + type + nationality + rarity)</li>
+					<li>Search bar prominent and always accessible</li>
+					<li>Works well if filter needs are simple; sidebar better for power filtering</li>
+				</ul>
+			</div>
+		</div>
 
-  <div class="direction-notes">
-    <h4>Design Notes</h4>
-    <ul>
-      <li>All horizontal space used for card rows — no sidebar stealing width</li>
-      <li>Filter chips allow quick toggling — good for type and nationality</li>
-      <li>Less suitable for complex filter combinations (set + type + nationality + rarity)</li>
-      <li>Search bar prominent and always accessible</li>
-      <li>Works well if filter needs are simple; sidebar better for power filtering</li>
-    </ul>
-  </div>
-</div>
+		<!-- DIRECTION C: Compact Dense -->
+		<div id="section-c" class="section">
+			<div class="section-title">Direction C: Compact Dense Rows</div>
+			<div class="section-desc">
+				Spreadsheet-inspired density. Narrower sidebar, tighter rows. More cards visible at once.
+				For comparison with moderate breathing room of Direction A.
+			</div>
 
-<!-- DIRECTION C: Compact Dense -->
-<div id="section-c" class="section">
-  <div class="section-title">Direction C: Compact Dense Rows</div>
-  <div class="section-desc">Spreadsheet-inspired density. Narrower sidebar, tighter rows. More cards visible at once. For comparison with moderate breathing room of Direction A.</div>
+			<div class="mockup dir-c">
+				<div class="sidebar">
+					<h3>Filters</h3>
+					<div class="filter-group">
+						<select class="filter-select">
+							<option>All Sets</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<select class="filter-select">
+							<option>All Types</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<select class="filter-select">
+							<option>All Nations</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<select class="filter-select">
+							<option>All Rarities</option>
+						</select>
+					</div>
+				</div>
+				<div class="main">
+					<div class="card-row-compact set-sm">
+						<span class="compact-points">17</span>
+						<div class="compact-thumb"></div>
+						<div class="card-flag flag-eng" style="font-size: 8px">EN</div>
+						<span class="compact-name">HMS Endeavour</span>
+						<span class="compact-stats">
+							<span>M:4</span> <span>C:6</span> <span>Mv:S+L</span> <span>Cn:2S 2S 3L 2S</span>
+						</span>
+						<span class="compact-ability">+1 cannon vs Pirate ships</span>
+					</div>
+					<div class="card-row-compact set-cc">
+						<span class="compact-points">14</span>
+						<div class="compact-thumb"></div>
+						<div class="card-flag flag-esp" style="font-size: 8px">ES</div>
+						<span class="compact-name">La Repulsa</span>
+						<span class="compact-stats">
+							<span>M:4</span> <span>C:5</span> <span>Mv:S+S</span> <span>Cn:1S 2L 1S 2L</span>
+						</span>
+						<span class="compact-ability">+1 cannon per friendly ship within S</span>
+					</div>
+					<div class="card-row-compact set-rv">
+						<span class="compact-points">10</span>
+						<div class="compact-thumb"></div>
+						<div class="card-flag flag-eng" style="font-size: 8px">EN</div>
+						<span class="compact-name">HMS Lord Cauldwell</span>
+						<span class="compact-stats">
+							<span>M:3</span> <span>C:4</span> <span>Mv:L</span> <span>Cn:2S 4L 2S</span>
+						</span>
+						<span class="compact-ability">Needs 2 hits per mast</span>
+					</div>
+					<div class="card-row-compact set-sm">
+						<span class="compact-points">9</span>
+						<div class="compact-thumb"></div>
+						<div class="card-flag flag-fra" style="font-size: 8px">FR</div>
+						<span class="compact-name">L'Amazone</span>
+						<span class="compact-stats">
+							<span>M:2</span> <span>C:4</span> <span>Mv:S+L</span> <span>Cn:2S 3L</span>
+						</span>
+						<span class="compact-ability">+1 cannon vs Spanish ships</span>
+					</div>
+					<div class="card-row-compact set-rv">
+						<span class="compact-points">8</span>
+						<div class="compact-thumb"></div>
+						<div class="card-flag flag-pir" style="font-size: 8px">PR</div>
+						<span class="compact-name">Carthage</span>
+						<span class="compact-stats">
+							<span>M:3</span> <span>C:5</span> <span>Mv:S+L</span> <span>Cn:1S 3L 1S</span>
+						</span>
+						<span class="compact-ability">Galley. Can't be shot while docked</span>
+					</div>
+					<div class="card-row-compact set-sm">
+						<span class="compact-points">5</span>
+						<div class="compact-thumb"></div>
+						<div class="card-flag flag-eng" style="font-size: 8px">EN</div>
+						<span class="compact-name">Admiral Morgan</span>
+						<span class="compact-stats"><span>Crew</span></span>
+						<span class="compact-ability">Captain. Crew can't be eliminated unless sunk.</span>
+					</div>
+					<div class="card-row-compact set-cc">
+						<span class="compact-points">2</span>
+						<div class="compact-thumb"></div>
+						<div class="card-flag flag-pir" style="font-size: 8px">PR</div>
+						<span class="compact-name">Cannoneer</span>
+						<span class="compact-stats"><span>Crew</span></span>
+						<span class="compact-ability">Once per turn, re-roll a missed cannon</span>
+					</div>
+					<div class="card-row-compact set-sm">
+						<span class="compact-points">1</span>
+						<div class="compact-thumb"></div>
+						<div class="card-flag flag-eng" style="font-size: 8px">EN</div>
+						<span class="compact-name">Explorer</span>
+						<span class="compact-stats"><span>Crew</span></span>
+						<span class="compact-ability">Explorer</span>
+					</div>
+				</div>
+			</div>
 
-  <div class="mockup dir-c">
-    <div class="sidebar">
-      <h3>Filters</h3>
-      <div class="filter-group">
-        <select class="filter-select"><option>All Sets</option></select>
-      </div>
-      <div class="filter-group">
-        <select class="filter-select"><option>All Types</option></select>
-      </div>
-      <div class="filter-group">
-        <select class="filter-select"><option>All Nations</option></select>
-      </div>
-      <div class="filter-group">
-        <select class="filter-select"><option>All Rarities</option></select>
-      </div>
-    </div>
-    <div class="main">
-      <div class="card-row-compact set-sm">
-        <span class="compact-points">17</span>
-        <div class="compact-thumb"></div>
-        <div class="card-flag flag-eng" style="font-size:8px">EN</div>
-        <span class="compact-name">HMS Endeavour</span>
-        <span class="compact-stats">
-          <span>M:4</span> <span>C:6</span> <span>Mv:S+L</span> <span>Cn:2S 2S 3L 2S</span>
-        </span>
-        <span class="compact-ability">+1 cannon vs Pirate ships</span>
-      </div>
-      <div class="card-row-compact set-cc">
-        <span class="compact-points">14</span>
-        <div class="compact-thumb"></div>
-        <div class="card-flag flag-esp" style="font-size:8px">ES</div>
-        <span class="compact-name">La Repulsa</span>
-        <span class="compact-stats">
-          <span>M:4</span> <span>C:5</span> <span>Mv:S+S</span> <span>Cn:1S 2L 1S 2L</span>
-        </span>
-        <span class="compact-ability">+1 cannon per friendly ship within S</span>
-      </div>
-      <div class="card-row-compact set-rv">
-        <span class="compact-points">10</span>
-        <div class="compact-thumb"></div>
-        <div class="card-flag flag-eng" style="font-size:8px">EN</div>
-        <span class="compact-name">HMS Lord Cauldwell</span>
-        <span class="compact-stats">
-          <span>M:3</span> <span>C:4</span> <span>Mv:L</span> <span>Cn:2S 4L 2S</span>
-        </span>
-        <span class="compact-ability">Needs 2 hits per mast</span>
-      </div>
-      <div class="card-row-compact set-sm">
-        <span class="compact-points">9</span>
-        <div class="compact-thumb"></div>
-        <div class="card-flag flag-fra" style="font-size:8px">FR</div>
-        <span class="compact-name">L'Amazone</span>
-        <span class="compact-stats">
-          <span>M:2</span> <span>C:4</span> <span>Mv:S+L</span> <span>Cn:2S 3L</span>
-        </span>
-        <span class="compact-ability">+1 cannon vs Spanish ships</span>
-      </div>
-      <div class="card-row-compact set-rv">
-        <span class="compact-points">8</span>
-        <div class="compact-thumb"></div>
-        <div class="card-flag flag-pir" style="font-size:8px">PR</div>
-        <span class="compact-name">Carthage</span>
-        <span class="compact-stats">
-          <span>M:3</span> <span>C:5</span> <span>Mv:S+L</span> <span>Cn:1S 3L 1S</span>
-        </span>
-        <span class="compact-ability">Galley. Can't be shot while docked</span>
-      </div>
-      <div class="card-row-compact set-sm">
-        <span class="compact-points">5</span>
-        <div class="compact-thumb"></div>
-        <div class="card-flag flag-eng" style="font-size:8px">EN</div>
-        <span class="compact-name">Admiral Morgan</span>
-        <span class="compact-stats"><span>Crew</span></span>
-        <span class="compact-ability">Captain. Crew can't be eliminated unless sunk.</span>
-      </div>
-      <div class="card-row-compact set-cc">
-        <span class="compact-points">2</span>
-        <div class="compact-thumb"></div>
-        <div class="card-flag flag-pir" style="font-size:8px">PR</div>
-        <span class="compact-name">Cannoneer</span>
-        <span class="compact-stats"><span>Crew</span></span>
-        <span class="compact-ability">Once per turn, re-roll a missed cannon</span>
-      </div>
-      <div class="card-row-compact set-sm">
-        <span class="compact-points">1</span>
-        <div class="compact-thumb"></div>
-        <div class="card-flag flag-eng" style="font-size:8px">EN</div>
-        <span class="compact-name">Explorer</span>
-        <span class="compact-stats"><span>Crew</span></span>
-        <span class="compact-ability">Explorer</span>
-      </div>
-    </div>
-  </div>
+			<div class="direction-notes">
+				<h4>Design Notes</h4>
+				<ul>
+					<li>~35px row height vs ~68px in Direction A — nearly 2x more visible cards</li>
+					<li>Stats in a single inline row with colon notation (M:4 C:6)</li>
+					<li>Ability text heavily truncated — scanning tool, not reading tool</li>
+					<li>Closer to spreadsheet experience users are familiar with</li>
+					<li>Less visual polish — trades "impressive" for "efficient"</li>
+				</ul>
+			</div>
+		</div>
 
-  <div class="direction-notes">
-    <h4>Design Notes</h4>
-    <ul>
-      <li>~35px row height vs ~68px in Direction A — nearly 2x more visible cards</li>
-      <li>Stats in a single inline row with colon notation (M:4 C:6)</li>
-      <li>Ability text heavily truncated — scanning tool, not reading tool</li>
-      <li>Closer to spreadsheet experience users are familiar with</li>
-      <li>Less visual polish — trades "impressive" for "efficient"</li>
-    </ul>
-  </div>
-</div>
+		<!-- DIRECTION D: Three-Panel with Persistent Detail -->
+		<div id="section-d" class="section">
+			<div class="section-title">Direction D: Three-Panel Layout</div>
+			<div class="section-desc">
+				Persistent detail panel on the right. Clicking a card row populates the detail view without
+				expanding or navigating. Filters left, table center, detail right. Power-user layout.
+			</div>
 
-<!-- DIRECTION D: Three-Panel with Persistent Detail -->
-<div id="section-d" class="section">
-  <div class="section-title">Direction D: Three-Panel Layout</div>
-  <div class="section-desc">Persistent detail panel on the right. Clicking a card row populates the detail view without expanding or navigating. Filters left, table center, detail right. Power-user layout.</div>
+			<div class="mockup dir-d">
+				<div class="sidebar">
+					<h3>Filters</h3>
+					<div class="filter-group">
+						<select class="filter-select">
+							<option>All Sets</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<select class="filter-select">
+							<option>All Types</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<select class="filter-select">
+							<option>All Nations</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<select class="filter-select">
+							<option>All Rarities</option>
+						</select>
+					</div>
+				</div>
+				<div class="main">
+					<div
+						class="card-row set-sm"
+						style="outline: 1px solid var(--accent-cyan); outline-offset: -1px"
+					>
+						<div class="point-badge">17</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-eng">EN</div>
+						<div class="card-info">
+							<div class="card-name">HMS Endeavour</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 4</span>
+								<span class="stat-item"><span class="stat-label">C</span> 6</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
+					<div class="card-row set-cc">
+						<div class="point-badge">14</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-esp">ES</div>
+						<div class="card-info">
+							<div class="card-name">La Repulsa</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 4</span>
+								<span class="stat-item"><span class="stat-label">C</span> 5</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> S+S</span>
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
+					<div class="card-row set-rv">
+						<div class="point-badge">10</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-eng">EN</div>
+						<div class="card-info">
+							<div class="card-name">HMS Lord Cauldwell</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 3</span>
+								<span class="stat-item"><span class="stat-label">C</span> 4</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> L</span>
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
+				</div>
+				<div class="detail-panel">
+					<div class="card-image-placeholder">Card Image: HMS Endeavour</div>
+					<h2>HMS Endeavour</h2>
+					<div class="detail-set">Pirates of the Spanish Main — English — Rare</div>
+					<div class="detail-stats">
+						<div class="detail-stat">
+							<div class="detail-stat-label">Points</div>
+							<div class="detail-stat-value">17</div>
+						</div>
+						<div class="detail-stat">
+							<div class="detail-stat-label">Masts</div>
+							<div class="detail-stat-value">4</div>
+						</div>
+						<div class="detail-stat">
+							<div class="detail-stat-label">Cargo</div>
+							<div class="detail-stat-value">6</div>
+						</div>
+						<div class="detail-stat">
+							<div class="detail-stat-label">Move</div>
+							<div class="detail-stat-value">S+L</div>
+						</div>
+					</div>
+					<div class="detail-ability-label">Ability</div>
+					<div class="detail-ability-text">
+						This ship gets +1 to her cannon rolls against Pirate ships.
+					</div>
+					<div class="detail-ability-label">Cannons</div>
+					<div class="detail-ability-text">2S, 2S, 3L, 2S</div>
+					<div class="detail-ability-label">Description</div>
+					<div class="detail-description">
+						"The Endeavour was the pride of the English fleet, feared by pirates across the Spanish
+						Main. Her captain, a stern man of unwavering discipline, had sworn an oath to rid the
+						seas of piracy..."
+					</div>
+				</div>
+			</div>
 
-  <div class="mockup dir-d">
-    <div class="sidebar">
-      <h3>Filters</h3>
-      <div class="filter-group">
-        <select class="filter-select"><option>All Sets</option></select>
-      </div>
-      <div class="filter-group">
-        <select class="filter-select"><option>All Types</option></select>
-      </div>
-      <div class="filter-group">
-        <select class="filter-select"><option>All Nations</option></select>
-      </div>
-      <div class="filter-group">
-        <select class="filter-select"><option>All Rarities</option></select>
-      </div>
-    </div>
-    <div class="main">
-      <div class="card-row set-sm" style="outline: 1px solid var(--accent-cyan); outline-offset: -1px;">
-        <div class="point-badge">17</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-eng">EN</div>
-        <div class="card-info">
-          <div class="card-name">HMS Endeavour</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 4</span>
-            <span class="stat-item"><span class="stat-label">C</span> 6</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
-          </div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
-      <div class="card-row set-cc">
-        <div class="point-badge">14</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-esp">ES</div>
-        <div class="card-info">
-          <div class="card-name">La Repulsa</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 4</span>
-            <span class="stat-item"><span class="stat-label">C</span> 5</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> S+S</span>
-          </div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
-      <div class="card-row set-rv">
-        <div class="point-badge">10</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-eng">EN</div>
-        <div class="card-info">
-          <div class="card-name">HMS Lord Cauldwell</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 3</span>
-            <span class="stat-item"><span class="stat-label">C</span> 4</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> L</span>
-          </div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
-    </div>
-    <div class="detail-panel">
-      <div class="card-image-placeholder">Card Image: HMS Endeavour</div>
-      <h2>HMS Endeavour</h2>
-      <div class="detail-set">Pirates of the Spanish Main — English — Rare</div>
-      <div class="detail-stats">
-        <div class="detail-stat">
-          <div class="detail-stat-label">Points</div>
-          <div class="detail-stat-value">17</div>
-        </div>
-        <div class="detail-stat">
-          <div class="detail-stat-label">Masts</div>
-          <div class="detail-stat-value">4</div>
-        </div>
-        <div class="detail-stat">
-          <div class="detail-stat-label">Cargo</div>
-          <div class="detail-stat-value">6</div>
-        </div>
-        <div class="detail-stat">
-          <div class="detail-stat-label">Move</div>
-          <div class="detail-stat-value">S+L</div>
-        </div>
-      </div>
-      <div class="detail-ability-label">Ability</div>
-      <div class="detail-ability-text">This ship gets +1 to her cannon rolls against Pirate ships.</div>
-      <div class="detail-ability-label">Cannons</div>
-      <div class="detail-ability-text">2S, 2S, 3L, 2S</div>
-      <div class="detail-ability-label">Description</div>
-      <div class="detail-description">"The Endeavour was the pride of the English fleet, feared by pirates across the Spanish Main. Her captain, a stern man of unwavering discipline, had sworn an oath to rid the seas of piracy..."</div>
-    </div>
-  </div>
+			<div class="direction-notes">
+				<h4>Design Notes</h4>
+				<ul>
+					<li>Detail panel always visible — no expanding, no navigation, just click and see</li>
+					<li>
+						Card rows can be simpler since detail is always available (less info needed inline)
+					</li>
+					<li>Description/flavor text visible without extra interaction</li>
+					<li>Requires wider screen — three panels at ~240px + table + 320px</li>
+					<li>Great for Trader Anne (always seeing card images) and Rex (quick stat comparison)</li>
+				</ul>
+			</div>
+		</div>
 
-  <div class="direction-notes">
-    <h4>Design Notes</h4>
-    <ul>
-      <li>Detail panel always visible — no expanding, no navigation, just click and see</li>
-      <li>Card rows can be simpler since detail is always available (less info needed inline)</li>
-      <li>Description/flavor text visible without extra interaction</li>
-      <li>Requires wider screen — three panels at ~240px + table + 320px</li>
-      <li>Great for Trader Anne (always seeing card images) and Rex (quick stat comparison)</li>
-    </ul>
-  </div>
-</div>
+		<!-- DIRECTION E: Card Gallery -->
+		<div id="section-e" class="section">
+			<div class="section-title">Direction E: Card Gallery Grid</div>
+			<div class="section-desc">
+				Image-first card gallery layout. Prioritizes visual browsing over stat scanning. Shows what
+				a future "gallery mode" toggle could look like — serves Trader Anne's browsing style.
+			</div>
 
-<!-- DIRECTION E: Card Gallery -->
-<div id="section-e" class="section">
-  <div class="section-title">Direction E: Card Gallery Grid</div>
-  <div class="section-desc">Image-first card gallery layout. Prioritizes visual browsing over stat scanning. Shows what a future "gallery mode" toggle could look like — serves Trader Anne's browsing style.</div>
+			<div class="mockup dir-e">
+				<div class="top-bar">
+					<input class="search-bar" placeholder="Search cards..." />
+					<span class="chip active">All Sets</span>
+					<span class="chip">Ships</span>
+					<span class="chip">Crew</span>
+					<div class="view-toggle">
+						<button class="toggle-btn">List</button>
+						<button class="toggle-btn active">Grid</button>
+					</div>
+				</div>
+				<div class="main">
+					<div class="results-bar">
+						<span>Showing 5,231 cards</span>
+						<span class="sort-indicator">Sorted by: Points ▼</span>
+					</div>
+					<div class="card-grid">
+						<div class="card-tile set-sm">
+							<div class="tile-image">Card Image</div>
+							<div class="tile-info">
+								<div class="tile-header">
+									<span class="tile-name">HMS Endeavour</span><span class="tile-points">17</span>
+								</div>
+								<div class="tile-stats">Ship — English — 4M 6C S+L</div>
+							</div>
+						</div>
+						<div class="card-tile set-cc">
+							<div class="tile-image">Card Image</div>
+							<div class="tile-info">
+								<div class="tile-header">
+									<span class="tile-name">La Repulsa</span><span class="tile-points">14</span>
+								</div>
+								<div class="tile-stats">Ship — Spanish — 4M 5C S+S</div>
+							</div>
+						</div>
+						<div class="card-tile set-rv">
+							<div class="tile-image">Card Image</div>
+							<div class="tile-info">
+								<div class="tile-header">
+									<span class="tile-name">HMS Lord Cauldwell</span
+									><span class="tile-points">10</span>
+								</div>
+								<div class="tile-stats">Ship — English — 3M 4C L</div>
+							</div>
+						</div>
+						<div class="card-tile set-sm">
+							<div class="tile-image">Card Image</div>
+							<div class="tile-info">
+								<div class="tile-header">
+									<span class="tile-name">L'Amazone</span><span class="tile-points">9</span>
+								</div>
+								<div class="tile-stats">Ship — French — 2M 4C S+L</div>
+							</div>
+						</div>
+						<div class="card-tile set-rv">
+							<div class="tile-image">Card Image</div>
+							<div class="tile-info">
+								<div class="tile-header">
+									<span class="tile-name">Carthage</span><span class="tile-points">8</span>
+								</div>
+								<div class="tile-stats">Ship — Pirate — 3M 5C S+L</div>
+							</div>
+						</div>
+						<div class="card-tile set-sm">
+							<div class="tile-image">Card Image</div>
+							<div class="tile-info">
+								<div class="tile-header">
+									<span class="tile-name">Admiral Morgan</span><span class="tile-points">5</span>
+								</div>
+								<div class="tile-stats">Crew — English</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-  <div class="mockup dir-e">
-    <div class="top-bar">
-      <input class="search-bar" placeholder="Search cards..." />
-      <span class="chip active">All Sets</span>
-      <span class="chip">Ships</span>
-      <span class="chip">Crew</span>
-      <div class="view-toggle">
-        <button class="toggle-btn">List</button>
-        <button class="toggle-btn active">Grid</button>
-      </div>
-    </div>
-    <div class="main">
-      <div class="results-bar">
-        <span>Showing 5,231 cards</span>
-        <span class="sort-indicator">Sorted by: Points ▼</span>
-      </div>
-      <div class="card-grid">
-        <div class="card-tile set-sm">
-          <div class="tile-image">Card Image</div>
-          <div class="tile-info">
-            <div class="tile-header"><span class="tile-name">HMS Endeavour</span><span class="tile-points">17</span></div>
-            <div class="tile-stats">Ship — English — 4M 6C S+L</div>
-          </div>
-        </div>
-        <div class="card-tile set-cc">
-          <div class="tile-image">Card Image</div>
-          <div class="tile-info">
-            <div class="tile-header"><span class="tile-name">La Repulsa</span><span class="tile-points">14</span></div>
-            <div class="tile-stats">Ship — Spanish — 4M 5C S+S</div>
-          </div>
-        </div>
-        <div class="card-tile set-rv">
-          <div class="tile-image">Card Image</div>
-          <div class="tile-info">
-            <div class="tile-header"><span class="tile-name">HMS Lord Cauldwell</span><span class="tile-points">10</span></div>
-            <div class="tile-stats">Ship — English — 3M 4C L</div>
-          </div>
-        </div>
-        <div class="card-tile set-sm">
-          <div class="tile-image">Card Image</div>
-          <div class="tile-info">
-            <div class="tile-header"><span class="tile-name">L'Amazone</span><span class="tile-points">9</span></div>
-            <div class="tile-stats">Ship — French — 2M 4C S+L</div>
-          </div>
-        </div>
-        <div class="card-tile set-rv">
-          <div class="tile-image">Card Image</div>
-          <div class="tile-info">
-            <div class="tile-header"><span class="tile-name">Carthage</span><span class="tile-points">8</span></div>
-            <div class="tile-stats">Ship — Pirate — 3M 5C S+L</div>
-          </div>
-        </div>
-        <div class="card-tile set-sm">
-          <div class="tile-image">Card Image</div>
-          <div class="tile-info">
-            <div class="tile-header"><span class="tile-name">Admiral Morgan</span><span class="tile-points">5</span></div>
-            <div class="tile-stats">Crew — English</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+			<div class="direction-notes">
+				<h4>Design Notes</h4>
+				<ul>
+					<li>Image-dominant — card art is the hero element</li>
+					<li>Less stat visibility at a glance — better for browsing than building</li>
+					<li>View toggle (List/Grid) shows this could be a secondary mode, not primary</li>
+					<li>Set colors still visible in image area backgrounds</li>
+					<li>Consider as a future enhancement alongside the primary table view</li>
+				</ul>
+			</div>
+		</div>
 
-  <div class="direction-notes">
-    <h4>Design Notes</h4>
-    <ul>
-      <li>Image-dominant — card art is the hero element</li>
-      <li>Less stat visibility at a glance — better for browsing than building</li>
-      <li>View toggle (List/Grid) shows this could be a secondary mode, not primary</li>
-      <li>Set colors still visible in image area backgrounds</li>
-      <li>Consider as a future enhancement alongside the primary table view</li>
-    </ul>
-  </div>
-</div>
+		<!-- DIRECTION F: Inline Expanded Row -->
+		<div id="section-f" class="section">
+			<div class="section-title">Direction F: Inline Expandable Rows</div>
+			<div class="section-desc">
+				Click a card row to expand it inline, revealing full card image, complete stats, ability
+				text, and description. Keeps user in the table flow. No separate panel.
+			</div>
 
-<!-- DIRECTION F: Inline Expanded Row -->
-<div id="section-f" class="section">
-  <div class="section-title">Direction F: Inline Expandable Rows</div>
-  <div class="section-desc">Click a card row to expand it inline, revealing full card image, complete stats, ability text, and description. Keeps user in the table flow. No separate panel.</div>
+			<div class="mockup dir-f">
+				<div class="sidebar">
+					<h3>Filters</h3>
+					<div class="filter-group">
+						<select class="filter-select">
+							<option>All Sets</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<select class="filter-select">
+							<option>All Types</option>
+						</select>
+					</div>
+					<div class="filter-group">
+						<select class="filter-select">
+							<option>All Nations</option>
+						</select>
+					</div>
+				</div>
+				<div class="main">
+					<div class="card-row set-sm active-row">
+						<div class="point-badge">17</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-eng">EN</div>
+						<div class="card-info">
+							<div class="card-name">HMS Endeavour</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 4</span>
+								<span class="stat-item"><span class="stat-label">C</span> 6</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
+							</div>
+							<div class="card-ability">
+								This ship gets +1 to her cannon rolls against Pirate ships.
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
 
-  <div class="mockup dir-f">
-    <div class="sidebar">
-      <h3>Filters</h3>
-      <div class="filter-group">
-        <select class="filter-select"><option>All Sets</option></select>
-      </div>
-      <div class="filter-group">
-        <select class="filter-select"><option>All Types</option></select>
-      </div>
-      <div class="filter-group">
-        <select class="filter-select"><option>All Nations</option></select>
-      </div>
-    </div>
-    <div class="main">
-      <div class="card-row set-sm active-row">
-        <div class="point-badge">17</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-eng">EN</div>
-        <div class="card-info">
-          <div class="card-name">HMS Endeavour</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 4</span>
-            <span class="stat-item"><span class="stat-label">C</span> 6</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> S+L</span>
-          </div>
-          <div class="card-ability">This ship gets +1 to her cannon rolls against Pirate ships.</div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
+					<div class="expanded-detail">
+						<div class="detail-image">Full Card Image: HMS Endeavour</div>
+						<div class="detail-content">
+							<h3>HMS Endeavour</h3>
+							<div class="detail-stats-grid">
+								<div class="stat-box">
+									<div class="stat-box-label">Points</div>
+									<div class="stat-box-value">17</div>
+								</div>
+								<div class="stat-box">
+									<div class="stat-box-label">Masts</div>
+									<div class="stat-box-value">4</div>
+								</div>
+								<div class="stat-box">
+									<div class="stat-box-label">Cargo</div>
+									<div class="stat-box-value">6</div>
+								</div>
+								<div class="stat-box">
+									<div class="stat-box-label">Move</div>
+									<div class="stat-box-value">S+L</div>
+								</div>
+							</div>
+							<div class="ability-section">
+								<div class="ability-label">Cannons</div>
+								<div class="ability-text">2S, 2S, 3L, 2S</div>
+							</div>
+							<div class="ability-section">
+								<div class="ability-label">Ability</div>
+								<div class="ability-text">
+									This ship gets +1 to her cannon rolls against Pirate ships.
+								</div>
+							</div>
+							<div class="description-text">
+								"The Endeavour was the pride of the English fleet, feared by pirates across the
+								Spanish Main. Her captain, a stern man of unwavering discipline, had sworn an oath
+								to rid the seas of piracy..."
+							</div>
+						</div>
+					</div>
 
-      <div class="expanded-detail">
-        <div class="detail-image">Full Card Image: HMS Endeavour</div>
-        <div class="detail-content">
-          <h3>HMS Endeavour</h3>
-          <div class="detail-stats-grid">
-            <div class="stat-box"><div class="stat-box-label">Points</div><div class="stat-box-value">17</div></div>
-            <div class="stat-box"><div class="stat-box-label">Masts</div><div class="stat-box-value">4</div></div>
-            <div class="stat-box"><div class="stat-box-label">Cargo</div><div class="stat-box-value">6</div></div>
-            <div class="stat-box"><div class="stat-box-label">Move</div><div class="stat-box-value">S+L</div></div>
-          </div>
-          <div class="ability-section">
-            <div class="ability-label">Cannons</div>
-            <div class="ability-text">2S, 2S, 3L, 2S</div>
-          </div>
-          <div class="ability-section">
-            <div class="ability-label">Ability</div>
-            <div class="ability-text">This ship gets +1 to her cannon rolls against Pirate ships.</div>
-          </div>
-          <div class="description-text">"The Endeavour was the pride of the English fleet, feared by pirates across the Spanish Main. Her captain, a stern man of unwavering discipline, had sworn an oath to rid the seas of piracy..."</div>
-        </div>
-      </div>
+					<div class="card-row set-cc">
+						<div class="point-badge">14</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-esp">ES</div>
+						<div class="card-info">
+							<div class="card-name">La Repulsa</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 4</span>
+								<span class="stat-item"><span class="stat-label">C</span> 5</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> S+S</span>
+							</div>
+							<div class="card-ability">
+								This ship gets +1 to her cannon rolls for every friendly ship within S of her.
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
 
-      <div class="card-row set-cc">
-        <div class="point-badge">14</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-esp">ES</div>
-        <div class="card-info">
-          <div class="card-name">La Repulsa</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 4</span>
-            <span class="stat-item"><span class="stat-label">C</span> 5</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> S+S</span>
-          </div>
-          <div class="card-ability">This ship gets +1 to her cannon rolls for every friendly ship within S of her.</div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
+					<div class="card-row set-rv">
+						<div class="point-badge">10</div>
+						<div class="card-thumb">IMG</div>
+						<div class="card-flag flag-eng">EN</div>
+						<div class="card-info">
+							<div class="card-name">HMS Lord Cauldwell</div>
+							<div class="card-stats">
+								<span class="stat-item"><span class="stat-label">M</span> 3</span>
+								<span class="stat-item"><span class="stat-label">C</span> 4</span>
+								<span class="stat-item"><span class="stat-label">Mv</span> L</span>
+							</div>
+							<div class="card-ability">
+								Two hits from the same shoot action are required to eliminate one of this ship's
+								masts.
+							</div>
+						</div>
+						<div class="card-type-badge">Ship</div>
+					</div>
+				</div>
+			</div>
 
-      <div class="card-row set-rv">
-        <div class="point-badge">10</div>
-        <div class="card-thumb">IMG</div>
-        <div class="card-flag flag-eng">EN</div>
-        <div class="card-info">
-          <div class="card-name">HMS Lord Cauldwell</div>
-          <div class="card-stats">
-            <span class="stat-item"><span class="stat-label">M</span> 3</span>
-            <span class="stat-item"><span class="stat-label">C</span> 4</span>
-            <span class="stat-item"><span class="stat-label">Mv</span> L</span>
-          </div>
-          <div class="card-ability">Two hits from the same shoot action are required to eliminate one of this ship's masts.</div>
-        </div>
-        <div class="card-type-badge">Ship</div>
-      </div>
-    </div>
-  </div>
+			<div class="direction-notes">
+				<h4>Design Notes</h4>
+				<ul>
+					<li>
+						Expanded detail appears inline below the clicked row — no panel or page navigation
+					</li>
+					<li>Full card image + complete stats + description/flavor text in the expansion</li>
+					<li>User stays in the table flow — can collapse and expand different cards</li>
+					<li>Only one expansion open at a time to keep the list scannable</li>
+					<li>Cyan outline on active row connects it to the expanded detail below</li>
+				</ul>
+			</div>
+		</div>
 
-  <div class="direction-notes">
-    <h4>Design Notes</h4>
-    <ul>
-      <li>Expanded detail appears inline below the clicked row — no panel or page navigation</li>
-      <li>Full card image + complete stats + description/flavor text in the expansion</li>
-      <li>User stays in the table flow — can collapse and expand different cards</li>
-      <li>Only one expansion open at a time to keep the list scannable</li>
-      <li>Cyan outline on active row connects it to the expanded detail below</li>
-    </ul>
-  </div>
-</div>
+		<!-- DIRECTION G: Build Mode Preview (Phase 2) -->
+		<div id="section-g" class="section">
+			<div class="section-title">Direction G: Fleet Builder (Phase 2 Preview)</div>
+			<div class="section-desc">
+				Shows how the card browser extends into fleet building with a split layout. Card browser on
+				the left, fleet build panel on the right. Tab navigation between Browse and Build modes.
+			</div>
 
-<!-- DIRECTION G: Build Mode Preview (Phase 2) -->
-<div id="section-g" class="section">
-  <div class="section-title">Direction G: Fleet Builder (Phase 2 Preview)</div>
-  <div class="section-desc">Shows how the card browser extends into fleet building with a split layout. Card browser on the left, fleet build panel on the right. Tab navigation between Browse and Build modes.</div>
+			<div class="mockup dir-g">
+				<div class="phase-tabs">
+					<div class="phase-tab active">Card Browser</div>
+					<div class="phase-tab" style="color: var(--accent-amber)">Fleet Builder</div>
+				</div>
+				<div class="phase-content">
+					<div class="sidebar">
+						<h3>Filters</h3>
+						<select class="filter-select">
+							<option>All Sets</option>
+						</select>
+						<select class="filter-select">
+							<option>Ships Only</option>
+						</select>
+						<select class="filter-select">
+							<option>English</option>
+						</select>
+					</div>
+					<div class="main">
+						<div class="card-row set-sm" style="font-size: 13px">
+							<div class="point-badge" style="min-width: 36px; height: 36px; font-size: 16px">
+								17
+							</div>
+							<div class="card-thumb" style="width: 40px; height: 30px">IMG</div>
+							<div class="card-flag flag-eng" style="font-size: 8px">EN</div>
+							<div class="card-info">
+								<div class="card-name" style="font-size: 13px">HMS Endeavour</div>
+								<div class="card-stats" style="font-size: 11px">
+									<span>M:4</span> <span>C:6</span> <span>Mv:S+L</span>
+								</div>
+							</div>
+						</div>
+						<div class="card-row set-sm" style="font-size: 13px">
+							<div class="point-badge" style="min-width: 36px; height: 36px; font-size: 16px">
+								10
+							</div>
+							<div class="card-thumb" style="width: 40px; height: 30px">IMG</div>
+							<div class="card-flag flag-eng" style="font-size: 8px">EN</div>
+							<div class="card-info">
+								<div class="card-name" style="font-size: 13px">HMS Hyena</div>
+								<div class="card-stats" style="font-size: 11px">
+									<span>M:3</span> <span>C:5</span> <span>Mv:S+S</span>
+								</div>
+							</div>
+						</div>
+						<div class="card-row set-sm" style="font-size: 13px">
+							<div class="point-badge" style="min-width: 36px; height: 36px; font-size: 16px">
+								5
+							</div>
+							<div class="card-thumb" style="width: 40px; height: 30px">IMG</div>
+							<div class="card-flag flag-eng" style="font-size: 8px">EN</div>
+							<div class="card-info">
+								<div class="card-name" style="font-size: 13px">Admiral Morgan</div>
+								<div class="card-stats" style="font-size: 11px"><span>Crew — Captain</span></div>
+							</div>
+						</div>
+					</div>
+					<div class="build-panel">
+						<div class="build-header">
+							<span class="build-title">My English Fleet</span>
+							<span class="build-points">32 <span>/ 40 pts</span></span>
+						</div>
+						<div class="build-ship">
+							<div class="build-ship-header">
+								<span class="build-ship-name">HMS Endeavour</span>
+								<span class="build-ship-pts">17</span>
+							</div>
+							<div style="font-size: 11px; color: var(--text-muted)">4M 6C S+L — 2S 2S 3L 2S</div>
+							<div class="build-crew">
+								<div class="build-crew-item">
+									<span>Admiral Morgan (Captain)</span><span>5</span>
+								</div>
+							</div>
+						</div>
+						<div class="build-ship">
+							<div class="build-ship-header">
+								<span class="build-ship-name">HMS Hyena</span>
+								<span class="build-ship-pts">10</span>
+							</div>
+							<div style="font-size: 11px; color: var(--text-muted)">3M 5C S+S — 2S 3L 2S</div>
+							<div class="build-crew">
+								<div class="build-crew-item" style="color: var(--text-muted); font-style: italic">
+									No crew assigned
+								</div>
+							</div>
+						</div>
+						<div
+							style="
+								margin-top: 16px;
+								padding-top: 12px;
+								border-top: 1px solid var(--border);
+								font-size: 12px;
+								color: var(--text-secondary);
+							"
+						>
+							<div style="display: flex; justify-content: space-between; margin-bottom: 4px">
+								<span>Ships:</span><span>2</span>
+							</div>
+							<div style="display: flex; justify-content: space-between; margin-bottom: 4px">
+								<span>Crew:</span><span>1</span>
+							</div>
+							<div
+								style="
+									display: flex;
+									justify-content: space-between;
+									font-weight: 600;
+									color: var(--text-primary);
+								"
+							>
+								<span>Remaining:</span><span style="color: var(--success)">8 pts</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-  <div class="mockup dir-g">
-    <div class="phase-tabs">
-      <div class="phase-tab active">Card Browser</div>
-      <div class="phase-tab" style="color: var(--accent-amber);">Fleet Builder</div>
-    </div>
-    <div class="phase-content">
-      <div class="sidebar">
-        <h3>Filters</h3>
-        <select class="filter-select"><option>All Sets</option></select>
-        <select class="filter-select"><option>Ships Only</option></select>
-        <select class="filter-select"><option>English</option></select>
-      </div>
-      <div class="main">
-        <div class="card-row set-sm" style="font-size: 13px;">
-          <div class="point-badge" style="min-width: 36px; height: 36px; font-size: 16px;">17</div>
-          <div class="card-thumb" style="width: 40px; height: 30px;">IMG</div>
-          <div class="card-flag flag-eng" style="font-size:8px">EN</div>
-          <div class="card-info">
-            <div class="card-name" style="font-size: 13px;">HMS Endeavour</div>
-            <div class="card-stats" style="font-size: 11px;">
-              <span>M:4</span> <span>C:6</span> <span>Mv:S+L</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-row set-sm" style="font-size: 13px;">
-          <div class="point-badge" style="min-width: 36px; height: 36px; font-size: 16px;">10</div>
-          <div class="card-thumb" style="width: 40px; height: 30px;">IMG</div>
-          <div class="card-flag flag-eng" style="font-size:8px">EN</div>
-          <div class="card-info">
-            <div class="card-name" style="font-size: 13px;">HMS Hyena</div>
-            <div class="card-stats" style="font-size: 11px;">
-              <span>M:3</span> <span>C:5</span> <span>Mv:S+S</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-row set-sm" style="font-size: 13px;">
-          <div class="point-badge" style="min-width: 36px; height: 36px; font-size: 16px;">5</div>
-          <div class="card-thumb" style="width: 40px; height: 30px;">IMG</div>
-          <div class="card-flag flag-eng" style="font-size:8px">EN</div>
-          <div class="card-info">
-            <div class="card-name" style="font-size: 13px;">Admiral Morgan</div>
-            <div class="card-stats" style="font-size: 11px;"><span>Crew — Captain</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="build-panel">
-        <div class="build-header">
-          <span class="build-title">My English Fleet</span>
-          <span class="build-points">32 <span>/ 40 pts</span></span>
-        </div>
-        <div class="build-ship">
-          <div class="build-ship-header">
-            <span class="build-ship-name">HMS Endeavour</span>
-            <span class="build-ship-pts">17</span>
-          </div>
-          <div style="font-size: 11px; color: var(--text-muted);">4M 6C S+L — 2S 2S 3L 2S</div>
-          <div class="build-crew">
-            <div class="build-crew-item"><span>Admiral Morgan (Captain)</span><span>5</span></div>
-          </div>
-        </div>
-        <div class="build-ship">
-          <div class="build-ship-header">
-            <span class="build-ship-name">HMS Hyena</span>
-            <span class="build-ship-pts">10</span>
-          </div>
-          <div style="font-size: 11px; color: var(--text-muted);">3M 5C S+S — 2S 3L 2S</div>
-          <div class="build-crew">
-            <div class="build-crew-item" style="color: var(--text-muted); font-style: italic;">No crew assigned</div>
-          </div>
-        </div>
-        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-secondary);">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-            <span>Ships:</span><span>2</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-            <span>Crew:</span><span>1</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--text-primary);">
-            <span>Remaining:</span><span style="color: var(--success);">8 pts</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+			<div class="direction-notes">
+				<h4>Design Notes</h4>
+				<ul>
+					<li>Phase 2 preview — shows how the card browser layout extends into fleet building</li>
+					<li>Build panel on the right with ship-centric hierarchy (ships → nested crew)</li>
+					<li>
+						Running point total always visible: 32 / 40 pts with remaining highlighted in green
+					</li>
+					<li>Tab navigation lets users switch between pure browse mode and build mode</li>
+					<li>Card rows slightly more compact in build mode to save space for the build panel</li>
+					<li>Build summary at bottom: ship count, crew count, remaining points</li>
+				</ul>
+			</div>
+		</div>
 
-  <div class="direction-notes">
-    <h4>Design Notes</h4>
-    <ul>
-      <li>Phase 2 preview — shows how the card browser layout extends into fleet building</li>
-      <li>Build panel on the right with ship-centric hierarchy (ships → nested crew)</li>
-      <li>Running point total always visible: 32 / 40 pts with remaining highlighted in green</li>
-      <li>Tab navigation lets users switch between pure browse mode and build mode</li>
-      <li>Card rows slightly more compact in build mode to save space for the build panel</li>
-      <li>Build summary at bottom: ship count, crew count, remaining points</li>
-    </ul>
-  </div>
-</div>
-
-<script>
-function showSection(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('section-' + id).classList.add('active');
-  event.target.classList.add('active');
-  window.scrollTo(0, 0);
-}
-</script>
-
-</body>
+		<script>
+			function showSection(id) {
+				document.querySelectorAll('.section').forEach((s) => s.classList.remove('active'));
+				document.querySelectorAll('.nav-btn').forEach((b) => b.classList.remove('active'));
+				document.getElementById('section-' + id).classList.add('active');
+				event.target.classList.add('active');
+				window.scrollTo(0, 0);
+			}
+		</script>
+	</body>
 </html>
