@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Card } from '$lib/types/cardTypes';
 	import { thumbUrl } from '$lib/utils/cardUtils';
+	import { SET_CLASS } from '$lib/utils/setUtils';
 	import PointBadge from './PointBadge.svelte';
 	import NationalityFlag from './NationalityFlag.svelte';
 	import TypeBadge from './TypeBadge.svelte';
@@ -11,12 +12,6 @@
 	}
 
 	const { card }: Props = $props();
-
-	const SET_CLASS: Record<string, string> = {
-		PPSM: 'bg-set-spanish-main',
-		PPCC: 'bg-set-crimson-coast',
-		PPRV: 'bg-set-revolution'
-	};
 
 	const setBgClass = $derived(SET_CLASS[card.cardSet] ?? '');
 

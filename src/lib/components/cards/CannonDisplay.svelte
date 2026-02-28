@@ -19,8 +19,10 @@
 	);
 </script>
 
-<div class="flex items-center gap-0.5">
-	{#each pips as pip}
-		<span class="w-4 h-4 shrink-0"><CannonPip type={pip.type} roll={pip.roll} /></span>
-	{/each}
-</div>
+{#if pips.length > 0}
+	<div class="flex items-center gap-0.5">
+		{#each pips as pip}
+			<span class="w-4 h-4 shrink-0"><CannonPip type={pip.type} roll={pip.roll} /></span>
+		{/each}
+	</div>
+{/if}

@@ -1,6 +1,6 @@
 # Story 2.2: Card Browse Table with Build-Sheet Rows
 
-Status: in-progress
+Status: review
 
 ## Story
 
@@ -141,13 +141,13 @@ so that I can scan hundreds of familiar cards at a glance and immediately recogn
 
 ### Review Follow-ups (AI)
 
-- [ ] [AI-Review][CRITICAL] Fix cannon format mismatch: `parseCannonPip` in `src/lib/components/icons/cannons/index.ts:12-22` expects type-first format ("S3") but `cards.json` data uses digit-first format ("3S"). Swap parse order to `roll = parseInt(cannon[0], 10)` and `type = cannon[1]`. Update unit tests in `src/lib/components/icons/cannons/index.test.ts` to match. AC 2 is broken — zero cannon pips render. [src/lib/components/icons/cannons/index.ts:16-17]
-- [ ] [AI-Review][MEDIUM] Improve sort header alignment: sort buttons in `CardTable.svelte` don't visually align with card row data columns. Consider giving header buttons fixed widths matching the row layout or using a shared CSS grid. [src/lib/components/cards/CardTable.svelte:16-31]
-- [ ] [AI-Review][MEDIUM] Fix CardRow.test.ts to not duplicate SET_CLASS: extract `SET_CLASS` mapping to a shared module imported by both `CardRow.svelte` and `CardRow.test.ts`, or add explicit comment noting the mirror copy. [src/lib/components/cards/CardRow.test.ts:7-11]
-- [ ] [AI-Review][MEDIUM] Add accessibility attributes to sort buttons: add `aria-label` with sort state info to `<button>` elements in `CardTable.svelte`. [src/lib/components/cards/CardTable.svelte:19-29]
-- [ ] [AI-Review][LOW] Use `{:else}` on `{#each}` for empty state instead of separate `{#if}` block. [src/lib/components/cards/CardTable.svelte:35-41]
-- [ ] [AI-Review][LOW] Exclude `_bmad/` from Tailwind content scanning to eliminate `[file:line]` CSS build warning.
-- [ ] [AI-Review][LOW] Guard `CannonDisplay` wrapper div with `{#if pips.length > 0}` to avoid rendering empty `<div>`. [src/lib/components/cards/CannonDisplay.svelte:22-26]
+- [x] [AI-Review][CRITICAL] Fix cannon format mismatch: `parseCannonPip` in `src/lib/components/icons/cannons/index.ts:12-22` expects type-first format ("S3") but `cards.json` data uses digit-first format ("3S"). Swap parse order to `roll = parseInt(cannon[0], 10)` and `type = cannon[1]`. Update unit tests in `src/lib/components/icons/cannons/index.test.ts` to match. AC 2 is broken — zero cannon pips render. [src/lib/components/icons/cannons/index.ts:16-17]
+- [x] [AI-Review][MEDIUM] Improve sort header alignment: sort buttons in `CardTable.svelte` don't visually align with card row data columns. Consider giving header buttons fixed widths matching the row layout or using a shared CSS grid. [src/lib/components/cards/CardTable.svelte:16-31]
+- [x] [AI-Review][MEDIUM] Fix CardRow.test.ts to not duplicate SET_CLASS: extract `SET_CLASS` mapping to a shared module imported by both `CardRow.svelte` and `CardRow.test.ts`, or add explicit comment noting the mirror copy. [src/lib/components/cards/CardRow.test.ts:7-11]
+- [x] [AI-Review][MEDIUM] Add accessibility attributes to sort buttons: add `aria-label` with sort state info to `<button>` elements in `CardTable.svelte`. [src/lib/components/cards/CardTable.svelte:19-29]
+- [x] [AI-Review][LOW] Use `{:else}` on `{#each}` for empty state instead of separate `{#if}` block. [src/lib/components/cards/CardTable.svelte:35-41]
+- [x] [AI-Review][LOW] Exclude `_bmad/` from Tailwind content scanning to eliminate `[file:line]` CSS build warning.
+- [x] [AI-Review][LOW] Guard `CannonDisplay` wrapper div with `{#if pips.length > 0}` to avoid rendering empty `<div>`. [src/lib/components/cards/CannonDisplay.svelte:22-26]
 
 ## Dev Notes
 
@@ -616,6 +616,13 @@ claude-sonnet-4-6
 - ✅ `npm run check`: 0 errors, 0 warnings (341 files)
 - ✅ `npm run build`: Clean build — site written to `build/`
 - ✅ `npm run test:unit`: 17/17 tests pass (4 test files, no regressions)
+- ✅ Resolved review finding [CRITICAL]: Fixed `parseCannonPip` to use digit-first format ("3S") matching `cards.json` data. Updated tests. Cannon pips now render correctly.
+- ✅ Resolved review finding [MEDIUM]: Improved sort header alignment — Pts column has `w-12 shrink-0` matching PointBadge; Name has `flex-1`; others `shrink-0`.
+- ✅ Resolved review finding [MEDIUM]: Extracted `SET_CLASS` to `src/lib/utils/setUtils.ts`; imported by both `CardRow.svelte` and `CardRow.test.ts` (no duplication).
+- ✅ Resolved review finding [MEDIUM]: Added `aria-label` with live sort state description to all sort buttons in `CardTable.svelte`.
+- ✅ Resolved review finding [LOW]: Replaced separate `{#if length === 0}` with `{:else}` on `{#each}` in `CardTable.svelte`.
+- ✅ Resolved review finding [LOW]: Added `@source not "../_bmad/**/*"` and `@source not "../_bmad-output/**/*"` to `src/app.css` — CSS build warning eliminated.
+- ✅ Resolved review finding [LOW]: Guarded `CannonDisplay` wrapper `<div>` with `{#if pips.length > 0}` — no empty div rendered for non-cannon cards.
 
 ### File List
 
@@ -623,11 +630,15 @@ claude-sonnet-4-6
 - `src/lib/components/cards/NationalityFlag.svelte` (new)
 - `src/lib/components/cards/PointBadge.svelte` (new)
 - `src/lib/components/cards/TypeBadge.svelte` (new)
-- `src/lib/components/cards/CannonDisplay.svelte` (new)
+- `src/lib/components/cards/CannonDisplay.svelte` (new, modified in review)
 - `src/lib/components/cards/StatBar.svelte` (new)
-- `src/lib/components/cards/CardRow.svelte` (new)
-- `src/lib/components/cards/CardRow.test.ts` (new)
-- `src/lib/components/cards/CardTable.svelte` (new)
+- `src/lib/components/cards/CardRow.svelte` (new, modified in review)
+- `src/lib/components/cards/CardRow.test.ts` (new, modified in review)
+- `src/lib/components/cards/CardTable.svelte` (new, modified in review)
+- `src/lib/components/icons/cannons/index.ts` (modified in review)
+- `src/lib/components/icons/cannons/index.test.ts` (modified in review)
+- `src/lib/utils/setUtils.ts` (new in review)
+- `src/app.css` (modified in review)
 - `src/routes/+page.svelte` (modified)
 - `_bmad-output/implementation-artifacts/sprint-status.yaml` (modified)
 - `_bmad-output/implementation-artifacts/2-2-card-browse-table-with-build-sheet-rows.md` (modified)
@@ -635,3 +646,4 @@ claude-sonnet-4-6
 ## Change Log
 
 - 2026-02-28: Story 2.2 implemented — Card Browse Table with Build-Sheet Rows. Created filterState store, 8 new components (NationalityFlag, PointBadge, TypeBadge, CannonDisplay, StatBar, CardRow, CardRow.test.ts, CardTable), updated +page.svelte. All 5 ACs satisfied. 17/17 tests pass.
+- 2026-02-28: Addressed code review findings — 7 items resolved (Date: 2026-02-28). Critical fix: cannon pip format corrected to digit-first ("3S"). Medium: SET_CLASS extracted to shared setUtils.ts, sort header alignment improved, aria-labels added. Low: {:else} for empty state, Tailwind exclusions for _bmad dirs, CannonDisplay empty div guard.

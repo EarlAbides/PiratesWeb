@@ -1,14 +1,9 @@
 import { describe, it, expect } from 'vitest';
+import { SET_CLASS } from '../../utils/setUtils';
 
-// The SET_CLASS mapping is the core logic in CardRow that assigns set-colored backgrounds.
-// Without @testing-library/svelte, we test this logic in isolation.
+// SET_CLASS is defined in src/lib/utils/setUtils.ts and imported by both
+// CardRow.svelte (for runtime rendering) and this test file (for logic validation).
 // Type correctness of the full component is validated by `npm run check`.
-
-const SET_CLASS: Record<string, string> = {
-	PPSM: 'bg-set-spanish-main',
-	PPCC: 'bg-set-crimson-coast',
-	PPRV: 'bg-set-revolution'
-};
 
 describe('CardRow set background class mapping', () => {
 	it('maps PPSM (Spanish Main) to bg-set-spanish-main', () => {
