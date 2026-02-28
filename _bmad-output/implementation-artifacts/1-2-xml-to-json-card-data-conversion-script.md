@@ -1,6 +1,6 @@
 # Story 1.2: XML-to-JSON Card Data Conversion Script
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -33,34 +33,44 @@ So that all 5000+ card records are available as a committed, version-controlled 
 
 ## Tasks / Subtasks
 
-- [ ] Install `tsx` and `fast-xml-parser` dev dependencies (AC: all)
-  - [ ] Run `npm install -D tsx fast-xml-parser`
-  - [ ] Verify `tsx` and `fast-xml-parser` appear in `package.json` devDependencies
-- [ ] Create `static/data/` directory (AC: 1)
-  - [ ] `mkdir -p static/data` (or let the script create it)
-- [ ] Create `scripts/convert.ts` (AC: 1, 2, 3, 4)
-  - [ ] Import and configure `fast-xml-parser` to parse `reference/PiratesCards.xml`
-  - [ ] Map `CardSet` full names → short codes (`PPSM`, `PPCC`, `PPRV`)
-  - [ ] For each `<Card>` element, build the base card JSON object with all camelCase fields
-  - [ ] For Ship cards: build `details` with `masts`, `cargo`, `baseMove`, and `cannons` array
-  - [ ] For Crew cards: build `details` with `buildBonus`, `costReduction`, `cargoBonus`, `limitCards`
-  - [ ] For Fort cards: build `details` with `cannons` array and `goldCost`
-  - [ ] For Treasure/Event cards: omit `details` entirely
-  - [ ] Build `modifiers` object from `<Modifiers>` attributes (omit empty)
-  - [ ] Format cannon entries from `<Cannon Range="S" Accuracy="3" />` → `"3S"` strings
-  - [ ] Write output JSON array to `static/data/cards.json`
-  - [ ] Print summary line: total cards written
-- [ ] Run script and verify output (AC: 1, 2, 3, 4)
-  - [ ] `npx tsx scripts/convert.ts` exits 0 and prints count
-  - [ ] Open `static/data/cards.json` and spot-check: one Ship, one Crew, one Treasure, one Fort, one Event
-  - [ ] Verify total count matches 550 (count of `<Card` elements in source XML)
-  - [ ] Verify all field names are camelCase (no `CardID`, `PointValue`, etc.)
-  - [ ] Verify Ship `details` has `masts`, `cargo`, `baseMove`, and `cannons` array
-  - [ ] Verify Crew `details` has `buildBonus`, `costReduction`, `cargoBonus`, `limitCards`
-  - [ ] Verify a Treasure card has no `details` key
-  - [ ] Verify `imageFilename` matches source convention (e.g., `PPSM_EC-001.jpg`)
-- [ ] Commit `static/data/cards.json` to the repository (AC: 1)
-  - [ ] This is a committed artifact, not gitignored — verify it's tracked
+- [x] Install `tsx` and `fast-xml-parser` dev dependencies (AC: all)
+  - [x] Run `npm install -D tsx fast-xml-parser`
+  - [x] Verify `tsx` and `fast-xml-parser` appear in `package.json` devDependencies
+- [x] Create `static/data/` directory (AC: 1)
+  - [x] `mkdir -p static/data` (or let the script create it)
+- [x] Create `scripts/convert.ts` (AC: 1, 2, 3, 4)
+  - [x] Import and configure `fast-xml-parser` to parse `reference/PiratesCards.xml`
+  - [x] Map `CardSet` full names → short codes (`PPSM`, `PPCC`, `PPRV`)
+  - [x] For each `<Card>` element, build the base card JSON object with all camelCase fields
+  - [x] For Ship cards: build `details` with `masts`, `cargo`, `baseMove`, and `cannons` array
+  - [x] For Crew cards: build `details` with `buildBonus`, `costReduction`, `cargoBonus`, `limitCards`
+  - [x] For Fort cards: build `details` with `cannons` array and `goldCost`
+  - [x] For Treasure/Event cards: omit `details` entirely
+  - [x] Build `modifiers` object from `<Modifiers>` attributes (omit empty)
+  - [x] Format cannon entries from `<Cannon Range="S" Accuracy="3" />` → `"3S"` strings
+  - [x] Write output JSON array to `static/data/cards.json`
+  - [x] Print summary line: total cards written
+- [x] Run script and verify output (AC: 1, 2, 3, 4)
+  - [x] `npx tsx scripts/convert.ts` exits 0 and prints count
+  - [x] Open `static/data/cards.json` and spot-check: one Ship, one Crew, one Treasure, one Fort, one Event
+  - [x] Verify total count matches 550 (count of `<Card` elements in source XML)
+  - [x] Verify all field names are camelCase (no `CardID`, `PointValue`, etc.)
+  - [x] Verify Ship `details` has `masts`, `cargo`, `baseMove`, and `cannons` array
+  - [x] Verify Crew `details` has `buildBonus`, `costReduction`, `cargoBonus`, `limitCards`
+  - [x] Verify a Treasure card has no `details` key
+  - [x] Verify `imageFilename` matches source convention (e.g., `PPSM_EC-001.jpg`)
+- [x] Commit `static/data/cards.json` to the repository (AC: 1)
+  - [x] This is a committed artifact, not gitignored — verify it's tracked
+
+### Review Follow-ups (AI)
+
+- [x] [AI-Review][HIGH] Add `'Pirates of the Spanish Main (Unlimited)': 'PPSMU'` to `CARD_SET_MAP` — 119 cards (21.6%) currently get the full name string instead of a short code. Decision: use `PPSMU` as distinct code. [scripts/convert.ts:5-9]
+- [x] [AI-Review][MEDIUM] Make output paths absolute using `resolve()` — `mkdirSync` and `writeFileSync` use relative paths while `xmlPath` uses `resolve()`. All paths should be consistent. [scripts/convert.ts:104-105]
+- [x] [AI-Review][MEDIUM] Reduce `eslint-disable` / `any` usage — 5 eslint-disable comments and 4 `: any` annotations in 107 lines. Use `Record<string, unknown>` or more specific types where possible. [scripts/convert.ts:22,25,27,37,51]
+- [x] [AI-Review][MEDIUM] Remove `scripts/.gitkeep` — placeholder is unnecessary now that `convert.ts` exists. Dev Notes said to remove it. [scripts/.gitkeep]
+- [x] [AI-Review][MEDIUM] Document architecture spec discrepancies in Dev Agent Record — Ship `crewSlots` in arch but not in XML/implementation; Fort `goldCost` in implementation but not in arch. Note for downstream story authors.
+- [x] [AI-Review][LOW] Remove redundant `Array.isArray` guard in `parseCannons` — the `isArray` parser config already forces `Cannon` to be an array, making the fallback dead code. [scripts/convert.ts:28-29]
+- [x] [AI-Review][LOW] Note: XML Rarity has 8 values (not 3 as documented in CLAUDE.md) — Common, Uncommon, Rare, Limited Edition, Super Rare, Common Treasure, Treasure, Super Rare Treasure. Affects Story 1.4 type definitions.
 
 ## Dev Notes
 
@@ -505,6 +515,42 @@ claude-sonnet-4-6
 
 ### Debug Log References
 
+No issues encountered. Implementation was straightforward following the detailed Dev Notes.
+
 ### Completion Notes List
 
+- Installed `tsx` v4.21.0 and `fast-xml-parser` v5.4.1 as devDependencies (v5 confirmed backward-compatible API for `XMLParser` and `isArray` option)
+- Created `scripts/convert.ts` using ES module imports (`import`, not `require`) as required by `"type": "module"` in package.json
+- Parser configured with `ignoreAttributes: false`, `attributeNamePrefix: ''`, `textNodeName: '_text'`, `isArray` forced for `Card` and `Cannon` elements
+- All 550 cards converted successfully with zero data loss
+- All field names verified camelCase (0 PascalCase keys)
+- All 5 card types spot-checked and match story example JSON exactly (including `Adventure` Ship and `Administrator Scott Bratley` Crew with modifiers)
+- `imageFilename` uses existing `Filename` attribute from `<Image>` tag directly — no transformation needed
+- Treasure and Event cards correctly have no `details` key
+- Crew `limitCards` correctly parses comma-separated `LinkCardIDs` into string arrays
+- `modifiers` top-level object includes only present attributes (empty `{}` for cards with no modifier attributes)
+- Output written as minified JSON (no indentation) per story spec
+- `static/data/cards.json` is tracked by git (not gitignored)
+- ✅ Resolved review finding [HIGH]: Added `'Pirates of the Spanish Main (Unlimited)': 'PPSMU'` to CARD_SET_MAP — all 119 PPSMU cards now map to short code, verified in output
+- ✅ Resolved review finding [MEDIUM]: Output paths made absolute via `resolve()` — `outputDir` and `outputPath` both now use `resolve()` consistent with `xmlPath`
+- ✅ Resolved review finding [MEDIUM]: Eliminated all 5 `eslint-disable` comments and all `any` annotations — introduced `type RawNode = Record<string, unknown>` alias used throughout; ESLint and `svelte-check` both pass clean
+- ✅ Resolved review finding [MEDIUM]: Deleted `scripts/.gitkeep` from disk and git index (`git rm`)
+- ✅ Resolved review finding [MEDIUM]: Architecture discrepancies documented — (1) Ship `crewSlots` appears in architecture.md but is absent from XML and was not implemented; Story 1.4 type author should note this field may need future consideration or removal from arch spec. (2) Fort `goldCost` is present in XML (`Stats.GoldCost`) and correctly implemented in `details.goldCost`, but was missing from the architecture.md schema — implementation is correct, arch doc lags behind XML reality.
+- ✅ Resolved review finding [LOW]: Removed redundant `Array.isArray` guard in `parseCannons` — `isArray` config guarantees `Cannon` is always an array; direct cast used instead
+- ✅ Resolved review finding [LOW]: Rarity values documented — XML contains 8 distinct rarity values: Common (239), Uncommon (108), Rare (121), Limited Edition (11), Super Rare (4), Common Treasure (59), Treasure (7), Super Rare Treasure (1). CLAUDE.md only documents 3; Story 1.4 TypeScript types must use the full 8-value union.
+
 ### File List
+
+- `package.json` — added `tsx` and `fast-xml-parser` to devDependencies
+- `package-lock.json` — updated by npm install
+- `scripts/convert.ts` — XML-to-JSON conversion script (updated: PPSMU mapping, absolute paths, RawNode type, removed eslint-disable/any)
+- `scripts/.gitkeep` — deleted (placeholder removed)
+- `static/data/cards.json` — generated card data (550 cards, committed artifact; regenerated with PPSMU fix)
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` — status updated
+- `_bmad-output/implementation-artifacts/1-2-xml-to-json-card-data-conversion-script.md` — story updated
+
+## Change Log
+
+- 2026-02-27: Story 1.2 implemented — created `scripts/convert.ts` that converts 550 cards from `reference/PiratesCards.xml` to `static/data/cards.json` with full camelCase field mapping, type-specific `details` objects, and correct `modifiers` structure
+- 2026-02-27: Code review (claude-opus-4-6) — 1 HIGH, 4 MEDIUM, 2 LOW issues found. All ACs verified as implemented. Critical finding: 119 cards with unmapped CardSet "Pirates of the Spanish Main (Unlimited)". 7 action items created. Status set to in-progress pending fixes.
+- 2026-02-27: Addressed code review findings — 7 items resolved (claude-sonnet-4-6). PPSMU mapping added (119 cards fixed), absolute output paths, zero any/eslint-disable, .gitkeep removed, arch discrepancies documented, redundant Array.isArray guard removed, 8 rarity values noted for Story 1.4.
