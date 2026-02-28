@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { thumbUrl, imageUrl } from './cardUtils';
+import { thumbUrl, imageUrl, flagUrl } from './cardUtils';
 import type { Card } from '$lib/types/cardTypes';
 
 const mockShip: Card = {
@@ -41,5 +41,16 @@ describe('imageUrl', () => {
 	});
 	it('works for non-Ship card types', () => {
 		expect(imageUrl(mockCrewWithUnderscore)).toBe('/images/cards/PPCC_046_2.jpg');
+	});
+});
+
+describe('flagUrl', () => {
+	it('returns lowercase svg path for each nationality', () => {
+		expect(flagUrl('English')).toContain('english.svg');
+		expect(flagUrl('Spanish')).toContain('spanish.svg');
+		expect(flagUrl('Pirates')).toContain('pirates.svg');
+		expect(flagUrl('French')).toContain('french.svg');
+		expect(flagUrl('American')).toContain('american.svg');
+		expect(flagUrl('Barbary')).toContain('barbary.svg');
 	});
 });

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40">
+  <title>English (Union Jack)</title>
+  <!-- Blue background -->
+  <rect width="60" height="40" fill="#012169"/>
+
+  <!-- White diagonal saltire (St Andrew's) -->
+  <line x1="0" y1="0" x2="60" y2="40" stroke="#FFFFFF" stroke-width="10"/>
+  <line x1="60" y1="0" x2="0" y2="40" stroke="#FFFFFF" stroke-width="10"/>
+
+  <!-- Red diagonal saltire (St Patrick's, simplified) -->
+  <line x1="0" y1="0" x2="60" y2="40" stroke="#C8102E" stroke-width="5"/>
+  <line x1="60" y1="0" x2="0" y2="40" stroke="#C8102E" stroke-width="5"/>
+
+  <!-- White cross (St George) -->
+  <rect x="0" y="15" width="60" height="10" fill="#FFFFFF"/>
+  <rect x="25" y="0" width="10" height="40" fill="#FFFFFF"/>
+
+  <!-- Red cross (St George) -->
+  <rect x="0" y="17" width="60" height="6" fill="#C8102E"/>
+  <rect x="27" y="0" width="6" height="40" fill="#C8102E"/>
+</svg>

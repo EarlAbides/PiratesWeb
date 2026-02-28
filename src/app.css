@@ -19,6 +19,15 @@
   /* Revolution: royal blue */
   --color-set-revolution: oklch(30% 0.12 255);
   --color-set-revolution-text: oklch(95% 0.01 80);
+
+  /* Icon colors */
+  --color-icon-bg:        #000000;
+  --color-icon-ship:      #FFFFFF;
+  --color-icon-gold:      #C8960C;
+  --color-pip-short-bg:   #FFFFFF;
+  --color-pip-short-dot:  #000000;
+  --color-pip-long-bg:    #C0272D;
+  --color-pip-long-dot:   #FFFFFF;
 }
 
 /* Set-colored row background utility classes */
