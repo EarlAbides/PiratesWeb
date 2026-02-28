@@ -1,6 +1,6 @@
 # Story 1.2: XML-to-JSON Card Data Conversion Script
 
-Status: review
+Status: in-progress
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -61,6 +61,16 @@ So that all 5000+ card records are available as a committed, version-controlled 
   - [x] Verify `imageFilename` matches source convention (e.g., `PPSM_EC-001.jpg`)
 - [x] Commit `static/data/cards.json` to the repository (AC: 1)
   - [x] This is a committed artifact, not gitignored — verify it's tracked
+
+### Review Follow-ups (AI)
+
+- [ ] [AI-Review][HIGH] Add `'Pirates of the Spanish Main (Unlimited)': 'PPSMU'` to `CARD_SET_MAP` — 119 cards (21.6%) currently get the full name string instead of a short code. Decision: use `PPSMU` as distinct code. [scripts/convert.ts:5-9]
+- [ ] [AI-Review][MEDIUM] Make output paths absolute using `resolve()` — `mkdirSync` and `writeFileSync` use relative paths while `xmlPath` uses `resolve()`. All paths should be consistent. [scripts/convert.ts:104-105]
+- [ ] [AI-Review][MEDIUM] Reduce `eslint-disable` / `any` usage — 5 eslint-disable comments and 4 `: any` annotations in 107 lines. Use `Record<string, unknown>` or more specific types where possible. [scripts/convert.ts:22,25,27,37,51]
+- [ ] [AI-Review][MEDIUM] Remove `scripts/.gitkeep` — placeholder is unnecessary now that `convert.ts` exists. Dev Notes said to remove it. [scripts/.gitkeep]
+- [ ] [AI-Review][MEDIUM] Document architecture spec discrepancies in Dev Agent Record — Ship `crewSlots` in arch but not in XML/implementation; Fort `goldCost` in implementation but not in arch. Note for downstream story authors.
+- [ ] [AI-Review][LOW] Remove redundant `Array.isArray` guard in `parseCannons` — the `isArray` parser config already forces `Cannon` to be an array, making the fallback dead code. [scripts/convert.ts:28-29]
+- [ ] [AI-Review][LOW] Note: XML Rarity has 8 values (not 3 as documented in CLAUDE.md) — Common, Uncommon, Rare, Limited Edition, Super Rare, Common Treasure, Treasure, Super Rare Treasure. Affects Story 1.4 type definitions.
 
 ## Dev Notes
 
@@ -534,3 +544,4 @@ No issues encountered. Implementation was straightforward following the detailed
 ## Change Log
 
 - 2026-02-27: Story 1.2 implemented — created `scripts/convert.ts` that converts 550 cards from `reference/PiratesCards.xml` to `static/data/cards.json` with full camelCase field mapping, type-specific `details` objects, and correct `modifiers` structure
+- 2026-02-27: Code review (claude-opus-4-6) — 1 HIGH, 4 MEDIUM, 2 LOW issues found. All ACs verified as implemented. Critical finding: 119 cards with unmapped CardSet "Pirates of the Spanish Main (Unlimited)". 7 action items created. Status set to in-progress pending fixes.
