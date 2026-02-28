@@ -4,10 +4,11 @@ import { resolve } from 'node:path';
 
 const CARD_SET_MAP: Record<string, string> = {
   'Pirates of the Spanish Main': 'PPSM',
-  'Pirates of the Spanish Main (Unlimited)': 'PPSMU',
   'Pirates of the Crimson Coast': 'PPCC',
   'Pirates of the Revolution': 'PPRV',
 };
+
+const EXCLUDED_SETS = new Set(['Pirates of the Spanish Main (Unlimited)']);
 
 const parser = new XMLParser({
   ignoreAttributes: false,
@@ -44,7 +45,16 @@ function parseModifiers(modifiers: RawNode): Record<string, unknown> {
   return result;
 }
 
-const cards = rawCards.map((card) => {
+let skipped = 0;
+const cards = rawCards
+  .filter((card) => {
+    if (EXCLUDED_SETS.has(card.CardSet as string)) {
+      skipped++;
+      return false;
+    }
+    return true;
+  })
+  .map((card) => {
   const ident = (card.Identification ?? {}) as RawNode;
   const stats = (card.Stats ?? {}) as RawNode;
   const image = (card.Image ?? {}) as RawNode;
@@ -100,4 +110,5 @@ const outputDir = resolve('static/data');
 const outputPath = resolve('static/data/cards.json');
 mkdirSync(outputDir, { recursive: true });
 writeFileSync(outputPath, JSON.stringify(cards));
-console.log(`✅ Converted ${cards.length} cards → static/data/cards.json`);
+const total = rawCards.length;
+console.log(`✅ Total: ${total}, Converted: ${cards.length}, Skipped: ${skipped} → static/data/cards.json`);

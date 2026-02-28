@@ -1,4 +1,4 @@
-export type CardSet = 'PPSM' | 'PPCC' | 'PPRV' | 'PPSMU';
+export type CardSet = 'PPSM' | 'PPCC' | 'PPRV';
 
 export type CardType = 'Ship' | 'Crew' | 'Treasure' | 'Fort' | 'Event';
 
