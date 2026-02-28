@@ -46,7 +46,7 @@ development_status:
   1-3-webp-thumbnail-generation-script: done
   1-4-card-typescript-types-and-data-loading-infrastructure: done
   1-5-github-actions-cicd-deployment-pipeline: done
-  epic-1-retrospective: optional
+  epic-1-retrospective: done
 
   epic-2: backlog
   2-1-app-shell-layout-and-design-system: backlog
