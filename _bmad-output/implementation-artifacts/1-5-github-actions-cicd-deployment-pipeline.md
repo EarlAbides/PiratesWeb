@@ -48,9 +48,9 @@ so that every merge to main automatically results in an updated live site with z
   - [x] `build` job: `actions/checkout@v4` → `actions/setup-node@v4` (node-version: 24, cache: npm) → `npm ci` → `actions/configure-pages@v5` (capture `id: pages`) → `npm run build` with `env: BASE_PATH: ${{ steps.pages.outputs.base_path }}` → `actions/upload-pages-artifact@v3` (path: build)
   - [x] `deploy` job: `needs: build`, `environment: name: github-pages`, `url: ${{ steps.deployment.outputs.page_url }}`, `actions/deploy-pages@v4`
 
-- [ ] Configure GitHub Pages in repository settings — **manual step, cannot be automated** (AC: 1)
-  - [ ] Go to `https://github.com/EarlAbides/PiratesWeb` → Settings → Pages → Source → select **"GitHub Actions"** (not "Deploy from a branch")
-  - [ ] Note: the `github-pages` environment is auto-created after the first successful workflow run
+- [x] Configure GitHub Pages in repository settings — **manual step, cannot be automated** (AC: 1)
+  - [x] Go to `https://github.com/EarlAbides/PiratesWeb` → Settings → Pages → Source → select **"GitHub Actions"** (not "Deploy from a branch")
+  - [x] Note: the `github-pages` environment is auto-created after the first successful workflow run
 
 - [ ] Validate deployment end-to-end (AC: 1, 2, 3)
   - [ ] Push workflow file to `main` and confirm Actions tab shows the workflow triggered
