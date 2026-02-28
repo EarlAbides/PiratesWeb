@@ -1,10 +1,11 @@
 import type { Card } from '$lib/types/cardTypes';
+import { base } from '$app/paths';
 
 export function thumbUrl(card: Card): string {
 	const webpName = card.imageFilename.replace(/\.[^.]+$/, '.webp');
-	return `/images/thumbs/${webpName}`;
+	return `${base}/images/thumbs/${webpName}`;
 }
 
 export function imageUrl(card: Card): string {
-	return `/images/cards/${card.imageFilename}`;
+	return `${base}/images/cards/${card.imageFilename}`;
 }
