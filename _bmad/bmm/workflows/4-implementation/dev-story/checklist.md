@@ -62,6 +62,8 @@ validation-rules:
 - [ ] **Quality Gates Passed:** All quality checks and validations completed successfully
 - [ ] **No HALT Conditions:** No blocking issues or incomplete work remaining
 - [ ] **User Communication Ready:** Implementation summary prepared for user review
+- [ ] **Story Branch Created:** Git branch `story/{{story_key}}` exists and contains all implementation commits
+- [ ] **PR Opened:** Pull request created targeting `main` with title, ACs, file list, and story file reference
 
 ## 🎯 Final Validation Output
 

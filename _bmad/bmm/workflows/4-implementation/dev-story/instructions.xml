@@ -219,6 +219,12 @@
       <output>ℹ️ No sprint status file exists - story progress will be tracked in story file only</output>
       <action>Set {{current_sprint_status}} = "no-sprint-tracking"</action>
     </check>
+
+    <!-- Git: create story branch -->
+    <action>Create or switch to story branch using naming convention story/{{story_key}}:
+      Run: git checkout -b story/{{story_key}} 2>/dev/null || git checkout story/{{story_key}}
+    </action>
+    <output>🌿 Branch ready: story/{{story_key}}</output>
   </step>
 
   <step n="5" goal="Implement task following red-green-refactor cycle">
@@ -368,6 +374,32 @@
     <action if="regression failures exist">HALT - Fix regression issues before completing</action>
     <action if="File List is incomplete">HALT - Update File List with all changed files</action>
     <action if="definition-of-done validation fails">HALT - Address DoD failures before completing</action>
+
+    <!-- Git: commit, push, and open PR -->
+    <action>Stage all changed files: git add -A</action>
+    <action>Commit with message: "story({{story_key}}): complete implementation - all ACs satisfied"</action>
+    <action>Push branch to remote with upstream tracking: git push -u origin story/{{story_key}}</action>
+    <action>Extract story title from the story file's heading</action>
+    <action>Extract acceptance criteria list from the story file's Acceptance Criteria section</action>
+    <action>Extract file list from the story file's File List section</action>
+    <action>Create PR using gh pr create with:
+      - title: "{{story_title}} [{{story_key}}]"
+      - body (HEREDOC):
+        ## Summary
+        {{story_description}}
+
+        ## Acceptance Criteria
+        {{story_acceptance_criteria_list}}
+
+        ## Files Changed
+        {{file_list}}
+
+        ## Story File
+        `{{story_path}}`
+
+        🤖 Implemented by [BMAD Dev Agent](https://github.com/bmadcode/BMAD-METHOD)
+    </action>
+    <output>🔀 PR opened for story/{{story_key}}</output>
   </step>
 
   <step n="10" goal="Completion communication and user support">
