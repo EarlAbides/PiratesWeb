@@ -1,6 +1,6 @@
 # Story 1.5: GitHub Actions CI/CD Deployment Pipeline
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -52,13 +52,13 @@ so that every merge to main automatically results in an updated live site with z
   - [x] Go to `https://github.com/EarlAbides/PiratesWeb` → Settings → Pages → Source → select **"GitHub Actions"** (not "Deploy from a branch")
   - [x] Note: the `github-pages` environment is auto-created after the first successful workflow run
 
-- [ ] Validate deployment end-to-end (AC: 1, 2, 3)
+- [x] Validate deployment end-to-end (AC: 1, 2, 3)
   - [x] Push workflow file to `main` and confirm Actions tab shows the workflow triggered
   - [x] Confirm `build` job runs `npm ci` + `npm run build` successfully
   - [x] Confirm `deploy` job runs after `build` and the live GitHub Pages URL is updated
   - [x] Verify live site at `https://earlabides.github.io/PiratesWeb/` loads with card count displayed
-  - [ ] Simulate build failure: introduce a TypeScript error, push, confirm `deploy` job is skipped, revert
-  - [ ] Navigate directly to a deep client-side route on the live site — confirm no 404 (SPA fallback working)
+  - [x] Simulate build failure: introduce a TypeScript error, push, confirm `deploy` job is skipped, revert
+  - [x] Navigate directly to a deep client-side route on the live site — confirm no 404 (SPA fallback working)
 
 ## Dev Notes
 
