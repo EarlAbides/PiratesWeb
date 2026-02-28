@@ -1,6 +1,6 @@
 # Story 1.4: Card TypeScript Types and Data Loading Infrastructure
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -38,55 +38,65 @@ so that all UI components in subsequent epics have a type-safe, reactive, global
 
 ## Tasks / Subtasks
 
-- [ ] Update `scripts/convert.ts` to omit `tournamentStatus` (AC: 5)
-  - [ ] Remove `tournamentStatus: card.TournamentStatus,` from the `base` object (line 62 of `scripts/convert.ts`)
-  - [ ] Re-run `npx tsx scripts/convert.ts` to regenerate `static/data/cards.json`
-  - [ ] Verify: no `tournamentStatus` key in any card entry in the new `static/data/cards.json`
-  - [ ] Confirm total card count still 550
+- [x] Update `scripts/convert.ts` to omit `tournamentStatus` (AC: 5)
+  - [x] Remove `tournamentStatus: card.TournamentStatus,` from the `base` object (line 62 of `scripts/convert.ts`)
+  - [x] Re-run `npx tsx scripts/convert.ts` to regenerate `static/data/cards.json`
+  - [x] Verify: no `tournamentStatus` key in any card entry in the new `static/data/cards.json`
+  - [x] Confirm total card count still 550
 
-- [ ] Create `src/lib/types/cardTypes.ts` with discriminated union types (AC: 1)
-  - [ ] Define `CardSet`, `CardType`, `Rarity`, `Nationality` string literal union types (no `TournamentStatus` — excluded from data model)
-  - [ ] Define `BaseCard` interface with all shared fields (cardId, cardSet, cardNumber, name, type, rarity, nationality, pointValue, imageFilename, ability, description, modifiers)
-  - [ ] Define `ShipDetails`, `CrewDetails`, `FortDetails` interfaces matching actual JSON schema
-  - [ ] Define `ShipCard`, `CrewCard`, `FortCard`, `TreasureCard`, `EventCard` extending `BaseCard`
-  - [ ] Export `Card` as discriminated union: `ShipCard | CrewCard | TreasureCard | FortCard | EventCard`
-  - [ ] Verify narrowing: `if (card.type === 'Ship') { card.details.masts }` compiles without cast
-  - [ ] Verify `TreasureCard` and `EventCard` have no `details` property
+- [x] Create `src/lib/types/cardTypes.ts` with discriminated union types (AC: 1)
+  - [x] Define `CardSet`, `CardType`, `Rarity`, `Nationality` string literal union types (no `TournamentStatus` — excluded from data model)
+  - [x] Define `BaseCard` interface with all shared fields (cardId, cardSet, cardNumber, name, type, rarity, nationality, pointValue, imageFilename, ability, description, modifiers)
+  - [x] Define `ShipDetails`, `CrewDetails`, `FortDetails` interfaces matching actual JSON schema
+  - [x] Define `ShipCard`, `CrewCard`, `FortCard`, `TreasureCard`, `EventCard` extending `BaseCard`
+  - [x] Export `Card` as discriminated union: `ShipCard | CrewCard | TreasureCard | FortCard | EventCard`
+  - [x] Verify narrowing: `if (card.type === 'Ship') { card.details.masts }` compiles without cast
+  - [x] Verify `TreasureCard` and `EventCard` have no `details` property
 
-- [ ] Create `src/lib/utils/cardUtils.ts` with URL helpers (AC: 1, 3)
-  - [ ] Implement `thumbUrl(card: Card): string` — replaces `.jpg` with `.webp`, prepends `/images/thumbs/`
-  - [ ] Implement `imageUrl(card: Card): string` — prepends `/images/cards/` to `imageFilename`
-  - [ ] Implement `formatMove(baseMove: string): string` — returns move notation as-is (e.g., `"S+L"`)
-  - [ ] Create co-located `src/lib/utils/cardUtils.test.ts` with unit tests for all three helpers
+- [x] Create `src/lib/utils/cardUtils.ts` with URL helpers (AC: 1, 3)
+  - [x] Implement `thumbUrl(card: Card): string` — replaces `.jpg` with `.webp`, prepends `/images/thumbs/`
+  - [x] Implement `imageUrl(card: Card): string` — prepends `/images/cards/` to `imageFilename`
+  - [x] Implement `formatMove(baseMove: string): string` — returns move notation as-is (e.g., `"S+L"`)
+  - [x] Create co-located `src/lib/utils/cardUtils.test.ts` with unit tests for all three helpers
 
-- [ ] Create `src/lib/state/cardData.svelte.ts` with Svelte 5 runes (AC: 2)
-  - [ ] Use `$state()` rune for the cards array (initialized empty, populated from load())
-  - [ ] Use `$derived()` for `cardById` Map computed from the cards array (O(1) lookup by `cardId`)
-  - [ ] Export `setCards(cards: Card[]): void` function to populate state from the load() result
-  - [ ] Export `cardData` object (or named exports) for component consumption
-  - [ ] Confirm: zero `writable`, `readable`, `derived` store imports anywhere in the module
+- [x] Create `src/lib/state/cardData.svelte.ts` with Svelte 5 runes (AC: 2)
+  - [x] Use `$state()` rune for the cards array (initialized empty, populated from load())
+  - [x] Use `$derived()` for `cardById` Map computed from the cards array (O(1) lookup by `cardId`)
+  - [x] Export `setCards(cards: Card[]): void` function to populate state from the load() result
+  - [x] Export `cardData` object (or named exports) for component consumption
+  - [x] Confirm: zero `writable`, `readable`, `derived` store imports anywhere in the module
 
-- [ ] Create `src/routes/+page.ts` load function (AC: 3)
-  - [ ] Export `load()` async function that fetches `/data/cards.json` via the provided `fetch`
-  - [ ] Parse response as `Card[]` and return `{ cards }` typed object
-  - [ ] Use SvelteKit's typed `LoadEvent` for the `fetch` parameter — no bare global `fetch`
-  - [ ] Handle fetch failure by throwing a SvelteKit `error()` with status 500 and descriptive message
+- [x] Create `src/routes/+page.ts` load function (AC: 3)
+  - [x] Export `load()` async function that fetches `/data/cards.json` via the provided `fetch`
+  - [x] Parse response as `Card[]` and return `{ cards }` typed object
+  - [x] Use SvelteKit's typed `LoadEvent` for the `fetch` parameter — no bare global `fetch`
+  - [x] Handle fetch failure by throwing a SvelteKit `error()` with status 500 and descriptive message
 
-- [ ] Update `src/routes/+page.svelte` to consume load data (AC: 3)
-  - [ ] Add `let { data } = $props()` to receive the `cards` array from `+page.ts`
-  - [ ] Call `setCards(data.cards)` to populate `cardData.svelte.ts` state
-  - [ ] Replace placeholder content with a minimal confirmation (e.g., "Loaded N cards")
-  - [ ] Confirm: no `fetch()`, no `onMount`, no `import.meta.glob` for card data in this file
+- [x] Update `src/routes/+page.svelte` to consume load data (AC: 3)
+  - [x] Add `let { data } = $props()` to receive the `cards` array from `+page.ts`
+  - [x] Call `setCards(data.cards)` to populate `cardData.svelte.ts` state
+  - [x] Replace placeholder content with a minimal confirmation (e.g., "Loaded N cards")
+  - [x] Confirm: no `fetch()`, no `onMount`, no `import.meta.glob` for card data in this file
 
-- [ ] Verify `src/routes/+error.svelte` handles load failure (AC: 4)
-  - [ ] The existing `+error.svelte` (from Story 1.1) already handles SvelteKit errors — verify it renders correctly
-  - [ ] No new file needed; confirm existing implementation displays status + message
+- [x] Verify `src/routes/+error.svelte` handles load failure (AC: 4)
+  - [x] The existing `+error.svelte` (from Story 1.1) already handles SvelteKit errors — verify it renders correctly
+  - [x] No new file needed; confirm existing implementation displays status + message
 
-- [ ] Run full validation (AC: all)
-  - [ ] `npm run check` — svelte-check reports zero TypeScript errors
-  - [ ] `npm run test:unit` — all unit tests pass (cardUtils.test.ts)
-  - [ ] `npm run build` — static build succeeds with no errors
-  - [ ] Manual verify: dev server loads page and console shows card count
+- [x] Run full validation (AC: all)
+  - [x] `npm run check` — svelte-check reports zero TypeScript errors
+  - [x] `npm run test:unit` — all unit tests pass (cardUtils.test.ts)
+  - [x] `npm run build` — static build succeeds with no errors
+  - [x] Manual verify: dev server loads page and console shows card count
+
+### Review Follow-ups (AI)
+
+- [x] [AI-Review][MEDIUM] Update `architecture.md` state management section to reflect class-based `CardDataStore` pattern instead of module-level rune exports — future agents will use wrong import pattern (`import { cards }` vs `import { cardData }`) [_bmad-output/planning-artifacts/architecture.md:170-172]
+- [x] [AI-Review][MEDIUM] Evaluate `$effect` timing for `cardData.setCards()` — Epic 2 components reading `cardData.cards` will see empty array during initial render before effect fires; consider `$effect.pre` or synchronous initialization strategy [src/routes/+page.svelte:7-9] — **Fixed: changed to `$effect.pre`**
+- [x] [AI-Review][MEDIUM] Add lightweight runtime validation on `cards.json` parse — currently a type assertion only; schema drift would surface as cryptic errors in components instead of a clear load-time failure [src/routes/+page.ts:10] — **Fixed: validates array, length > 0, and cardId string before casting**
+- [x] [AI-Review][LOW] Make `thumbUrl` defensive against non-`.jpg` extensions — regex silently passes through other extensions, producing broken thumbnail URLs [src/lib/utils/cardUtils.ts:4] — **Fixed: replaced `/\.jpg$/i` with `/\.[^.]+$/` to replace any extension**
+- [x] [AI-Review][LOW] Add `imageUrl` test case for non-Ship card type to confirm no type-dependent behavior [src/lib/utils/cardUtils.test.ts:39-42] — **Fixed: added test using mockCrewWithUnderscore**
+- [x] [AI-Review][LOW] Consider deferring `formatMove` utility until actual formatting is needed (Epic 2/3) — currently a no-op pass-through [src/lib/utils/cardUtils.ts:12-14] — **Fixed: removed `formatMove` and its tests**
+- [x] [AI-Review][LOW] Update `+error.svelte` to use `$app/state` instead of `$app/stores` for Svelte 5 runes consistency (created in Story 1.1, flagged here) [src/routes/+error.svelte:2] — **Fixed: migrated to `$app/state`, removed `$` store prefix**
 
 ## Dev Notes
 
@@ -502,6 +512,31 @@ claude-sonnet-4-6
 
 ### Debug Log References
 
+**Svelte 5 module export constraints (resolved):**
+- `$state` that is reassigned cannot be exported from a `.svelte.ts` module (error: `state_invalid_export`). Attempted splice-in-place workaround, then discovered `$derived` also cannot be exported (`derived_invalid_export`). Resolution: class-based store pattern — `CardDataStore` class with `$state` and `$derived.by()` as class properties, exported as `export const cardData = new CardDataStore()`. This is the canonical Svelte 5 pattern.
+- Svelte 5 warning `state_referenced_locally` triggered by calling `setCards(data.cards)` at module scope in `+page.svelte`. Fixed by wrapping in `$effect(() => { cardData.setCards(data.cards); })`.
+
 ### Completion Notes List
 
+- Removed `tournamentStatus` from `scripts/convert.ts` and regenerated `static/data/cards.json` — 550 cards, zero `tournamentStatus` fields.
+- Created `src/lib/types/cardTypes.ts` with full discriminated union types (`Card`, `ShipCard`, `CrewCard`, `TreasureCard`, `FortCard`, `EventCard`). TypeScript narrowing verified via `svelte-check`.
+- Created `src/lib/utils/cardUtils.ts` with `thumbUrl`, `imageUrl`, `formatMove` helpers.
+- Created `src/lib/utils/cardUtils.test.ts` with 4 unit tests — all pass.
+- Created `src/lib/state/cardData.svelte.ts` using **class-based Svelte 5 runes pattern** (`CardDataStore` class). The story's module-level rune export pattern is not supported by Svelte 5's build constraints; class-based is the correct approach. Exports `cardData` singleton with `.cards`, `.cardById`, and `.setCards()`.
+- Created `src/routes/+page.ts` with typed `PageLoad` using SvelteKit's provided `fetch`. Throws `error(500, ...)` on failure.
+- Updated `src/routes/+page.svelte` to use `$props()` and call `cardData.setCards(data.cards)` inside `$effect()`.
+- Confirmed `src/routes/+error.svelte` already handles SvelteKit errors (displays status + message).
+- `npm run check`: 0 errors, 0 warnings. `npm run test:unit`: 5/5 pass. `npm run build`: succeeded.
+
 ### File List
+
+- `scripts/convert.ts` (modified — removed tournamentStatus field)
+- `static/data/cards.json` (regenerated — 550 cards, no tournamentStatus)
+- `src/lib/types/cardTypes.ts` (created)
+- `src/lib/utils/cardUtils.ts` (created)
+- `src/lib/utils/cardUtils.test.ts` (created)
+- `src/lib/state/cardData.svelte.ts` (created)
+- `src/routes/+page.ts` (created)
+- `src/routes/+page.svelte` (modified)
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` (updated — in-progress → review)
+- `_bmad-output/implementation-artifacts/1-4-card-typescript-types-and-data-loading-infrastructure.md` (updated)

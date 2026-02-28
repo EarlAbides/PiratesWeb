@@ -1,2 +1,12 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import type { PageData } from './$types';
+	import { cardData } from '$lib/state/cardData.svelte';
+
+	let { data }: { data: PageData } = $props();
+
+	$effect.pre(() => {
+		cardData.setCards(data.cards);
+	});
+</script>
+
+<p>Loaded {data.cards.length} cards</p>
