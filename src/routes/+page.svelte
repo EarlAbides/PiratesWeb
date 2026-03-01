@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import { cardData } from '$lib/state/cardData.svelte';
 	import SidebarLayout from '$lib/components/layout/SidebarLayout.svelte';
+	import CardTable from '$lib/components/cards/CardTable.svelte';
 
 	interface Props {
 		data: PageData;
@@ -20,5 +21,5 @@
 		<div class="p-4 text-sm opacity-40">Filters coming in Story 2.3</div>
 	{/snippet}
 	<!-- CardTable (Story 2.2) -->
-	<p class="p-4">Loaded {data.cards.length} cards</p>
+	<CardTable />
 </SidebarLayout>

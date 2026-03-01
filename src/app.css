@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@source not "../_bmad/**/*";
+@source not "../_bmad-output/**/*";
 @plugin 'daisyui';
 
 @theme {
