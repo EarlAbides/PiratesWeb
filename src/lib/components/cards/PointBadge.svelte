@@ -7,7 +7,7 @@
 </script>
 
 <div
-	class="flex h-14 w-14 shrink-0 flex-col items-center justify-center border-2 border-black"
+	class="flex h-[59px] w-[59px] shrink-0 flex-col items-center justify-center border-2 border-black"
 	style:background-color="oklch(30% 0.01 0)"
 	style:font-family="'Cinzel', serif"
 	style:font-weight="700"

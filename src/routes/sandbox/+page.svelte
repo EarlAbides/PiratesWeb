@@ -15,6 +15,7 @@
 	import CargoIcon from '$lib/components/icons/stat/CargoIcon.svelte';
 	import MoveIcon from '$lib/components/icons/stat/MoveIcon.svelte';
 	import CannonIcon from '$lib/components/icons/stat/CannonIcon.svelte';
+	import { SET_CLASS } from '$lib/utils/setUtils';
 
 	// ── Reference cards ──────────────────────────────────────────────────────────
 
@@ -49,6 +50,40 @@
 		description: '',
 		modifiers: {},
 		details: { masts: 5, cargo: 4, baseMove: 'S+L', cannons: ['3S', '3S', '2S', '2L', '2L'] }
+	};
+
+	// Crimson Coast ship — tests burgundy/red bg + light text
+	const joyaDelSol: ShipCard = {
+		cardId: 'PPCC-mock-1',
+		cardSet: 'PPCC',
+		cardNumber: '041',
+		name: 'La Joya del Sol',
+		type: 'Ship',
+		rarity: 'Uncommon',
+		nationality: 'Spanish',
+		pointValue: 11,
+		imageFilename: 'PPCC_041.jpg',
+		ability: 'This ship may move and shoot in the same turn.',
+		description: '',
+		modifiers: {},
+		details: { masts: 2, cargo: 3, baseMove: 'S+L', cannons: ['3S', '4L'] }
+	};
+
+	// Revolution ship — tests royal-blue bg + light text
+	const resolution: ShipCard = {
+		cardId: 'PPRV-mock-1',
+		cardSet: 'PPRV',
+		cardNumber: '008',
+		name: 'HMS Resolution',
+		type: 'Ship',
+		rarity: 'Rare',
+		nationality: 'English',
+		pointValue: 19,
+		imageFilename: 'PPRV_008.jpg',
+		ability: 'Friendly crew aboard this ship cannot be eliminated.',
+		description: '',
+		modifiers: {},
+		details: { masts: 3, cargo: 2, baseMove: 'S', cannons: ['2S', '2S', '3L'] }
 	};
 
 	const nationalities = ['English', 'Spanish', 'French', 'American', 'Pirates'] as const;
@@ -1199,16 +1234,21 @@
 	</section>
 
 	<!-- ══════════════════════════════════════════════════════ -->
-	<!-- 8 · FULL CARD ROW — CURRENT STATE                      -->
+	<!-- 8 · FULL CARD ROW — APPROVED                          -->
 	<!-- ══════════════════════════════════════════════════════ -->
 	<section class="space-y-4">
 		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
-			8 · Full Card Row — Current State
+			8 · Full Card Row — Approved
 		</h2>
-		<p class="text-xs text-neutral-500">The assembled row as it currently renders in the app.</p>
+		<p class="text-xs text-neutral-500">
+			Layered ship design approved. Stats pills as back layer, 59×59 badge inset 4px, flag+name
+			upper zone. All three set backgrounds confirmed.
+		</p>
 		<div class="overflow-hidden rounded border border-neutral-700">
 			<CardRow card={laRepulsa} />
 			<CardRow card={dreadnought} />
+			<CardRow card={joyaDelSol} />
+			<CardRow card={resolution} />
 		</div>
 	</section>
 </div>
