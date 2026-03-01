@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { applyFilters } from './filterUtils';
+import { applyFilters, matchesSearch } from './filterUtils';
 import type { Card } from '$lib/types/cardTypes';
 
 // Minimal card stubs for filter testing
@@ -87,9 +87,61 @@ describe('applyFilters', () => {
 		expect(result).toHaveLength(0);
 	});
 
+	it('applies AND logic with search text and dimension filter', () => {
+		const result = applyFilters(cards, { ...empty, selectedSet: 'PPSM', searchText: 'victory' });
+		expect(result).toHaveLength(1);
+		expect(result[0].name).toBe('HMS Victory');
+	});
+
 	it('does not mutate the input array', () => {
 		const input = [...cards];
 		applyFilters(input, { ...empty, selectedType: 'Crew' });
 		expect(input).toHaveLength(4);
+	});
+});
+
+describe('matchesSearch', () => {
+	const card = makeCard({ name: 'HMS Victory', ability: 'Boarding specialist.' });
+
+	it('returns true when query is empty', () => {
+		expect(matchesSearch(card, '')).toBe(true);
+	});
+
+	it('returns true when query is whitespace only', () => {
+		expect(matchesSearch(card, '   ')).toBe(true);
+	});
+
+	it('matches exact card name', () => {
+		expect(matchesSearch(card, 'HMS Victory')).toBe(true);
+	});
+
+	it('matches partial card name', () => {
+		expect(matchesSearch(card, 'HMS')).toBe(true);
+	});
+
+	it('is case-insensitive on name', () => {
+		expect(matchesSearch(card, 'victory')).toBe(true);
+	});
+
+	it('matches ability text', () => {
+		expect(matchesSearch(card, 'boarding')).toBe(true);
+	});
+
+	it('is case-insensitive on ability', () => {
+		expect(matchesSearch(card, 'BOARDING')).toBe(true);
+	});
+
+	it('returns false when no match', () => {
+		expect(matchesSearch(card, 'zzzzzz')).toBe(false);
+	});
+
+	it('trims whitespace-padded query', () => {
+		expect(matchesSearch(card, ' HMS ')).toBe(true);
+	});
+
+	it('matches name when ability is empty', () => {
+		const noAbility = makeCard({ name: 'Gold Chest', ability: '' });
+		expect(matchesSearch(noAbility, 'gold')).toBe(true);
+		expect(matchesSearch(noAbility, 'zzzzzz')).toBe(false);
 	});
 });
