@@ -1,6 +1,6 @@
 # Story 2.3: Filter Sidebar — All Filter Dimensions
 
-Status: review
+Status: done
 
 ## Story
 
