@@ -19,13 +19,14 @@ describe('CardRow set background class mapping', () => {
 	});
 
 	it('returns undefined for an unknown card set (graceful fallback via ?? empty string)', () => {
-		expect(SET_CLASS['UNKNOWN']).toBeUndefined();
+		const looseLookup = SET_CLASS as Record<string, string | undefined>;
+		expect(looseLookup['UNKNOWN']).toBeUndefined();
 		// CardRow uses: SET_CLASS[card.cardSet] ?? '' — so undefined safely falls back to ''
-		expect(SET_CLASS['UNKNOWN'] ?? '').toBe('');
+		expect(looseLookup['UNKNOWN'] ?? '').toBe('');
 	});
 
 	it('covers all three canonical card sets', () => {
-		const cardSets = ['PPSM', 'PPCC', 'PPRV'];
+		const cardSets = ['PPSM', 'PPCC', 'PPRV'] as const;
 		for (const set of cardSets) {
 			expect(SET_CLASS[set]).toBeTruthy();
 			expect(SET_CLASS[set]).toMatch(/^bg-set-/);
