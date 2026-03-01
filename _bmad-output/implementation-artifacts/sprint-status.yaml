@@ -48,12 +48,12 @@ development_status:
   1-5-github-actions-cicd-deployment-pipeline: done
   epic-1-retrospective: done
 
-  epic-2: in-progress
+  epic-2: done
   2-1-app-shell-layout-and-design-system: done
   2-2-card-browse-table-with-build-sheet-rows: done
   2-3-filter-sidebar-all-filter-dimensions: done
   2-4-text-search: done
-  epic-2-retrospective: optional
+  epic-2-retrospective: done
 
   epic-3: backlog
   3-1-inline-card-detail-expansion-interaction-and-base-content: backlog
