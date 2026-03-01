@@ -179,9 +179,10 @@
 		</h2>
 
 		<div class="space-y-6">
+			<!-- Baseline -->
 			<div>
 				<p class="mb-2 text-xs text-neutral-500">
-					Current — 24×16, <code>rounded-sm</code> (WRONG — remove):
+					Current — 24×16, <code>rounded-sm</code> (baseline):
 				</p>
 				<div class="flex flex-wrap items-end gap-5">
 					{#each nationalities as nat}
@@ -193,26 +194,39 @@
 				</div>
 			</div>
 
+			<!-- Candidate: 36×24, no rounded, 1px border, on each set bg -->
 			<div>
-				<p class="mb-2 text-xs text-neutral-500">No rounded corners · 36×24:</p>
-				<div class="flex flex-wrap items-end gap-5">
-					{#each nationalities as nat}
-						<div class="flex flex-col items-center gap-1">
-							<img
-								src="{base}/images/flags/{nat.toLowerCase()}.svg"
-								alt={nat}
-								width="36"
-								height="24"
-								class="shrink-0"
-							/>
-							<span class="text-xs text-neutral-500">{nat}</span>
+				<p class="mb-3 text-xs text-neutral-400">
+					Candidate — 36×24 · no rounded corners · 1px border · on card backgrounds:
+				</p>
+				<div class="space-y-3">
+					{#each [
+						{ label: 'Spanish Main', bg: 'bg-set-spanish-main' },
+						{ label: 'Crimson Coast', bg: 'bg-set-crimson-coast' },
+						{ label: 'Revolution', bg: 'bg-set-revolution' }
+					] as setRow}
+						<div class="flex items-center gap-1 rounded px-3 py-2 {setRow.bg}">
+							<span class="mr-3 w-28 shrink-0 text-xs opacity-60">{setRow.label}</span>
+							{#each nationalities as nat}
+								<div class="flex flex-col items-center gap-1 px-2">
+									<img
+										src="{base}/images/flags/{nat.toLowerCase()}.svg"
+										alt={nat}
+										width="36"
+										height="24"
+										class="shrink-0 border border-black/40"
+									/>
+									<span class="text-xs opacity-50">{nat.slice(0, 3)}</span>
+								</div>
+							{/each}
 						</div>
 					{/each}
 				</div>
 			</div>
 
+			<!-- 48×32 kept for size comparison -->
 			<div>
-				<p class="mb-2 text-xs text-neutral-500">No rounded corners · 48×32:</p>
+				<p class="mb-2 text-xs text-neutral-500">Size comparison — 48×32 (no border):</p>
 				<div class="flex flex-wrap items-end gap-5">
 					{#each nationalities as nat}
 						<div class="flex flex-col items-center gap-1">
