@@ -9,8 +9,9 @@ export interface FilterCriteria {
 }
 
 export function matchesSearch(card: Card, query: string): boolean {
-	if (!query.trim()) return true;
-	const q = query.toLowerCase().trim();
+	const trimmed = query.trim();
+	if (!trimmed) return true;
+	const q = trimmed.toLowerCase();
 	return card.name.toLowerCase().includes(q) || card.ability.toLowerCase().includes(q);
 }
 

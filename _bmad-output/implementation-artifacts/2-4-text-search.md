@@ -1,6 +1,6 @@
 # Story 2.4: Text Search
 
-Status: review
+Status: done
 
 ## Story
 
@@ -44,6 +44,12 @@ So that I can find any card instantly by typing part of its name or a keyword fr
   - [x] `npm run check` — zero TypeScript errors
   - [x] `npm run test:unit` — all existing 28 tests pass + new `matchesSearch` tests pass (36/36)
   - [x] `npm run build` — clean build
+
+- [x] Review Follow-ups (AI)
+  - [x] [AI-Review][LOW] Remove redundant `query.trim()` in `matchesSearch` — trim once and reuse [filterUtils.ts:12-13]
+  - [x] [AI-Review][LOW] Add test: whitespace-padded query `" HMS "` returns true [filterUtils.test.ts]
+  - [x] [AI-Review][LOW] Add test: card with empty `ability` string matches on name only [filterUtils.test.ts]
+  - [x] [AI-Review][LOW] Add test: `applyFilters` combining searchText + dimension filter (AC1 AND interaction) [filterUtils.test.ts]
 
 ## Dev Notes
 

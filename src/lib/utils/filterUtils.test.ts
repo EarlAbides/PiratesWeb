@@ -87,6 +87,12 @@ describe('applyFilters', () => {
 		expect(result).toHaveLength(0);
 	});
 
+	it('applies AND logic with search text and dimension filter', () => {
+		const result = applyFilters(cards, { ...empty, selectedSet: 'PPSM', searchText: 'victory' });
+		expect(result).toHaveLength(1);
+		expect(result[0].name).toBe('HMS Victory');
+	});
+
 	it('does not mutate the input array', () => {
 		const input = [...cards];
 		applyFilters(input, { ...empty, selectedType: 'Crew' });
@@ -127,5 +133,15 @@ describe('matchesSearch', () => {
 
 	it('returns false when no match', () => {
 		expect(matchesSearch(card, 'zzzzzz')).toBe(false);
+	});
+
+	it('trims whitespace-padded query', () => {
+		expect(matchesSearch(card, ' HMS ')).toBe(true);
+	});
+
+	it('matches name when ability is empty', () => {
+		const noAbility = makeCard({ name: 'Gold Chest', ability: '' });
+		expect(matchesSearch(noAbility, 'gold')).toBe(true);
+		expect(matchesSearch(noAbility, 'zzzzzz')).toBe(false);
 	});
 });
