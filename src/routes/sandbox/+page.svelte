@@ -325,6 +325,278 @@
 	</section>
 
 	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 4B · STAT ICONS — REDESIGN CANDIDATES                  -->
+	<!-- ══════════════════════════════════════════════════════ -->
+
+	<!--
+		Ship layout (24×24 viewBox, left=bow, right=stern):
+		  Hull:      y=18–22, x=2–22  (white)
+		  Poop deck: y=15–18, x=17–22 (white, raised stern)
+		  Bowsprit:  angled spar from bow toward top-left
+		  Jib:       triangular headsail off bowsprit
+		  Foremast:  sail bay x=3–8.5   (3 sails + flag)
+		  Mainmast:  sail bay x=9.5–14.5 (4 sails + flag, tallest)
+		  Mizzenmast: sail bay x=15.5–21 (3 sails + flag, starts higher on poop)
+		  Spanker:   small triangle at stern
+		Mast columns show as black background gaps at x≈8.5–9.5 and x≈14.5–15.5.
+		Yard gaps show as black background gaps between each sail rect (~0.5 unit).
+
+		MastIcon:  hull white, sails gold (both visible — sails are the feature)
+		CargoIcon: hull white, sails ghosted (hull is the feature)
+		MoveIcon:  full ship dim white at 58% x-scale + gold arrow right
+	-->
+
+	{#snippet shipHull(sailFill: string)}
+		<!-- Hull body -->
+		<path d="M2,18 L22,18 L21,22 Q12,24 3,22 Z" fill="var(--color-icon-ship)" />
+		<!-- Poop deck (raised stern) -->
+		<rect x="17" y="15" width="5" height="3" fill="var(--color-icon-ship)" />
+		<!-- Bowsprit (angled spar, bow-left) -->
+		<polygon points="3,18 4,17 1.5,13.5 0.5,14.5" fill="var(--color-icon-ship)" />
+
+		<!-- ── Jib (triangular headsail off bowsprit) ── -->
+		<polygon points="1,14 3.5,17.5 5.5,8" fill={sailFill} />
+
+		<!-- ── Foremast bay (x=3–8.5) ── -->
+		<!-- Course -->
+		<rect x="3" y="13.5" width="5.5" height="3.5" fill={sailFill} />
+		<!-- Topsail -->
+		<rect x="3.5" y="10" width="5" height="3" fill={sailFill} />
+		<!-- Topgallant -->
+		<rect x="4" y="6.5" width="4.5" height="3" fill={sailFill} />
+		<!-- Pennant -->
+		<polygon points="5,4.5 5,6.5 7.5,5.5" fill={sailFill} />
+
+		<!-- ── Mainmast bay (x=9.5–14.5) ── -->
+		<!-- Course -->
+		<rect x="9.5" y="13.5" width="5" height="3.5" fill={sailFill} />
+		<!-- Topsail -->
+		<rect x="10" y="10" width="4.5" height="3" fill={sailFill} />
+		<!-- Topgallant -->
+		<rect x="10.5" y="7" width="4" height="2.5" fill={sailFill} />
+		<!-- Royal -->
+		<rect x="11" y="4.5" width="3.5" height="2" fill={sailFill} />
+		<!-- Pennant -->
+		<polygon points="11.5,2.5 11.5,4.5 13.5,3.5" fill={sailFill} />
+
+		<!-- ── Mizzenmast bay (x=15.5–21, raised ~2u for poop deck) ── -->
+		<!-- Course -->
+		<rect x="15.5" y="11.5" width="5.5" height="3" fill={sailFill} />
+		<!-- Topsail -->
+		<rect x="16" y="8.5" width="5" height="2.5" fill={sailFill} />
+		<!-- Topgallant -->
+		<rect x="16.5" y="6" width="4" height="2" fill={sailFill} />
+		<!-- Pennant -->
+		<polygon points="17,4 17,6 19.5,5" fill={sailFill} />
+
+		<!-- ── Spanker (gaff sail at stern) ── -->
+		<polygon points="19.5,11.5 22,14.5 22,17" fill={sailFill} />
+	{/snippet}
+
+	{#snippet newMastSvg()}
+		<svg viewBox="0 0 24 24" style="width:100%;height:100%">
+			<rect width="24" height="24" fill="var(--color-icon-bg)" />
+			{@render shipHull('var(--color-icon-gold)')}
+		</svg>
+	{/snippet}
+
+	{#snippet newCargoSvg()}
+		<svg viewBox="0 0 24 24" style="width:100%;height:100%">
+			<rect width="24" height="24" fill="var(--color-icon-bg)" />
+			{@render shipHull('rgba(255,255,255,0.15)')}
+		</svg>
+	{/snippet}
+
+	{#snippet newMoveSvg()}
+		<!--
+			viewBox wider than 24×24: ship occupies x=0–22 (identical to Mast/Cargo),
+			3-unit gap, then gold arrow x=25–34. Total width=34, height=24.
+			At ~22px tall render this gives ≈31px wide — close to 32×22 target.
+		-->
+		<svg viewBox="0 0 34 24" style="width:100%;height:100%">
+			<rect width="34" height="24" fill="var(--color-icon-bg)" />
+			<!-- Full-size ship, slightly dimmed so arrow pops -->
+			<g opacity="0.65">
+				{@render shipHull('var(--color-icon-ship)')}
+			</g>
+			<!-- Gold arrow (shaft + head) -->
+			<rect x="25" y="10.5" width="5" height="2" fill="var(--color-icon-gold)" />
+			<polygon points="30,8.5 34,11.5 30,14.5" fill="var(--color-icon-gold)" />
+		</svg>
+	{/snippet}
+
+	{#snippet newCannonSvg()}
+		<svg viewBox="0 0 24 24" style="width:100%;height:100%">
+			<rect width="24" height="24" fill="var(--color-icon-bg)" />
+			<!-- Barrel (tapered, pointing left) -->
+			<polygon points="2,10 2,13 13,14 13,9" fill="var(--color-icon-gold)" />
+			<!-- Carriage body -->
+			<rect x="10" y="9" width="9" height="5" fill="var(--color-icon-gold)" />
+			<!-- Wheels -->
+			<circle cx="12.5" cy="17.5" r="2.5" fill="var(--color-icon-gold)" />
+			<circle cx="18.5" cy="17.5" r="2.5" fill="var(--color-icon-gold)" />
+		</svg>
+	{/snippet}
+
+	<section class="space-y-5">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			4B · Stat Icons — Redesign Candidates
+		</h2>
+		<p class="text-xs text-neutral-500">
+			Full-rigged ship: jib · foremast (3 sails) · mainmast (4 sails) · mizzenmast (3 sails) ·
+			spanker · bowsprit · poop deck. Hull is always white.
+			<strong class="text-neutral-400">Mast</strong> = sails gold (both hull + sails visible).
+			<strong class="text-neutral-400">Cargo</strong> = hull white, sails ghosted.
+			<strong class="text-neutral-400">Move</strong> = dim ship compressed left + gold arrow.
+		</p>
+
+		{#each [
+			{ label: 'MastIcon', key: 'mast' },
+			{ label: 'CargoIcon', key: 'cargo' },
+			{ label: 'MoveIcon (wider)', key: 'move' },
+			{ label: 'CannonIcon', key: 'cannon' }
+		] as row}
+			<div class="flex items-end gap-6">
+				<span class="w-24 shrink-0 text-xs text-neutral-400">{row.label}</span>
+				{#each [16, 32, 48, 96] as size}
+					<div class="flex flex-col items-center gap-1">
+						<!-- Move icon uses 34×24 viewBox → proportionally wider container -->
+						<div
+							style="width:{row.key === 'move'
+								? Math.round(size * 34 / 24)
+								: size}px; height:{size}px;"
+						>
+							{#if row.key === 'mast'}
+								{@render newMastSvg()}
+							{:else if row.key === 'cargo'}
+								{@render newCargoSvg()}
+							{:else if row.key === 'move'}
+								{@render newMoveSvg()}
+							{:else}
+								{@render newCannonSvg()}
+							{/if}
+						</div>
+						<span class="text-xs text-neutral-600">{size}px</span>
+					</div>
+				{/each}
+			</div>
+		{/each}
+
+		<!-- 48px tall: current → candidate side-by-side -->
+		<div class="mt-4 space-y-2">
+			<p class="text-xs text-neutral-500">48px tall — current → new candidate:</p>
+			<div class="flex gap-10">
+				{#each [
+					{ label: 'Mast', key: 'mast' },
+					{ label: 'Cargo', key: 'cargo' },
+					{ label: 'Move', key: 'move' },
+					{ label: 'Cannon', key: 'cannon' }
+				] as col}
+					<div class="flex flex-col items-center gap-2">
+						<span class="text-xs text-neutral-400">{col.label}</span>
+						<div class="flex items-center gap-3">
+							<div class="h-12 w-12">
+								{#if col.key === 'mast'}
+									<MastIcon />
+								{:else if col.key === 'cargo'}
+									<CargoIcon />
+								{:else if col.key === 'move'}
+									<MoveIcon />
+								{:else}
+									<CannonIcon />
+								{/if}
+							</div>
+							<span class="text-xs text-neutral-600">→</span>
+							<!-- Move new: 68×48px (34/24 × 48) -->
+							<div
+								style="height:48px; width:{col.key === 'move'
+									? Math.round(48 * 34 / 24)
+									: 48}px;"
+							>
+								{#if col.key === 'mast'}
+									{@render newMastSvg()}
+								{:else if col.key === 'cargo'}
+									{@render newCargoSvg()}
+								{:else if col.key === 'move'}
+									{@render newMoveSvg()}
+								{:else}
+									{@render newCannonSvg()}
+								{/if}
+							</div>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 4C · STAT ICONS — PROCESSED PNGs                       -->
+	<!-- ══════════════════════════════════════════════════════ -->
+	<section class="space-y-5">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			4C · Stat Icons — Processed PNGs
+		</h2>
+		<p class="text-xs text-neutral-500">
+			Source photos → 3-color remap (#000 / #fff / #c8960c) → LANCZOS scale. Output at 2× retina
+			(44px tall). Shown at 22px (1×), 44px (2×), and 88px (4× for inspection).
+		</p>
+
+		{#each [
+			{ label: 'masts', file: 'masts.png', w: 63, h: 44 },
+			{ label: 'cargo', file: 'cargo.png', w: 63, h: 44 },
+			{ label: 'move',  file: 'move.png',  w: 124, h: 44 },
+			{ label: 'cannon',file: 'cannon.png',w: 82, h: 44 }
+		] as icon}
+			<div class="flex items-end gap-8">
+				<span class="w-16 shrink-0 text-xs text-neutral-400">{icon.label}</span>
+				<!-- 1× (22px tall) -->
+				<div class="flex flex-col items-center gap-1">
+					<img
+						src="{base}/images/icons/{icon.file}"
+						alt={icon.label}
+						height="22"
+						width={Math.round(22 * icon.w / icon.h)}
+					/>
+					<span class="text-xs text-neutral-600">22px</span>
+				</div>
+				<!-- 2× (44px tall, native) -->
+				<div class="flex flex-col items-center gap-1">
+					<img
+						src="{base}/images/icons/{icon.file}"
+						alt={icon.label}
+						height={icon.h}
+						width={icon.w}
+					/>
+					<span class="text-xs text-neutral-600">{icon.h}px (native)</span>
+				</div>
+				<!-- 4× (88px tall, inspection) -->
+				<div class="flex flex-col items-center gap-1">
+					<img
+						src="{base}/images/icons/{icon.file}"
+						alt={icon.label}
+						height={icon.h * 2}
+						width={icon.w * 2}
+					/>
+					<span class="text-xs text-neutral-600">{icon.h * 2}px (inspect)</span>
+				</div>
+				<!-- on set background at 1× -->
+				<div class="flex flex-col items-center gap-1">
+					<div class="flex items-center rounded bg-set-spanish-main px-3 py-2">
+						<img
+							src="{base}/images/icons/{icon.file}"
+							alt={icon.label}
+							height="22"
+							width={Math.round(22 * icon.w / icon.h)}
+						/>
+					</div>
+					<span class="text-xs text-neutral-600">on card bg</span>
+				</div>
+			</div>
+		{/each}
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
 	<!-- 5 · CANNON PIPS — ALL VARIANTS                         -->
 	<!-- ══════════════════════════════════════════════════════ -->
 	<section class="space-y-5">

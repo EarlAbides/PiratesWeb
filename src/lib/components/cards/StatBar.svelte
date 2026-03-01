@@ -15,15 +15,15 @@
 {#if card.type === 'Ship'}
 	<div class="flex items-center gap-2 flex-wrap text-xs">
 		<span class="inline-flex items-center gap-0.5">
-			<span class="w-4 h-4 shrink-0"><MastIcon /></span>
+			<span class="h-4 shrink-0"><MastIcon /></span>
 			{card.details.masts}
 		</span>
 		<span class="inline-flex items-center gap-0.5">
-			<span class="w-4 h-4 shrink-0"><CargoIcon /></span>
+			<span class="h-4 shrink-0"><CargoIcon /></span>
 			{card.details.cargo}
 		</span>
 		<span class="inline-flex items-center gap-0.5">
-			<span class="w-4 h-4 shrink-0"><MoveIcon /></span>
+			<span class="h-4 shrink-0"><MoveIcon /></span>
 			{card.details.baseMove}
 		</span>
 		<CannonDisplay cannons={card.details.cannons} />
