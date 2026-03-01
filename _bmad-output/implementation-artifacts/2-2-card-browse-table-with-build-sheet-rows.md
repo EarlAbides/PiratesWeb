@@ -1,6 +1,6 @@
 # Story 2.2: Card Browse Table with Build-Sheet Rows
 
-Status: review
+Status: done
 
 ## Story
 
