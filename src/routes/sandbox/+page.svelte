@@ -3,7 +3,8 @@
 	// Use this page to iterate on individual card row components before implementing in production.
 
 	import { base } from '$app/paths';
-	import type { ShipCard } from '$lib/types/cardTypes';
+	import type { ShipCard, CrewCard, TreasureCard, FortCard, EventCard } from '$lib/types/cardTypes';
+	import AppHeader from '$lib/components/layout/AppHeader.svelte';
 	import PointBadge from '$lib/components/cards/PointBadge.svelte';
 	import NationalityFlag from '$lib/components/cards/NationalityFlag.svelte';
 	import StatBar from '$lib/components/cards/StatBar.svelte';
@@ -84,6 +85,85 @@
 		description: '',
 		modifiers: {},
 		details: { masts: 3, cargo: 2, baseMove: 'S', cannons: ['2S', '2S', '3L'] }
+	};
+
+	// ── Non-ship mock cards ──────────────────────────────────────────────────
+	const crewCard: CrewCard = {
+		cardId: 'crew-mock-1',
+		cardSet: 'PPSM',
+		cardNumber: 'PC-001',
+		name: 'Helmsman',
+		type: 'Crew',
+		rarity: 'Common',
+		nationality: 'Pirates',
+		pointValue: 2,
+		imageFilename: 'PPSM_PC-001.jpg',
+		ability: '+1 to this ship\'s movement. This crew may not be eliminated by the opponent.',
+		description: 'A skilled navigator who knows every reef and current.',
+		modifiers: {},
+		details: { buildBonus: 2, costReduction: 0, cargoBonus: 0, limitCards: [] }
+	};
+
+	const crewCardCC: CrewCard = {
+		cardId: 'crew-mock-2',
+		cardSet: 'PPCC',
+		cardNumber: '088',
+		name: 'Monsieur LeRoy',
+		type: 'Crew',
+		rarity: 'Uncommon',
+		nationality: 'French',
+		pointValue: 5,
+		imageFilename: 'PPCC_088.jpg',
+		ability: 'Once per turn, roll a d6. On a 5 or 6, one crew of your choice is eliminated from any ship within S.',
+		description: 'A duelist of terrible reputation.',
+		modifiers: {},
+		details: { buildBonus: 5, costReduction: 0, cargoBonus: 0, limitCards: [] }
+	};
+
+	const treasureCard: TreasureCard = {
+		cardId: 'treasure-mock-1',
+		cardSet: 'PPCC',
+		cardNumber: '121',
+		name: 'Stolen Gold',
+		type: 'Treasure',
+		rarity: 'Common Treasure',
+		nationality: 'Pirates',
+		pointValue: 3,
+		imageFilename: 'PPCC_121.jpg',
+		ability: 'Worth 3 gold at your home island.',
+		description: 'Spanish galleon plunder, still warm from the raid.',
+		modifiers: {}
+	};
+
+	const fortCard: FortCard = {
+		cardId: 'fort-mock-1',
+		cardSet: 'PPRV',
+		cardNumber: '140',
+		name: 'Fortaleza Dorada',
+		type: 'Fort',
+		rarity: 'Rare',
+		nationality: 'Spanish',
+		pointValue: 15,
+		imageFilename: 'PPRV_140.jpg',
+		ability: 'Once per turn, this fort may shoot at a ship within S of it.',
+		description: 'A formidable Spanish stronghold overlooking the harbor entrance.',
+		modifiers: {},
+		details: { cannons: ['3S', '3S', '2L'], goldCost: 15 }
+	};
+
+	const eventCard: EventCard = {
+		cardId: 'event-mock-1',
+		cardSet: 'PPSM',
+		cardNumber: 'EC-001',
+		name: 'Becalmed',
+		type: 'Event',
+		rarity: 'Uncommon',
+		nationality: 'Pirates',
+		pointValue: 0,
+		imageFilename: 'PPSM_EC-001.jpg',
+		ability: 'No ship may move this turn. Cancel all current abilities that require movement.',
+		description: 'The wind dies. The sea goes glass-flat. Every captain holds their breath.',
+		modifiers: {}
 	};
 
 	const nationalities = ['English', 'Spanish', 'French', 'American', 'Pirates'] as const;
@@ -1249,6 +1329,415 @@
 			<CardRow card={dreadnought} />
 			<CardRow card={joyaDelSol} />
 			<CardRow card={resolution} />
+		</div>
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 9 · BACKGROUNDS + ROW SEPARATORS                      -->
+	<!-- ══════════════════════════════════════════════════════ -->
+	<section class="space-y-6">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			9 · Backgrounds + Row Separators
+		</h2>
+		<p class="text-xs text-neutral-500">
+			Problems to solve: (1) PPCC burgundy and PPRV blue are too dark — rows feel heavy and lose contrast with text/icons. (2) 1px black separator works fine on the tan PPSM background but reads as a harsh slash on dark backgrounds. New seamless tiling textures from Sally will replace TanBG.jpg / RedBG.jpg / BlueBG.jpg — they slot into the <code>--bg-texture-*</code> CSS custom properties in +layout.svelte with no component changes needed.
+		</p>
+
+		<!-- Current state -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Current — as shipped (PPCC/PPRV too dark)</p>
+			<div class="overflow-hidden rounded border border-neutral-700">
+				<CardRow card={laRepulsa} />
+				<CardRow card={joyaDelSol} />
+				<CardRow card={resolution} />
+			</div>
+		</div>
+
+		<!-- Background lightness: CSS brightness filter candidates -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate A — CSS brightness(1.35) on PPCC/PPRV (approximates lighter texture target)</p>
+			<div class="overflow-hidden rounded border border-neutral-700">
+				<CardRow card={laRepulsa} />
+				<div style="filter: brightness(1.35)"><CardRow card={joyaDelSol} /></div>
+				<div style="filter: brightness(1.35)"><CardRow card={resolution} /></div>
+			</div>
+		</div>
+
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate B — CSS brightness(1.6) on PPCC/PPRV (brighter, closer to parchment weight)</p>
+			<div class="overflow-hidden rounded border border-neutral-700">
+				<CardRow card={laRepulsa} />
+				<div style="filter: brightness(1.6)"><CardRow card={joyaDelSol} /></div>
+				<div style="filter: brightness(1.6)"><CardRow card={resolution} /></div>
+			</div>
+		</div>
+
+		<!-- Separator candidates — shown as static mockups since separator is baked into CardRow -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Separator Candidate A — neutral-700 (softer, works across all sets)</p>
+			<div class="overflow-hidden rounded border border-neutral-700 flex flex-col">
+				<div class="border-b border-neutral-700"><CardRow card={laRepulsa} /></div>
+				<div class="border-b border-neutral-700"><CardRow card={joyaDelSol} /></div>
+				<CardRow card={resolution} />
+			</div>
+			<p class="text-xs text-neutral-600 italic">Note: CardRow's internal border-b border-black will also be visible — this approximates the intent, final implementation removes the internal border</p>
+		</div>
+
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Separator Candidate B — no separator line, 1px gap between rows (background shows through)</p>
+			<div class="overflow-hidden rounded border border-neutral-700 flex flex-col gap-px bg-neutral-900">
+				<div><CardRow card={laRepulsa} /></div>
+				<div><CardRow card={joyaDelSol} /></div>
+				<div><CardRow card={resolution} /></div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 10 · NON-SHIP CARD ROWS                               -->
+	<!-- ══════════════════════════════════════════════════════ -->
+	<section class="space-y-6">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			10 · Non-Ship Card Rows
+		</h2>
+		<p class="text-xs text-neutral-500">
+			Crew, Treasure, Fort, Event cards currently use the flat layout (unchanged from pre-sandbox). The layered design was ship-motivated — non-ships have no stat bar to fill the space. Two design directions below.
+		</p>
+
+		<!-- Current state via CardRow -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Current — flat layout (unchanged)</p>
+			<div class="overflow-hidden rounded border border-neutral-700">
+				<CardRow card={crewCard} />
+				<CardRow card={treasureCard} />
+				<CardRow card={fortCard} />
+				<CardRow card={eventCard} />
+			</div>
+		</div>
+
+		<!-- Candidate A: Type-accented flat layout with ability text prominent -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate A — Type accent strip + 2-line ability text</p>
+			<p class="text-xs text-neutral-600">Left accent strip color-codes type at a glance. Ability text gets 2 lines. TypeBadge moves to right corner.</p>
+			<div class="overflow-hidden rounded border border-neutral-700 flex flex-col">
+				{#each [
+					{ card: crewCard, accent: 'bg-emerald-700' },
+					{ card: treasureCard, accent: 'bg-yellow-600' },
+					{ card: fortCard, accent: 'bg-orange-700' },
+					{ card: eventCard, accent: 'bg-violet-700' },
+					{ card: crewCardCC, accent: 'bg-emerald-700' },
+				] as { card, accent }}
+					<div class="flex items-stretch min-h-[60px] border-b border-black {card.cardSet === 'PPSM' ? 'bg-set-spanish-main' : card.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'} last:border-0">
+						<!-- Type accent strip -->
+						<div class="w-1 shrink-0 {accent}"></div>
+						<!-- Point badge -->
+						<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
+							<PointBadge points={card.pointValue} />
+						</div>
+						<!-- Thumbnail -->
+						<img
+							src="{base}/images/thumbs/{card.imageFilename.replace('.jpg', '.webp')}"
+							alt={card.name}
+							loading="lazy"
+							width="48"
+							height="36"
+							class="h-9 w-12 shrink-0 self-center rounded-sm object-cover"
+						/>
+						<!-- Flag -->
+						<div class="flex shrink-0 items-center px-1">
+							<NationalityFlag nationality={card.nationality} />
+						</div>
+						<!-- Name + ability -->
+						<div class="flex min-w-0 flex-1 flex-col justify-center py-1">
+							<span class="truncate text-sm font-semibold" style="font-family: 'Cinzel', serif;">{card.name}</span>
+							<span class="line-clamp-2 text-xs opacity-70 leading-tight">{card.ability}</span>
+						</div>
+						<!-- TypeBadge -->
+						<div class="flex shrink-0 items-center px-2">
+							<span class="badge badge-sm badge-neutral opacity-70">{card.type}</span>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Candidate B: Simplified — no accent, ability text prominent, type badge left of name -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate B — TypeBadge inline with name, full-width 2-line ability text</p>
+			<p class="text-xs text-neutral-600">Cleaner. TypeBadge sits beside name. Ability text has maximum horizontal space. No accent strip.</p>
+			<div class="overflow-hidden rounded border border-neutral-700 flex flex-col">
+				{#each [crewCard, treasureCard, fortCard, eventCard, crewCardCC] as card}
+					<div class="flex items-stretch min-h-[60px] border-b border-black {card.cardSet === 'PPSM' ? 'bg-set-spanish-main' : card.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'} last:border-0">
+						<!-- Point badge -->
+						<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
+							<PointBadge points={card.pointValue} />
+						</div>
+						<!-- Thumbnail -->
+						<img
+							src="{base}/images/thumbs/{card.imageFilename.replace('.jpg', '.webp')}"
+							alt={card.name}
+							loading="lazy"
+							width="48"
+							height="36"
+							class="h-9 w-12 shrink-0 self-center rounded-sm object-cover"
+						/>
+						<!-- Flag -->
+						<div class="flex shrink-0 items-center px-1">
+							<NationalityFlag nationality={card.nationality} />
+						</div>
+						<!-- Name row + TypeBadge + ability -->
+						<div class="flex min-w-0 flex-1 flex-col justify-center py-1 px-1 gap-0.5">
+							<div class="flex items-center gap-2">
+								<span class="truncate text-sm font-semibold" style="font-family: 'Cinzel', serif;">{card.name}</span>
+								<span class="badge badge-sm badge-neutral opacity-60 shrink-0">{card.type}</span>
+								{#if card.type === 'Fort'}
+									<CannonDisplay cannons={(card as FortCard).details.cannons} />
+								{/if}
+							</div>
+							<span class="line-clamp-2 text-xs opacity-65 leading-tight">{card.ability}</span>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 11 · SHIP ROW REFINEMENTS — ABILITY TEXT + CARD #     -->
+	<!-- ══════════════════════════════════════════════════════ -->
+	<section class="space-y-6">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			11 · Ship Row Refinements — Ability Text + Card Number/Rarity
+		</h2>
+		<p class="text-xs text-neutral-500">
+			Two items: (1) Ability text was lost in the layered ship design transformation — it needs to return in a way that doesn't crowd the stats layer. (2) Card number + rarity: a new right-side element inspired by the physical card's corner numbering.
+		</p>
+
+		<!-- Current ship rows for reference -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Current — no ability text, no card number/rarity</p>
+			<div class="overflow-hidden rounded border border-neutral-700">
+				<CardRow card={laRepulsa} />
+				<CardRow card={dreadnought} />
+			</div>
+		</div>
+
+		<!-- Candidate A: Second row below the stats layer for ability text + card number corner -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate A — Ability text in a second sub-row below stats; card number corner top-right</p>
+			<p class="text-xs text-neutral-600">Stats layer stays clean. Ability text lives in a 2nd tier below (single truncated line, smaller/lighter). Card number+rarity badge anchored to top-right corner.</p>
+			<div class="overflow-hidden rounded border border-neutral-700 flex flex-col">
+				{#each [laRepulsa, dreadnought, joyaDelSol, resolution] as card}
+					<div class="relative border-b border-black {card.cardSet === 'PPSM' ? 'bg-set-spanish-main' : card.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'} last:border-0">
+						<!-- Card number + rarity — top-right corner -->
+						<div class="absolute top-1 right-2 flex flex-col items-end gap-0.5 z-10">
+							<span class="text-[9px] font-mono opacity-50 leading-none">{card.cardNumber}</span>
+							<span class="badge badge-xs opacity-40" style="font-size: 9px; padding: 1px 4px;">{card.rarity}</span>
+						</div>
+						<!-- Existing stat layer (replicating CardRow's layered structure) -->
+						<CardRow {card} />
+						<!-- Ability text sub-row -->
+						<div class="px-3 pb-1.5 pl-[69px]">
+							<span class="block truncate text-[10px] opacity-55 italic leading-tight">{card.ability}</span>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Candidate B: Ability text inline in the upper name zone; card number left of name -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate B — Ability text compressed into upper name zone; card number + rarity right panel</p>
+			<p class="text-xs text-neutral-600">Name shrinks to one line, ability text shares the upper zone (1 truncated line beneath). Right panel shows card # and rarity stacked vertically — inspired by physical card corner.</p>
+			<div class="overflow-hidden rounded border border-neutral-700 flex flex-col">
+				{#each [laRepulsa, dreadnought, joyaDelSol, resolution] as card}
+					<div class="relative flex items-stretch border-b border-black {card.cardSet === 'PPSM' ? 'bg-set-spanish-main' : card.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'} last:border-0" style="min-height: 64px;">
+						<!-- Reuse CardRow but add a right panel alongside -->
+						<div class="flex-1 min-w-0">
+							<CardRow {card} />
+						</div>
+						<!-- Right corner panel: card number + rarity -->
+						<div class="flex shrink-0 flex-col items-end justify-center gap-0.5 pr-2 pl-1 border-l border-black/20 min-w-[64px]">
+							<span class="text-[10px] font-mono opacity-60 leading-none tracking-tight">{card.cardNumber}</span>
+							<span class="text-[9px] opacity-40 leading-none text-right">{card.rarity}</span>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 12 · SITE HEADER                                      -->
+	<!-- ══════════════════════════════════════════════════════ -->
+	<section class="space-y-6">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			12 · Site Header
+		</h2>
+		<p class="text-xs text-neutral-500">
+			Current AppHeader is functional but bland — plain dark bar with unstyled text. Three directions below.
+		</p>
+
+		<!-- Current -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Current — as shipped</p>
+			<AppHeader />
+		</div>
+
+		<!-- Candidate A: Cinzel + gold accent line -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate A — Cinzel title, gold accent underline</p>
+			<header class="flex shrink-0 items-center border-b-2 border-yellow-600/60 bg-neutral-900 px-6 py-3">
+				<h1 class="text-xl font-bold tracking-widest text-neutral-100 small-caps" style="font-family: 'Cinzel', serif; letter-spacing: 0.12em;">
+					Pirates of the Spanish Main
+					<span class="text-sm font-normal opacity-50 tracking-wide ml-2" style="font-family: 'Cinzel', serif;">Card Catalog</span>
+				</h1>
+			</header>
+		</div>
+
+		<!-- Candidate B: Cinzel + compass icon + subtitle -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate B — Cinzel + ⚓ glyph + two-line layout</p>
+			<header class="flex shrink-0 items-center gap-4 border-b border-neutral-700 bg-neutral-900 px-6 py-2">
+				<span class="text-2xl opacity-70" aria-hidden="true">⚓</span>
+				<div class="flex flex-col">
+					<h1 class="text-lg font-bold leading-tight" style="font-family: 'Cinzel', serif; letter-spacing: 0.08em; font-variant: small-caps;">
+						Pirates of the Spanish Main
+					</h1>
+					<span class="text-xs opacity-40 tracking-widest uppercase" style="font-family: 'Cinzel', serif;">Card Catalog</span>
+				</div>
+			</header>
+		</div>
+
+		<!-- Candidate C: Full-width with set color bar accent -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate C — Cinzel + 3-set color bar at bottom of header</p>
+			<header class="flex shrink-0 flex-col bg-neutral-900">
+				<div class="flex items-center px-6 py-3">
+					<h1 class="text-xl font-bold tracking-wide" style="font-family: 'Cinzel', serif; font-variant: small-caps;">
+						Pirates of the Spanish Main <span class="text-sm opacity-40 font-normal ml-1">Card Catalog</span>
+					</h1>
+				</div>
+				<!-- 3-set color accent bar -->
+				<div class="flex h-1">
+					<div class="flex-1 bg-set-spanish-main"></div>
+					<div class="flex-1 bg-set-crimson-coast"></div>
+					<div class="flex-1 bg-set-revolution"></div>
+				</div>
+			</header>
+		</div>
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 13 · FILTER SIDEBAR + SORT CONTROLS                   -->
+	<!-- ══════════════════════════════════════════════════════ -->
+	<section class="space-y-6">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			13 · Filter Sidebar + Sort Controls
+		</h2>
+		<p class="text-xs text-neutral-500">
+			Two problems: (1) The sort header row above the card table feels disconnected from the rich card row design — it belongs in the filter panel. (2) The filter sidebar uses the default body font — it would benefit from Cinzel headings to match the card row name treatment.
+		</p>
+
+		<div class="flex gap-4">
+			<!-- Candidate A: Sort section inside sidebar, Cinzel labels -->
+			<div class="space-y-2 flex-1">
+				<p class="text-xs font-medium text-neutral-400">Candidate A — Sort in sidebar, Cinzel section labels</p>
+				<div class="w-72 rounded border border-neutral-700 bg-neutral-900 flex flex-col gap-3 p-4 text-sm" style="min-height: 420px;">
+					<!-- Search -->
+					<input type="search" class="input input-sm w-full" placeholder="Search name or ability…" />
+
+					<!-- Sort section -->
+					<div class="space-y-1.5">
+						<p class="text-xs opacity-50 uppercase tracking-widest" style="font-family: 'Cinzel', serif;">Sort</p>
+						<div class="flex flex-wrap gap-1">
+							{#each ['Pts ▼', 'Name', 'Type', 'Set', 'Nation'] as label, i}
+								<button class="btn btn-xs {i === 0 ? 'btn-neutral' : 'btn-ghost opacity-60'}">{label}</button>
+							{/each}
+						</div>
+					</div>
+
+					<!-- Filters -->
+					<div class="space-y-1.5">
+						<p class="text-xs opacity-50 uppercase tracking-widest" style="font-family: 'Cinzel', serif;">Expansion Set</p>
+						<select class="select select-sm w-full">
+							<option>All</option>
+							<option>Spanish Main</option>
+							<option>Crimson Coast</option>
+							<option>Revolution</option>
+						</select>
+					</div>
+
+					<div class="space-y-1.5">
+						<p class="text-xs opacity-50 uppercase tracking-widest" style="font-family: 'Cinzel', serif;">Card Type</p>
+						<select class="select select-sm w-full">
+							<option>All</option>
+							<option>Ship</option>
+							<option>Crew</option>
+							<option>Treasure</option>
+							<option>Fort</option>
+							<option>Event</option>
+						</select>
+					</div>
+
+					<div class="space-y-1.5">
+						<p class="text-xs opacity-50 uppercase tracking-widest" style="font-family: 'Cinzel', serif;">Nationality</p>
+						<select class="select select-sm w-full">
+							<option>All</option>
+							<option>English</option>
+							<option>Spanish</option>
+							<option>Pirates</option>
+						</select>
+					</div>
+
+					<div class="space-y-1.5">
+						<p class="text-xs opacity-50 uppercase tracking-widest" style="font-family: 'Cinzel', serif;">Rarity</p>
+						<select class="select select-sm w-full">
+							<option>All</option>
+							<option>Common</option>
+							<option>Rare</option>
+							<option>Super Rare</option>
+						</select>
+					</div>
+
+					<!-- Result count -->
+					<p class="mt-auto text-xs opacity-40" style="font-family: 'Cinzel', serif;">Showing 5,231 of 5,231 cards</p>
+				</div>
+			</div>
+
+			<!-- Candidate B: Sort as inline toggle row at top, Cinzel labels, more compact -->
+			<div class="space-y-2 flex-1">
+				<p class="text-xs font-medium text-neutral-400">Candidate B — Sort row at top of sidebar, compact pill toggles</p>
+				<div class="w-72 rounded border border-neutral-700 bg-neutral-900 flex flex-col gap-3 p-4 text-sm" style="min-height: 420px;">
+					<!-- Sort pills — top of sidebar -->
+					<div class="flex items-center gap-1 flex-wrap border-b border-neutral-800 pb-3">
+						<span class="text-[10px] opacity-40 uppercase tracking-widest mr-1" style="font-family: 'Cinzel', serif;">Sort</span>
+						{#each [['Pts', true], ['Name', false], ['Type', false], ['Set', false], ['Nation', false]] as [label, active]}
+							<button class="rounded px-2 py-0.5 text-xs {active ? 'bg-neutral-600 text-white' : 'text-neutral-500 hover:text-neutral-300'}" style="font-family: 'Cinzel', serif;">{label}{active ? ' ▼' : ''}</button>
+						{/each}
+					</div>
+
+					<!-- Search -->
+					<input type="search" class="input input-sm w-full" placeholder="Search name or ability…" />
+
+					<!-- Filters — no labels, just selects with DaisyUI labels -->
+					{#each [
+						['Expansion Set', ['All', 'Spanish Main', 'Crimson Coast', 'Revolution']],
+						['Card Type', ['All', 'Ship', 'Crew', 'Treasure', 'Fort', 'Event']],
+						['Nationality', ['All', 'English', 'Spanish', 'Pirates', 'French']],
+						['Rarity', ['All', 'Common', 'Uncommon', 'Rare', 'Super Rare']],
+					] as [label, options]}
+						<div class="space-y-1">
+							<p class="text-[10px] opacity-40 uppercase tracking-widest" style="font-family: 'Cinzel', serif;">{label}</p>
+							<select class="select select-sm w-full">
+								{#each options as opt}<option>{opt}</option>{/each}
+							</select>
+						</div>
+					{/each}
+
+					<p class="mt-auto text-xs opacity-40" style="font-family: 'Cinzel', serif;">5,231 of 5,231 cards</p>
+				</div>
+			</div>
 		</div>
 	</section>
 </div>
