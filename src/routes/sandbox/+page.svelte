@@ -54,6 +54,30 @@
 	const rolls = [1, 2, 3, 4, 5, 6] as const;
 	const iconSizes = [16, 32, 48, 96];
 
+	// ── Cannon pip redesign data ─────────────────────────────────────────────
+
+	type PipKey = 'TL' | 'TR' | 'ML' | 'MR' | 'C' | 'BL' | 'BR';
+
+	// 7 canonical pip positions within a 16×16 viewBox (die face x=1.5–14.5, y=1.5–14.5)
+	const PP: Record<PipKey, { x: number; y: number }> = {
+		TL: { x: 4.5,  y: 4.5  },
+		TR: { x: 11.5, y: 4.5  },
+		ML: { x: 4.5,  y: 8    },
+		MR: { x: 11.5, y: 8    },
+		C:  { x: 8,    y: 8    },
+		BL: { x: 4.5,  y: 11.5 },
+		BR: { x: 11.5, y: 11.5 },
+	};
+
+	const dotsByRoll: Record<1 | 2 | 3 | 4 | 5 | 6, PipKey[]> = {
+		1: ['C'],
+		2: ['TR', 'BL'],
+		3: ['TR', 'C', 'BL'],
+		4: ['TL', 'TR', 'BL', 'BR'],
+		5: ['TL', 'TR', 'C', 'BL', 'BR'],
+		6: ['TL', 'TR', 'ML', 'MR', 'BL', 'BR'],
+	};
+
 	const fontOptions: { label: string; family: string; weight?: string; style?: string }[] = [
 		{
 			label: 'Copperplate (system)',
@@ -645,6 +669,112 @@
 					<CannonDisplay cannons={['3S']} />
 				</div>
 				<span class="ml-3 text-xs text-neutral-500">← this is what renders in the actual row</span>
+			</div>
+		</div>
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 5B · CANNON PIPS — REDESIGN CANDIDATES                 -->
+	<!-- ══════════════════════════════════════════════════════ -->
+
+	<!-- Candidate A: die face only (16×16) -->
+	{#snippet pipFace(roll: 1 | 2 | 3 | 4 | 5 | 6, type: 'S' | 'L')}
+		{@const faceBg = type === 'S' ? '#ffffff' : '#cc2020'}
+		{@const dotFill = type === 'S' ? '#111111' : '#ffffff'}
+		<svg viewBox="0 0 16 16" style="width:100%;height:100%" aria-hidden="true">
+			<rect width="16" height="16" rx="2.5" fill="#000000" />
+			<rect x="1.5" y="1.5" width="13" height="13" rx="1.5" fill={faceBg} />
+			{#each dotsByRoll[roll] as key}
+				<circle cx={PP[key].x} cy={PP[key].y} r="1.4" fill={dotFill} />
+			{/each}
+		</svg>
+	{/snippet}
+
+	<section class="space-y-8">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			5B · Cannon Pips — Design Direction
+		</h2>
+		<p class="text-xs text-neutral-500">
+			Settled design: <strong class="text-neutral-400">S</strong> = white face · black dots ·
+			<strong class="text-neutral-400">L</strong> = red face · white dots. One cannon PNG on left,
+			N die faces to the right. All 22px tall on a black background.
+		</p>
+
+		<!-- ── Die faces at 22px and 44px inspection ── -->
+		<div class="space-y-5">
+			<p class="text-xs font-medium text-neutral-400">Die faces — 22px (target) and 44px (inspect)</p>
+
+			{#each (['S', 'L'] as const) as pipType}
+				<div class="space-y-3">
+					<p class="text-xs text-neutral-500">{pipType === 'S' ? 'Short (S)' : 'Long (L)'} · all rolls:</p>
+					<!-- 44px inspect -->
+					<div class="flex flex-wrap items-end gap-3">
+						{#each rolls as roll}
+							<div class="flex flex-col items-center gap-1">
+								<div style="height:44px;width:44px">{@render pipFace(roll, pipType)}</div>
+								<span class="text-xs text-neutral-600">{roll}{pipType}</span>
+							</div>
+						{/each}
+					</div>
+					<!-- 22px target -->
+					<div class="flex items-center gap-2">
+						<span class="w-16 shrink-0 text-xs text-neutral-600">22px target:</span>
+						<div class="flex items-center gap-0.5">
+							{#each rolls as roll}
+								<div style="height:22px;width:22px">{@render pipFace(roll, pipType)}</div>
+							{/each}
+						</div>
+					</div>
+				</div>
+			{/each}
+		</div>
+
+		<!-- ── Assembled: cannon PNG + die faces ── -->
+		<div class="space-y-5">
+			<p class="text-xs font-medium text-neutral-400">
+				Assembled — cannon PNG + die faces · 22px row · 44px inspect
+			</p>
+
+			<!-- La Repulsa: 1 mast, 3S -->
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">La Repulsa — 3S · 22px:</p>
+				<div class="inline-flex items-center gap-1 rounded bg-black px-2 py-1">
+					<img src="{base}/images/icons/cannon.png" alt="cannon" height="22" width="41" class="shrink-0" />
+					<div style="height:22px;width:22px">{@render pipFace(3, 'S')}</div>
+				</div>
+			</div>
+
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">La Repulsa — 3S · 44px inspect:</p>
+				<div class="inline-flex items-center gap-2 rounded bg-black px-3 py-2">
+					<img src="{base}/images/icons/cannon.png" alt="cannon" height="44" width="82" class="shrink-0" />
+					<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+				</div>
+			</div>
+
+			<!-- Dreadnought: 5 cannons, mixed S+L -->
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">Dreadnought — 3S 3S 2S 2L 2L · 22px:</p>
+				<div class="inline-flex items-center gap-1 rounded bg-black px-2 py-1">
+					<img src="{base}/images/icons/cannon.png" alt="cannon" height="22" width="41" class="shrink-0" />
+					<div style="height:22px;width:22px">{@render pipFace(3, 'S')}</div>
+					<div style="height:22px;width:22px">{@render pipFace(3, 'S')}</div>
+					<div style="height:22px;width:22px">{@render pipFace(2, 'S')}</div>
+					<div style="height:22px;width:22px">{@render pipFace(2, 'L')}</div>
+					<div style="height:22px;width:22px">{@render pipFace(2, 'L')}</div>
+				</div>
+			</div>
+
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">Dreadnought — 3S 3S 2S 2L 2L · 44px inspect:</p>
+				<div class="inline-flex items-center gap-2 rounded bg-black px-3 py-2">
+					<img src="{base}/images/icons/cannon.png" alt="cannon" height="44" width="82" class="shrink-0" />
+					<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+					<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+					<div style="height:44px;width:44px">{@render pipFace(2, 'S')}</div>
+					<div style="height:44px;width:44px">{@render pipFace(2, 'L')}</div>
+					<div style="height:44px;width:44px">{@render pipFace(2, 'L')}</div>
+				</div>
 			</div>
 		</div>
 	</section>
