@@ -15,9 +15,9 @@
 	bind:this={imgEl}
 	src={flagUrl(nationality)}
 	alt={nationality}
-	width="24"
-	height="16"
-	class="rounded-sm shrink-0"
+	width="36"
+	height="24"
+	class="shrink-0 border border-black/40"
 	onerror={() => {
 		imgEl.style.display = 'none';
 	}}
