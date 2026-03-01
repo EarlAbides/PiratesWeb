@@ -782,68 +782,78 @@
 	<!-- ══════════════════════════════════════════════════════ -->
 	<!-- 6 · MOVE RANGE DISPLAY                                 -->
 	<!-- ══════════════════════════════════════════════════════ -->
-	<section class="space-y-4">
+	<section class="space-y-6">
 		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
-			6 · Move Range — Color Treatment Proposals
+			6 · Move Range — Pill Design
 		</h2>
 		<p class="text-xs text-neutral-500">
-			Proposal: S = neutral (inherit row text color) · L = amber/gold (same as cannon color token).
+			move.png (124×44 native) at 22px tall · same black pill as cannon ·
+			Cinzel 700 · S = white · L = red · + = white.
 		</p>
 
-		<div class="flex flex-wrap items-start gap-8">
-			<!-- S only -->
-			<div class="flex flex-col items-center gap-2">
-				<div class="flex items-center gap-1">
-					<div class="w-8 h-8 shrink-0"><MoveIcon /></div>
-					<span class="text-2xl font-bold text-neutral-100">S</span>
+		<!-- 22px (target) -->
+		<div class="space-y-3">
+			<p class="text-xs font-medium text-neutral-400">22px — target row size</p>
+			<div class="flex flex-wrap items-end gap-6">
+				<!-- S -->
+				<div class="flex flex-col items-center gap-1">
+					<div class="inline-flex items-end gap-1 rounded bg-black px-2 py-1">
+						<img src="{base}/images/icons/move.png" alt="move" height="22" width="62" class="shrink-0" />
+						<span class="leading-none text-white" style:font-family="'Cinzel', serif" style:font-weight="700" style:font-size="26px">S</span>
+					</div>
+					<span class="text-xs text-neutral-600">S only</span>
 				</div>
-				<span class="text-xs text-neutral-500">S only</span>
+				<!-- L -->
+				<div class="flex flex-col items-center gap-1">
+					<div class="inline-flex items-end gap-1 rounded bg-black px-2 py-1">
+						<img src="{base}/images/icons/move.png" alt="move" height="22" width="62" class="shrink-0" />
+						<span class="leading-none text-red-500" style:font-family="'Cinzel', serif" style:font-weight="700" style:font-size="26px">L</span>
+					</div>
+					<span class="text-xs text-neutral-600">L only</span>
+				</div>
+				<!-- S+L -->
+				<div class="flex flex-col items-center gap-1">
+					<div class="inline-flex items-end gap-0.5 rounded bg-black px-2 py-1">
+						<img src="{base}/images/icons/move.png" alt="move" height="22" width="62" class="shrink-0" />
+						<span class="leading-none text-white" style:font-family="'Cinzel', serif" style:font-weight="700" style:font-size="26px">S</span>
+						<span class="leading-none text-white" style:font-family="'Cinzel', serif" style:font-weight="700" style:font-size="26px">+</span>
+						<span class="leading-none text-red-500" style:font-family="'Cinzel', serif" style:font-weight="700" style:font-size="26px">L</span>
+					</div>
+					<span class="text-xs text-neutral-600">S+L</span>
+				</div>
 			</div>
+		</div>
 
-			<!-- L only -->
-			<div class="flex flex-col items-center gap-2">
-				<div class="flex items-center gap-1">
-					<div class="w-8 h-8 shrink-0"><MoveIcon /></div>
-					<span class="text-2xl font-bold" style:color="var(--color-icon-gold)">L</span>
+		<!-- 44px (inspect) -->
+		<div class="space-y-3">
+			<p class="text-xs font-medium text-neutral-400">44px — inspect</p>
+			<div class="flex flex-wrap items-end gap-6">
+				<!-- S -->
+				<div class="flex flex-col items-center gap-1">
+					<div class="inline-flex items-end gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/move.png" alt="move" height="44" width="124" class="shrink-0" />
+						<span class="leading-none text-white" style:font-family="'Cinzel', serif" style:font-weight="700" style:font-size="52px">S</span>
+					</div>
+					<span class="text-xs text-neutral-600">S only</span>
 				</div>
-				<span class="text-xs text-neutral-500">L only (gold)</span>
-			</div>
-
-			<!-- S+L split -->
-			<div class="flex flex-col items-center gap-2">
-				<div class="flex items-center gap-1">
-					<div class="w-8 h-8 shrink-0"><MoveIcon /></div>
-					<span class="text-2xl font-bold text-neutral-100">S</span>
-					<span class="text-lg text-neutral-500">+</span>
-					<span class="text-2xl font-bold" style:color="var(--color-icon-gold)">L</span>
+				<!-- L -->
+				<div class="flex flex-col items-center gap-1">
+					<div class="inline-flex items-end gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/move.png" alt="move" height="44" width="124" class="shrink-0" />
+						<span class="leading-none text-red-500" style:font-family="'Cinzel', serif" style:font-weight="700" style:font-size="52px">L</span>
+					</div>
+					<span class="text-xs text-neutral-600">L only</span>
 				</div>
-				<span class="text-xs text-neutral-500">S+L (color split)</span>
-			</div>
-
-			<!-- Numeric -->
-			<div class="flex flex-col items-center gap-2">
-				<div class="flex items-center gap-1">
-					<div class="w-8 h-8 shrink-0"><MoveIcon /></div>
-					<span class="text-2xl font-bold text-neutral-100">3</span>
+				<!-- S+L -->
+				<div class="flex flex-col items-center gap-1">
+					<div class="inline-flex items-end gap-1 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/move.png" alt="move" height="44" width="124" class="shrink-0" />
+						<span class="leading-none text-white" style:font-family="'Cinzel', serif" style:font-weight="700" style:font-size="52px">S</span>
+						<span class="leading-none text-white" style:font-family="'Cinzel', serif" style:font-weight="700" style:font-size="52px">+</span>
+						<span class="leading-none text-red-500" style:font-family="'Cinzel', serif" style:font-weight="700" style:font-size="52px">L</span>
+					</div>
+					<span class="text-xs text-neutral-600">S+L</span>
 				</div>
-				<span class="text-xs text-neutral-500">Numeric (e.g. 3)</span>
-			</div>
-
-			<!-- S+L alternate: badge style -->
-			<div class="flex flex-col items-center gap-2">
-				<div class="flex items-center gap-1">
-					<div class="w-8 h-8 shrink-0"><MoveIcon /></div>
-					<span
-						class="rounded px-1 text-sm font-bold text-neutral-100"
-						style:background="rgba(0,0,0,0.4)">S</span
-					>
-					<span
-						class="rounded px-1 text-sm font-bold"
-						style:background="rgba(0,0,0,0.4)"
-						style:color="var(--color-icon-gold)">L</span
-					>
-				</div>
-				<span class="text-xs text-neutral-500">S+L (badge variant)</span>
 			</div>
 		</div>
 	</section>
