@@ -3,3 +3,9 @@ export const SET_CLASS: Record<string, string> = {
 	PPCC: 'bg-set-crimson-coast',
 	PPRV: 'bg-set-revolution'
 };
+
+export const SET_LABEL: Record<string, string> = {
+	PPSM: 'Spanish Main',
+	PPCC: 'Crimson Coast',
+	PPRV: 'Revolution'
+};
