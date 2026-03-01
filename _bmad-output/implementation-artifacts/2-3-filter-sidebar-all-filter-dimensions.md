@@ -107,12 +107,21 @@ so that I can narrow 5000+ cards to exactly what I need (e.g., "English Ships fr
   - [x] `npm run check` — zero TypeScript errors
   - [x] `npm run build` — clean build
   - [x] `npm run test:unit` — all existing tests pass (no regressions)
-  - [ ] Manual: apply Set filter → table updates instantly, chip appears
-  - [ ] Manual: apply Type + Nationality → AND logic works, 2 chips shown
-  - [ ] Manual: "Clear All" resets all filters and chips
-  - [ ] Manual: text search filters name + ability, chip shows
-  - [ ] Manual: zero-results state shows empty state message in table
-  - [ ] Manual: result count in sidebar updates correctly
+  - [x] Manual: apply Set filter → table updates instantly, chip appears
+  - [x] Manual: apply Type + Nationality → AND logic works, 2 chips shown
+  - [x] Manual: "Clear All" resets all filters and chips
+  - [x] Manual: text search filters name + ability, chip shows
+  - [x] Manual: zero-results state shows empty state message in table
+  - [x] Manual: result count in sidebar updates correctly
+
+- Review Follow-ups (AI)
+  - [x] [AI-Review][MEDIUM] Fix phantom search chip: `activeFilterCount` in `filterState.svelte.ts:19` counts whitespace-only `searchText` as active. Use `this.searchText.trim()` in the array to match `filteredCards` trimming logic [`filterState.svelte.ts:19`]
+  - [x] [AI-Review][MEDIUM] Add number formatting to result count: UX7 spec shows comma-separated numbers ("5,231"). Use `.toLocaleString()` on both counts in FilterSidebar [`FilterSidebar.svelte:119`]
+  - [x] [AI-Review][MEDIUM] Add `aria-label="Search name or ability"` to the search input for screen reader accessibility — `placeholder` is not a reliable accessible name per WCAG [`SearchInput.svelte:19`]
+  - [x] [AI-Review][MEDIUM] Change "Nat:" chip label to "Nationality:" for consistency with other chip labels ("Set:", "Type:", "Rarity:") [`FilterSidebar.svelte:89`]
+  - [x] [AI-Review][LOW] Clean up debounce timer on component destroy — add `onDestroy(() => clearTimeout(timer))` or `$effect` cleanup to prevent post-unmount callback [`SearchInput.svelte:8`]
+  - [x] [AI-Review][LOW] Strengthen `SET_LABEL` and `SET_CLASS` typing from `Record<string, string>` to `Record<CardSet, string>` for compile-time key validation [`setUtils.ts:1,7`]
+  - [x] [AI-Review][LOW] Consider extracting filter/search logic to `filterUtils.ts` with co-located tests per architecture spec — currently inline in Svelte state module and untestable in isolation [`filterState.svelte.ts:28-36`]
 
 ## Dev Notes
 
@@ -512,14 +521,29 @@ None.
 - Updated `+page.svelte`: replaced placeholder div with `<FilterSidebar />`, added import.
 - All `<label>` elements given `for` + `id` attributes to eliminate a11y warnings — `npm run check` passes with 0 errors/0 warnings.
 - `npm run build` clean. `npm run test:unit` 17/17 passing, no regressions.
+- ✅ Resolved review finding [MEDIUM]: Fixed phantom search chip — `activeFilterCount` now uses `this.searchText.trim()` to match `filteredCards` trim logic.
+- ✅ Resolved review finding [MEDIUM]: Added `.toLocaleString()` to result count in `FilterSidebar.svelte` for comma-separated number formatting.
+- ✅ Resolved review finding [MEDIUM]: Added `aria-label="Search name or ability"` to `SearchInput.svelte` for WCAG-compliant accessible name.
+- ✅ Resolved review finding [MEDIUM]: Changed "Nat:" chip label to "Nationality:" for consistency with other chip labels.
+- ✅ Resolved review finding [LOW]: Added `onDestroy(() => clearTimeout(timer))` to `SearchInput.svelte` to prevent post-unmount timer callbacks.
+- ✅ Resolved review finding [LOW]: Strengthened `SET_CLASS` and `SET_LABEL` typing to `Record<CardSet, string>` in `setUtils.ts`. Fixed `CardRow.test.ts` which used loose `string` indexing (now uses `as const` and explicit cast for unknown-key test).
+- ✅ Resolved review finding [LOW]: Extracted filter/search predicate logic to `src/lib/utils/filterUtils.ts` (`applyFilters` function + `FilterCriteria` interface). Added 11-test co-located `filterUtils.test.ts`. `filterState.svelte.ts` now delegates to `applyFilters`. `npm run test:unit` 28/28 passing.
 
 ### File List
 
-- `src/lib/state/filterState.svelte.ts` — extended with filter state, derived count, updated filteredCards, clearAllFilters()
-- `src/lib/utils/setUtils.ts` — added SET_LABEL export
-- `src/lib/components/filters/SearchInput.svelte` — new: debounced search input
+- `src/lib/state/filterState.svelte.ts` — extended with filter state, derived count, updated filteredCards, clearAllFilters(); now delegates filter logic to filterUtils
+- `src/lib/utils/setUtils.ts` — added SET_LABEL export; strengthened SET_CLASS and SET_LABEL typing to Record<CardSet, string>
+- `src/lib/utils/filterUtils.ts` — new: applyFilters() function + FilterCriteria interface (extracted from filterState)
+- `src/lib/utils/filterUtils.test.ts` — new: 11 unit tests for applyFilters (set, type, nationality, rarity, search, AND logic, edge cases)
+- `src/lib/components/filters/SearchInput.svelte` — new: debounced search input; added aria-label, onDestroy cleanup
 - `src/lib/components/filters/FilterChip.svelte` — new: active filter chip with remove callback
-- `src/lib/components/filters/FilterSidebar.svelte` — new: main filter sidebar panel
+- `src/lib/components/filters/FilterSidebar.svelte` — new: main filter sidebar panel; "Nat:" → "Nationality:", toLocaleString() on result count
+- `src/lib/components/cards/CardRow.test.ts` — updated unknown-key test to use explicit cast (required by stronger Record<CardSet, string> typing)
 - `src/routes/+page.svelte` — wired FilterSidebar, removed placeholder
 - `_bmad-output/implementation-artifacts/sprint-status.yaml` — updated 2-3 status to review
 - `_bmad-output/implementation-artifacts/2-3-filter-sidebar-all-filter-dimensions.md` — story file updated
+
+## Change Log
+
+- Initial implementation of FilterSidebar, FilterChip, SearchInput, filter state extensions — all ACs satisfied (Date: 2026-02-27)
+- Addressed code review findings — 7 items resolved (4 Medium, 3 Low) (Date: 2026-03-01)

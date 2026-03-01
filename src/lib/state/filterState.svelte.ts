@@ -1,5 +1,6 @@
 import type { Card, CardSet, CardType, Nationality, Rarity } from '$lib/types/cardTypes';
 import { cardData } from '$lib/state/cardData.svelte';
+import { applyFilters } from '$lib/utils/filterUtils';
 
 export type SortColumn = 'pointValue' | 'name' | 'type' | 'cardSet' | 'nationality';
 export type SortDirection = 'asc' | 'desc';
@@ -17,24 +18,19 @@ class FilterStateStore {
 	searchText = $state<string>('');
 
 	activeFilterCount = $derived(
-		[this.selectedSet, this.selectedType, this.selectedNationality, this.selectedRarity, this.searchText]
+		[this.selectedSet, this.selectedType, this.selectedNationality, this.selectedRarity, this.searchText.trim()]
 			.filter(Boolean).length
 	);
 
 	filteredCards = $derived.by<Card[]>(() => {
-		let cards = [...cardData.cards];
-
-		// Apply filters (AND logic — each non-empty filter narrows results)
-		if (this.selectedSet) cards = cards.filter((c) => c.cardSet === this.selectedSet);
-		if (this.selectedType) cards = cards.filter((c) => c.type === this.selectedType);
-		if (this.selectedNationality) cards = cards.filter((c) => c.nationality === this.selectedNationality);
-		if (this.selectedRarity) cards = cards.filter((c) => c.rarity === this.selectedRarity);
-		if (this.searchText.trim()) {
-			const q = this.searchText.toLowerCase().trim();
-			cards = cards.filter(
-				(c) => c.name.toLowerCase().includes(q) || c.ability.toLowerCase().includes(q)
-			);
-		}
+		// Apply filters (AND logic) via extracted filterUtils (testable in isolation)
+		let cards = applyFilters([...cardData.cards], {
+			selectedSet: this.selectedSet,
+			selectedType: this.selectedType,
+			selectedNationality: this.selectedNationality,
+			selectedRarity: this.selectedRarity,
+			searchText: this.searchText
+		});
 
 		// Apply sort (same logic as Story 2.2)
 		const col = this.sortColumn;

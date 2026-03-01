@@ -86,7 +86,7 @@
 			{/if}
 			{#if filterState.selectedNationality}
 				<FilterChip
-					label="Nat: {filterState.selectedNationality}"
+					label="Nationality: {filterState.selectedNationality}"
 					onremove={() => {
 						filterState.selectedNationality = '';
 					}}
@@ -116,6 +116,6 @@
 
 	<!-- Result count — mt-auto pushes to bottom -->
 	<p class="mt-auto text-xs text-neutral-500">
-		Showing {filterState.filteredCards.length} of {cardData.cards.length} cards
+		Showing {filterState.filteredCards.length.toLocaleString()} of {cardData.cards.length.toLocaleString()} cards
 	</p>
 </div>
