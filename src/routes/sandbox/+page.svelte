@@ -56,14 +56,14 @@
 
 	const fontOptions: { label: string; family: string; weight?: string; style?: string }[] = [
 		{
-			label: 'Bookman Old Style (system fallback)',
-			family: "'Bookman Old Style', 'Bookman', 'URW Bookman L', serif"
+			label: 'Copperplate (system)',
+			family: "'Copperplate', 'Copperplate Gothic Light', fantasy"
 		},
-		{ label: 'Cinzel 700', family: "'Cinzel', serif", weight: '700' },
-		{ label: 'Cinzel 900', family: "'Cinzel', serif", weight: '900' },
-		{ label: 'Cinzel Decorative 700', family: "'Cinzel Decorative', serif", weight: '700' },
-		{ label: 'IM Fell English Italic', family: "'IM Fell English', serif", style: 'italic' },
-		{ label: 'Libre Baskerville Bold', family: "'Libre Baskerville', serif", weight: '700' }
+		{ label: 'Cormorant SC 700', family: "'Cormorant SC', serif", weight: '700' },
+		{ label: 'Cormorant SC 900', family: "'Cormorant SC', serif", weight: '900' },
+		{ label: 'Cinzel 700 (all-caps, no distinction)', family: "'Cinzel', serif", weight: '700' },
+		{ label: 'Libre Baskerville 700', family: "'Libre Baskerville', serif", weight: '700' },
+		{ label: 'IM Fell English', family: "'IM Fell English', serif" }
 	];
 </script>
 
@@ -72,7 +72,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
-		href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,700;1,400&display=swap"
+		href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+SC:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,700;1,400&display=swap"
 		rel="stylesheet"
 	/>
 </svelte:head>
@@ -253,9 +253,9 @@
 			3 · Ship Name Typography
 		</h2>
 		<p class="text-xs text-neutral-500">
-			Legacy app used <strong class="text-neutral-400">Bookman Old Style Bold Italic</strong> (14.25pt)
-			for ship nameLabel · <strong class="text-neutral-400">Monotype Corsiva Bold Italic</strong> (24pt)
-			for points. All options shown ALL CAPS on set-colored background.
+			Target: preserve case, render with <strong class="text-neutral-400">small-caps</strong> so
+			lowercase letters appear as smaller capitals (Copperplate-style). All options shown with
+			<code>font-variant: small-caps</code> on set-colored background.
 		</p>
 		<div class="space-y-2">
 			{#each fontOptions as font}
@@ -266,16 +266,18 @@
 						style:font-family={font.family}
 						style:font-weight={font.weight ?? '700'}
 						style:font-style={font.style ?? 'normal'}
+						style:font-variant="small-caps"
 					>
-						LA REPULSA
+						La Repulsa
 					</span>
 					<span
 						class="text-base tracking-wide opacity-60"
 						style:font-family={font.family}
 						style:font-weight={font.weight ?? '700'}
 						style:font-style={font.style ?? 'normal'}
+						style:font-variant="small-caps"
 					>
-						HMS DREADNOUGHT
+						HMS Dreadnought
 					</span>
 				</div>
 			{/each}

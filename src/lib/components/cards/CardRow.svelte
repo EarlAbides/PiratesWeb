@@ -42,7 +42,7 @@
 	<NationalityFlag nationality={card.nationality} />
 
 	<div class="flex flex-col min-w-0 flex-1">
-		<span class="font-semibold text-sm truncate">{card.name}</span>
+		<span class="text-sm truncate" style:font-family="'Cinzel', serif" style:font-weight="700" style:font-variant="small-caps">{card.name}</span>
 		<span class="text-xs opacity-80 truncate">{card.ability}</span>
 	</div>
 
