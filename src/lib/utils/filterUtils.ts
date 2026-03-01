@@ -8,6 +8,12 @@ export interface FilterCriteria {
 	searchText: string;
 }
 
+export function matchesSearch(card: Card, query: string): boolean {
+	if (!query.trim()) return true;
+	const q = query.toLowerCase().trim();
+	return card.name.toLowerCase().includes(q) || card.ability.toLowerCase().includes(q);
+}
+
 export function applyFilters(cards: Card[], criteria: FilterCriteria): Card[] {
 	let result = cards;
 	if (criteria.selectedSet) result = result.filter((c) => c.cardSet === criteria.selectedSet);
@@ -15,11 +21,6 @@ export function applyFilters(cards: Card[], criteria: FilterCriteria): Card[] {
 	if (criteria.selectedNationality)
 		result = result.filter((c) => c.nationality === criteria.selectedNationality);
 	if (criteria.selectedRarity) result = result.filter((c) => c.rarity === criteria.selectedRarity);
-	if (criteria.searchText.trim()) {
-		const q = criteria.searchText.toLowerCase().trim();
-		result = result.filter(
-			(c) => c.name.toLowerCase().includes(q) || c.ability.toLowerCase().includes(q)
-		);
-	}
+	if (criteria.searchText.trim()) result = result.filter((c) => matchesSearch(c, criteria.searchText));
 	return result;
 }
