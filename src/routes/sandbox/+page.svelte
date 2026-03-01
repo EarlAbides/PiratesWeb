@@ -92,21 +92,81 @@
 	<!-- ══════════════════════════════════════════════════════ -->
 	<!-- 1 · POINTS BADGE                                       -->
 	<!-- ══════════════════════════════════════════════════════ -->
-	<section class="space-y-4">
+	<section class="space-y-6">
 		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
 			1 · Points Badge
 		</h2>
 		<p class="text-xs text-neutral-500">
-			Current: <code>w-12 bg-black/40 rounded text-xl font-bold</code>. Reference card: solid black
-			square, larger text, no radius, "POINTS" subtext.
+			Cinzel Decorative 700 · 56×56 · dark gray bg · POINTS subtext · 2px black border. Shown on
+			tan card row background.
 		</p>
-		<div class="flex flex-wrap items-end gap-6">
-			{#each [3, 5, 14, 22, 26] as pts}
-				<div class="flex flex-col items-center gap-1">
-					<PointBadge points={pts} />
-					<span class="text-xs text-neutral-500">{pts} pts</span>
-				</div>
-			{/each}
+
+		<!-- A — Current (baseline) -->
+		<div class="space-y-2">
+			<p class="text-xs text-neutral-400">A — Current (baseline)</p>
+			<div class="flex flex-wrap items-end gap-6">
+				{#each [3, 5, 14, 22, 26] as pts}
+					<div class="flex flex-col items-center gap-1">
+						<PointBadge points={pts} />
+						<span class="text-xs text-neutral-500">{pts} pts</span>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- B — 56×56 · dark gray · POINTS · 2px black border · on set bg -->
+		<div class="space-y-2">
+			<p class="text-xs text-neutral-400">
+				B — 56×56 · Cinzel Decorative 700 · dark gray · POINTS · 2px black border
+			</p>
+			<div class="flex flex-wrap items-end gap-6">
+				{#each [3, 5, 14, 22, 26] as pts}
+					<div class="flex flex-col items-center gap-1">
+						<div class="flex items-center bg-set-spanish-main p-2">
+							<div
+								class="flex h-14 w-14 shrink-0 flex-col items-center justify-center border-2 border-black"
+								style:background-color="oklch(30% 0.01 0)"
+								style:font-family="'Cinzel', serif"
+								style:font-weight="700"
+							>
+								<span class="text-3xl leading-none text-neutral-100">{pts}</span>
+								<span class="mt-0.5 text-[8px] tracking-widest text-neutral-200">POINTS</span>
+							</div>
+						</div>
+						<span class="text-xs text-neutral-500">{pts} pts</span>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- C — B scaled 4× for close inspection -->
+		<div class="space-y-2">
+			<p class="text-xs text-neutral-400">C — B scaled 4× (refinement view)</p>
+			<div class="flex flex-wrap gap-8">
+				{#each [3, 14, 26] as pts}
+					<div class="flex flex-col items-center gap-1">
+						<!-- Container sized to the visual footprint of the scaled badge -->
+						<div style:width="224px" style:height="224px" class="relative">
+							<div
+								class="absolute left-0 top-0 flex items-center bg-set-spanish-main p-2"
+								style:transform="scale(4)"
+								style:transform-origin="top left"
+							>
+								<div
+									class="flex h-14 w-14 shrink-0 flex-col items-center justify-center border-2 border-black"
+									style:background-color="oklch(30% 0.01 0)"
+									style:font-family="'Cinzel', serif"
+									style:font-weight="700"
+								>
+									<span class="text-2xl leading-none text-neutral-100">{pts}</span>
+									<span class="mt-0.5 text-[8px] tracking-widest text-neutral-400">POINTS</span>
+								</div>
+							</div>
+						</div>
+						<span class="text-xs text-neutral-500">{pts} pts</span>
+					</div>
+				{/each}
+			</div>
 		</div>
 	</section>
 
