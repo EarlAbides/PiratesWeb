@@ -21,7 +21,7 @@
 </script>
 
 {#if pips.length > 0}
-	<div class="inline-flex items-center gap-1 rounded bg-black px-2 py-1">
+	<div class="inline-flex items-center gap-1 bg-black px-2 py-1">
 		<img
 			src="{base}/images/icons/cannon.png"
 			alt=""

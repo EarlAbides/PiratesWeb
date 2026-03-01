@@ -9,6 +9,7 @@
 	import StatBar from '$lib/components/cards/StatBar.svelte';
 	import CardRow from '$lib/components/cards/CardRow.svelte';
 	import CannonPip from '$lib/components/icons/cannons/CannonPip.svelte';
+	import MoveDisplay from '$lib/components/cards/MoveDisplay.svelte';
 	import CannonDisplay from '$lib/components/cards/CannonDisplay.svelte';
 	import MastIcon from '$lib/components/icons/stat/MastIcon.svelte';
 	import CargoIcon from '$lib/components/icons/stat/CargoIcon.svelte';
@@ -861,51 +862,337 @@
 	<!-- ══════════════════════════════════════════════════════ -->
 	<!-- 7 · ASSEMBLED STAT BAR                                 -->
 	<!-- ══════════════════════════════════════════════════════ -->
-	<section class="space-y-5">
+	<section class="space-y-8">
 		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
 			7 · Assembled Stat Bar
 		</h2>
+		<p class="text-xs text-neutral-500">
+			Move/cannon pills are settled (sections 5B/6). Open question: how do
+			<strong class="text-neutral-400">mast</strong> and
+			<strong class="text-neutral-400">cargo</strong> counts display? Three layout candidates.
+		</p>
 
-		<div class="space-y-6">
-			<div>
-				<p class="mb-2 text-xs text-neutral-500">
-					La Repulsa (1 mast · 2 cargo · S · 3S cannon) — current size on set bg:
-				</p>
+		<!-- ── Baseline ── -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Baseline — current StatBar (reference)</p>
+			<div class="flex flex-col gap-2">
 				<div class="inline-flex rounded bg-set-spanish-main px-4 py-3">
 					<StatBar card={laRepulsa} />
 				</div>
-			</div>
-
-			<div>
-				<p class="mb-2 text-xs text-neutral-500">Same — 2× scale:</p>
-				<div
-					class="inline-flex rounded bg-set-spanish-main px-4 py-3"
-					style:transform="scale(2)"
-					style:transform-origin="left top"
-					style:margin-bottom="3rem"
-				>
-					<StatBar card={laRepulsa} />
-				</div>
-			</div>
-
-			<div class="mt-16">
-				<p class="mb-2 text-xs text-neutral-500">
-					HMS Dreadnought (5 masts · 4 cargo · S+L · 5 cannons) — current size:
-				</p>
 				<div class="inline-flex rounded bg-set-spanish-main px-4 py-3">
 					<StatBar card={dreadnought} />
 				</div>
 			</div>
+		</div>
 
-			<div>
-				<p class="mb-2 text-xs text-neutral-500">Dreadnought — 2× scale:</p>
-				<div
-					class="inline-flex rounded bg-set-spanish-main px-4 py-3"
-					style:transform="scale(2)"
-					style:transform-origin="left top"
-					style:margin-bottom="3rem"
-				>
-					<StatBar card={dreadnought} />
+		<!-- ── Candidate A — Inline mast/cargo (no pill), pills for move/cannon ── -->
+		<div class="space-y-3">
+			<p class="text-xs font-medium text-neutral-400">
+				A — Mast &amp; cargo inline · Move &amp; cannon in pills
+			</p>
+			<p class="text-xs text-neutral-600">
+				Capacity stats are quieter (no pill bg). Action stats pop with black pills.
+			</p>
+
+			<!-- 22px -->
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">La Repulsa — 22px:</p>
+				<div class="inline-flex items-center gap-3 rounded bg-set-spanish-main px-4 py-3">
+					<span class="inline-flex items-end gap-1">
+						<img src="{base}/images/icons/masts.png" alt="masts" height="22" width="32" class="shrink-0 mb-0.5" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{laRepulsa.details.masts}</span>
+					</span>
+					<span class="inline-flex items-end gap-1">
+						<img src="{base}/images/icons/cargo.png" alt="cargo" height="22" width="32" class="shrink-0 mb-0.5" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{laRepulsa.details.cargo}</span>
+					</span>
+					<MoveDisplay move={laRepulsa.details.baseMove} />
+					<CannonDisplay cannons={laRepulsa.details.cannons} />
+				</div>
+			</div>
+
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">HMS Dreadnought — 22px:</p>
+				<div class="inline-flex items-center gap-3 rounded bg-set-spanish-main px-4 py-3">
+					<span class="inline-flex items-end gap-1">
+						<img src="{base}/images/icons/masts.png" alt="masts" height="22" width="32" class="shrink-0 mb-0.5" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{dreadnought.details.masts}</span>
+					</span>
+					<span class="inline-flex items-end gap-1">
+						<img src="{base}/images/icons/cargo.png" alt="cargo" height="22" width="32" class="shrink-0 mb-0.5" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{dreadnought.details.cargo}</span>
+					</span>
+					<MoveDisplay move={dreadnought.details.baseMove} />
+					<CannonDisplay cannons={dreadnought.details.cannons} />
+				</div>
+			</div>
+
+			<!-- 44px inspect -->
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">La Repulsa — 44px inspect:</p>
+				<div class="inline-flex items-center gap-6 rounded bg-set-spanish-main px-6 py-4">
+					<span class="inline-flex items-end gap-2">
+						<img src="{base}/images/icons/masts.png" alt="masts" height="44" width="63" class="shrink-0 mb-1" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{laRepulsa.details.masts}</span>
+					</span>
+					<span class="inline-flex items-end gap-2">
+						<img src="{base}/images/icons/cargo.png" alt="cargo" height="44" width="63" class="shrink-0 mb-1" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{laRepulsa.details.cargo}</span>
+					</span>
+					<div class="inline-flex items-end gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/move.png" alt="move" height="44" width="124" class="shrink-0" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">S</span>
+					</div>
+					<div class="inline-flex items-center gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/cannon.png" alt="cannon" height="44" width="82" class="shrink-0" />
+						<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">HMS Dreadnought — 44px inspect:</p>
+				<div class="inline-flex items-center gap-6 rounded bg-set-spanish-main px-6 py-4">
+					<span class="inline-flex items-end gap-2">
+						<img src="{base}/images/icons/masts.png" alt="masts" height="44" width="63" class="shrink-0 mb-1" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{dreadnought.details.masts}</span>
+					</span>
+					<span class="inline-flex items-end gap-2">
+						<img src="{base}/images/icons/cargo.png" alt="cargo" height="44" width="63" class="shrink-0 mb-1" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{dreadnought.details.cargo}</span>
+					</span>
+					<div class="inline-flex items-end gap-1 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/move.png" alt="move" height="44" width="124" class="shrink-0" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">S</span>
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">+</span>
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:#cc2020">L</span>
+					</div>
+					<div class="inline-flex items-center gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/cannon.png" alt="cannon" height="44" width="82" class="shrink-0" />
+						<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+						<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+						<div style="height:44px;width:44px">{@render pipFace(2, 'S')}</div>
+						<div style="height:44px;width:44px">{@render pipFace(2, 'L')}</div>
+						<div style="height:44px;width:44px">{@render pipFace(2, 'L')}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ── Candidate B — All four stats in their own black pills ── -->
+		<div class="space-y-3">
+			<p class="text-xs font-medium text-neutral-400">
+				B — All four stats in black pills (symmetric language)
+			</p>
+			<p class="text-xs text-neutral-600">
+				Consistent visual weight. Mast/cargo pills are narrow (icon + number).
+			</p>
+
+			<!-- 22px -->
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">La Repulsa — 22px:</p>
+				<div class="inline-flex items-stretch gap-2 rounded bg-set-spanish-main px-4 py-3">
+					<div class="inline-flex items-end gap-1 rounded bg-black px-2 py-1">
+						<img src="{base}/images/icons/masts.png" alt="masts" height="22" width="32" class="shrink-0 mb-0.5" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{laRepulsa.details.masts}</span>
+					</div>
+					<div class="inline-flex items-end gap-1 rounded bg-black px-2 py-1">
+						<img src="{base}/images/icons/cargo.png" alt="cargo" height="22" width="32" class="shrink-0 mb-0.5" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{laRepulsa.details.cargo}</span>
+					</div>
+					<MoveDisplay move={laRepulsa.details.baseMove} />
+					<CannonDisplay cannons={laRepulsa.details.cannons} />
+				</div>
+			</div>
+
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">HMS Dreadnought — 22px:</p>
+				<div class="inline-flex items-stretch gap-2 rounded bg-set-spanish-main px-4 py-3">
+					<div class="inline-flex items-end gap-1 rounded bg-black px-2 py-1">
+						<img src="{base}/images/icons/masts.png" alt="masts" height="22" width="32" class="shrink-0 mb-0.5" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{dreadnought.details.masts}</span>
+					</div>
+					<div class="inline-flex items-end gap-1 rounded bg-black px-2 py-1">
+						<img src="{base}/images/icons/cargo.png" alt="cargo" height="22" width="32" class="shrink-0 mb-0.5" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{dreadnought.details.cargo}</span>
+					</div>
+					<MoveDisplay move={dreadnought.details.baseMove} />
+					<CannonDisplay cannons={dreadnought.details.cannons} />
+				</div>
+			</div>
+
+			<!-- 44px inspect -->
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">La Repulsa — 44px inspect:</p>
+				<div class="inline-flex items-stretch gap-3 rounded bg-set-spanish-main px-6 py-4">
+					<div class="inline-flex items-end gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/masts.png" alt="masts" height="44" width="63" class="shrink-0 mb-1" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{laRepulsa.details.masts}</span>
+					</div>
+					<div class="inline-flex items-end gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/cargo.png" alt="cargo" height="44" width="63" class="shrink-0 mb-1" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{laRepulsa.details.cargo}</span>
+					</div>
+					<div class="inline-flex items-end gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/move.png" alt="move" height="44" width="124" class="shrink-0" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">S</span>
+					</div>
+					<div class="inline-flex items-center gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/cannon.png" alt="cannon" height="44" width="82" class="shrink-0" />
+						<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">HMS Dreadnought — 44px inspect:</p>
+				<div class="inline-flex items-stretch gap-3 rounded bg-set-spanish-main px-6 py-4">
+					<div class="inline-flex items-end gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/masts.png" alt="masts" height="44" width="63" class="shrink-0 mb-1" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{dreadnought.details.masts}</span>
+					</div>
+					<div class="inline-flex items-end gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/cargo.png" alt="cargo" height="44" width="63" class="shrink-0 mb-1" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{dreadnought.details.cargo}</span>
+					</div>
+					<div class="inline-flex items-end gap-1 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/move.png" alt="move" height="44" width="124" class="shrink-0" />
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">S</span>
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">+</span>
+						<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:#cc2020">L</span>
+					</div>
+					<div class="inline-flex items-center gap-2 rounded bg-black px-3 py-2">
+						<img src="{base}/images/icons/cannon.png" alt="cannon" height="44" width="82" class="shrink-0" />
+						<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+						<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+						<div style="height:44px;width:44px">{@render pipFace(2, 'S')}</div>
+						<div style="height:44px;width:44px">{@render pipFace(2, 'L')}</div>
+						<div style="height:44px;width:44px">{@render pipFace(2, 'L')}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ── Candidate C — Tight mini-pills · 2px gap ── -->
+		<div class="space-y-3">
+			<p class="text-xs font-medium text-neutral-400">
+				C — Flat mini-pills · 2px gap · square corners
+			</p>
+			<p class="text-xs text-neutral-600">
+				Approved direction. Each stat group is a flat black pill, 2px apart.
+			</p>
+
+			<!-- 22px -->
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">La Repulsa — 22px:</p>
+				<div class="inline-flex rounded bg-set-spanish-main px-4 py-3">
+					<div class="inline-flex items-stretch gap-0.5">
+						<div class="inline-flex items-end gap-2 bg-black px-2 py-1">
+							<img src="{base}/images/icons/masts.png" alt="masts" height="22" width="32" class="shrink-0 mb-0.5" />
+							<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{laRepulsa.details.masts}</span>
+						</div>
+						<div class="inline-flex items-end gap-2 bg-black px-2 py-1">
+							<img src="{base}/images/icons/cargo.png" alt="cargo" height="22" width="32" class="shrink-0 mb-0.5" />
+							<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{laRepulsa.details.cargo}</span>
+						</div>
+						<div class="inline-flex items-end gap-2 bg-black px-2 py-1">
+							<img src="{base}/images/icons/move.png" alt="move" height="22" width="62" class="shrink-0 mb-0.5" />
+							<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">S</span>
+						</div>
+						<div class="inline-flex items-center gap-1 bg-black px-2 py-1">
+							<img src="{base}/images/icons/cannon.png" alt="cannon" height="22" width="41" class="shrink-0" />
+							<div style="height:22px;width:22px">{@render pipFace(3, 'S')}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">HMS Dreadnought — 22px:</p>
+				<div class="inline-flex rounded bg-set-spanish-main px-4 py-3">
+					<div class="inline-flex items-stretch gap-0.5">
+						<div class="inline-flex items-end gap-2 bg-black px-2 py-1">
+							<img src="{base}/images/icons/masts.png" alt="masts" height="22" width="32" class="shrink-0 mb-0.5" />
+							<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{dreadnought.details.masts}</span>
+						</div>
+						<div class="inline-flex items-end gap-2 bg-black px-2 py-1">
+							<img src="{base}/images/icons/cargo.png" alt="cargo" height="22" width="32" class="shrink-0 mb-0.5" />
+							<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{dreadnought.details.cargo}</span>
+						</div>
+						<div class="inline-flex items-end gap-2 bg-black px-2 py-1">
+							<img src="{base}/images/icons/move.png" alt="move" height="22" width="62" class="shrink-0 mb-0.5" />
+							<span class="inline-flex items-end">
+								<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">S</span>
+								<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">+</span>
+								<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:#cc2020">L</span>
+							</span>
+						</div>
+						<div class="inline-flex items-center gap-1 bg-black px-2 py-1">
+							<img src="{base}/images/icons/cannon.png" alt="cannon" height="22" width="41" class="shrink-0" />
+							<div style="height:22px;width:22px">{@render pipFace(3, 'S')}</div>
+							<div style="height:22px;width:22px">{@render pipFace(3, 'S')}</div>
+							<div style="height:22px;width:22px">{@render pipFace(2, 'S')}</div>
+							<div style="height:22px;width:22px">{@render pipFace(2, 'L')}</div>
+							<div style="height:22px;width:22px">{@render pipFace(2, 'L')}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 44px inspect -->
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">La Repulsa — 44px inspect:</p>
+				<div class="inline-flex rounded bg-set-spanish-main px-6 py-4">
+					<div class="inline-flex items-stretch gap-0.5">
+						<div class="inline-flex items-end gap-3 bg-black px-3 py-2">
+							<img src="{base}/images/icons/masts.png" alt="masts" height="44" width="63" class="shrink-0 mb-1" />
+							<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{laRepulsa.details.masts}</span>
+						</div>
+						<div class="inline-flex items-end gap-3 bg-black px-3 py-2">
+							<img src="{base}/images/icons/cargo.png" alt="cargo" height="44" width="63" class="shrink-0 mb-1" />
+							<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{laRepulsa.details.cargo}</span>
+						</div>
+						<div class="inline-flex items-end gap-3 bg-black px-3 py-2">
+							<img src="{base}/images/icons/move.png" alt="move" height="44" width="124" class="shrink-0 mb-1" />
+							<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">S</span>
+						</div>
+						<div class="inline-flex items-center gap-2 bg-black px-3 py-2">
+							<img src="{base}/images/icons/cannon.png" alt="cannon" height="44" width="82" class="shrink-0" />
+							<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="space-y-2">
+				<p class="text-xs text-neutral-500">HMS Dreadnought — 44px inspect:</p>
+				<div class="inline-flex rounded bg-set-spanish-main px-6 py-4">
+					<div class="inline-flex items-stretch gap-0.5">
+						<div class="inline-flex items-end gap-3 bg-black px-3 py-2">
+							<img src="{base}/images/icons/masts.png" alt="masts" height="44" width="63" class="shrink-0 mb-1" />
+							<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{dreadnought.details.masts}</span>
+						</div>
+						<div class="inline-flex items-end gap-3 bg-black px-3 py-2">
+							<img src="{base}/images/icons/cargo.png" alt="cargo" height="44" width="63" class="shrink-0 mb-1" />
+							<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">{dreadnought.details.cargo}</span>
+						</div>
+						<div class="inline-flex items-end gap-2 bg-black px-3 py-2">
+							<img src="{base}/images/icons/move.png" alt="move" height="44" width="124" class="shrink-0 mb-1" />
+							<span class="inline-flex items-end">
+								<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">S</span>
+								<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:white">+</span>
+								<span style="font-family:'Cinzel',serif;font-weight:700;font-size:52px;line-height:1;color:#cc2020">L</span>
+							</span>
+						</div>
+						<div class="inline-flex items-center gap-2 bg-black px-3 py-2">
+							<img src="{base}/images/icons/cannon.png" alt="cannon" height="44" width="82" class="shrink-0" />
+							<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+							<div style="height:44px;width:44px">{@render pipFace(3, 'S')}</div>
+							<div style="height:44px;width:44px">{@render pipFace(2, 'S')}</div>
+							<div style="height:44px;width:44px">{@render pipFace(2, 'L')}</div>
+							<div style="height:44px;width:44px">{@render pipFace(2, 'L')}</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
