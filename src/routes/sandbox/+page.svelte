@@ -87,6 +87,24 @@
 		details: { masts: 3, cargo: 2, baseMove: 'S', cannons: ['2S', '2S', '3L'] }
 	};
 
+	// Longest ability text in dataset (190 chars) — stress test for ability box
+	const neptunesHoard: ShipCard = {
+		cardId: '7906',
+		cardSet: 'PPRV',
+		cardNumber: '002',
+		name: "Neptune's Hoard",
+		type: 'Ship',
+		rarity: 'Uncommon',
+		nationality: 'Pirates',
+		pointValue: 12,
+		imageFilename: 'PPRV_002.jpg',
+		ability:
+			"Schooner. After looking at treasure on a wild island, you may trade any one treasure from that island for a random treasure on any other wild island. This ship must load the traded treasure.",
+		description: '',
+		modifiers: {},
+		details: { masts: 4, cargo: 5, baseMove: 'S+L', cannons: ['3S', '3S', '3S', '3S'] }
+	};
+
 	// ── Non-ship mock cards ──────────────────────────────────────────────────
 	const crewCard: CrewCard = {
 		cardId: 'crew-mock-1',
@@ -1561,6 +1579,80 @@
 							<span class="text-[10px] font-mono opacity-60 leading-none tracking-tight">{card.cardNumber}</span>
 							<span class="text-[9px] opacity-40 leading-none text-right">{card.rarity}</span>
 						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Font options for ability text — same box size, Neptune's Hoard (190 chars) as stress test -->
+		<div class="space-y-3">
+			<p class="text-xs font-medium text-neutral-400">Ability text font options — Neptune's Hoard (190 chars), 9px, same box geometry</p>
+			<p class="text-xs text-neutral-600">Sally's pick: <strong class="text-neutral-400">IM Fell English</strong> — 17th/18th century English press, aged/nautical feel. Alternatives below.</p>
+			<div class="grid grid-cols-2 gap-3">
+				{#each [
+					{ label: 'IM Fell English (Sally pick)', font: "'IM Fell English', serif", extra: '' },
+					{ label: 'EB Garamond', font: "'EB Garamond', serif", extra: '' },
+					{ label: 'Cormorant Garamond 600', font: "'Cormorant Garamond', serif", extra: 'font-weight:600;' },
+					{ label: 'Pirata One', font: "'Pirata One', cursive", extra: '' },
+				] as opt}
+					<div class="space-y-1">
+						<p class="text-[10px] text-neutral-500">{opt.label}</p>
+						<div
+							class="border border-neutral-600 px-2 py-1 overflow-hidden bg-set-spanish-main"
+							style="height:70px;font-family:{opt.font};font-size:11px;line-height:14px;{opt.extra}"
+						>{neptunesHoard.ability}</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Candidate C: Ability box below stats, left-aligned with badge, flexible row height -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate C — Ability box below stats, left-aligned with badge, row height flexible</p>
+			<p class="text-xs text-neutral-600">
+				Flow layout — row expands to content. Badge absolute over both zones. Stats follow name zone.
+				Ability box below stats, left edge at badge left (4px), 300px wide, content height.
+			</p>
+			<div class="overflow-hidden rounded border border-neutral-700 flex flex-col">
+				{#each [laRepulsa, dreadnought, neptunesHoard, joyaDelSol, resolution] as card}
+					{@const sc = card as import('$lib/types/cardTypes').ShipCard}
+					<div
+						class="relative border-b border-neutral-700 last:border-0 {card.cardSet === 'PPSM' ? 'bg-set-spanish-main' : card.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'}"
+					>
+						<!-- Badge: absolute, overlaps name zone and top of stats zone -->
+						<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
+							<PointBadge points={card.pointValue} />
+						</div>
+
+						<!-- Name zone: 40px, padding-left clears badge; relative z-[3] keeps flag above badge -->
+						<div class="relative flex items-center gap-2 pr-3 z-[3]" style="height: 40px; padding-left: 55px;">
+							<NationalityFlag nationality={card.nationality} />
+							<span
+								class="truncate"
+								style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:24px;"
+								>{card.name}</span
+							>
+						</div>
+
+						<!-- Stats zone: in-flow, masts pill extends under badge via padding-left: 59px -->
+						<div class="flex items-end gap-0.5" style="padding-left: 10px;">
+							<div class="inline-flex items-end gap-2 bg-black py-1" style="padding-left: 59px; padding-right: 8px;">
+								<img src="{base}/images/icons/masts.png" alt="" aria-hidden="true" height="22" width="32" class="shrink-0 mb-0.5" />
+								<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{sc.details.masts}</span>
+							</div>
+							<div class="inline-flex items-end gap-2 bg-black px-2 py-1">
+								<img src="{base}/images/icons/cargo.png" alt="" aria-hidden="true" height="22" width="32" class="shrink-0 mb-0.5" />
+								<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{sc.details.cargo}</span>
+							</div>
+							<MoveDisplay move={sc.details.baseMove} />
+							<CannonDisplay cannons={sc.details.cannons} />
+						</div>
+
+						<!-- Ability box: below stats, left-aligned with badge (ml: 4px), content height -->
+						<div
+							class="border-2 border-black px-2 py-1 mt-1 mb-1.5"
+							style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+						>{card.ability}</div>
 					</div>
 				{/each}
 			</div>

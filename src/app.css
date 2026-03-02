@@ -15,11 +15,11 @@
 	--color-set-spanish-main-text: oklch(15% 0.02 80);
 
 	/* Crimson Coast: burgundy/red */
-	--color-set-crimson-coast: oklch(35% 0.12 15);
+	--color-set-crimson-coast: oklch(56% 0.12 15);
 	--color-set-crimson-coast-text: oklch(95% 0.01 80);
 
 	/* Revolution: royal blue */
-	--color-set-revolution: oklch(30% 0.12 255);
+	--color-set-revolution: oklch(48% 0.12 255);
 	--color-set-revolution-text: oklch(95% 0.01 80);
 
 	/* Base dark theme tokens */

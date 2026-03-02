@@ -22,55 +22,17 @@
 </script>
 
 {#if card.type === 'Ship'}
-	<!-- Ship: layered design — stats pills are back layer, badge overlays top-left, flag+name in upper zone -->
-	<div class="relative overflow-hidden border-b border-black {setBgClass}" style="min-height: 80px;">
-		<!-- Layer 1: Stats pills — masts pill extends under badge (left: 10px), content clears badge via padding-left: 59px -->
-		<div
-			class="absolute inline-flex items-stretch gap-0.5"
-			style="bottom: 6px; left: 10px; z-index: 1;"
-		>
-			<div
-				class="inline-flex items-end gap-2 bg-black py-1"
-				style="padding-left: 59px; padding-right: 8px;"
-			>
-				<img
-					src="{base}/images/icons/masts.png"
-					alt=""
-					aria-hidden="true"
-					height="22"
-					width="32"
-					class="shrink-0 mb-0.5"
-				/>
-				<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white;"
-					>{card.details.masts}</span
-				>
-			</div>
-			<div class="inline-flex items-end gap-2 bg-black px-2 py-1">
-				<img
-					src="{base}/images/icons/cargo.png"
-					alt=""
-					aria-hidden="true"
-					height="22"
-					width="32"
-					class="shrink-0 mb-0.5"
-				/>
-				<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white;"
-					>{card.details.cargo}</span
-				>
-			</div>
-			<MoveDisplay move={card.details.baseMove} />
-			<CannonDisplay cannons={card.details.cannons} />
-		</div>
-
-		<!-- Layer 2: Points badge — 59×59, inset 4px from corner -->
+	<!-- Ship: flow layout — badge absolute over name+stats, stats follow name zone, ability box below -->
+	<div class="relative border-b border-neutral-700 {setBgClass}">
+		<!-- Badge: absolute, overlaps name zone and top of stats zone -->
 		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
 			<PointBadge points={card.pointValue} />
 		</div>
 
-		<!-- Layer 3: Flag + Name — upper zone, flag overlaps badge right edge by 8px -->
+		<!-- Name zone: flag + name, padding-left clears badge; z-[3] keeps flag above badge -->
 		<div
-			class="absolute inset-x-0 top-0 flex items-center gap-2"
-			style="height: 40px; padding-left: 55px; z-index: 3;"
+			class="relative flex items-center gap-2 pr-3 z-[3]"
+			style="height: 40px; padding-left: 55px;"
 		>
 			<NationalityFlag nationality={card.nationality} />
 			<span
@@ -79,10 +41,32 @@
 				>{card.name}</span
 			>
 		</div>
+
+		<!-- Stats zone: masts pill extends under badge via padding-left: 59px -->
+		<div class="flex items-end gap-0.5" style="padding-left: 10px;">
+			<div class="inline-flex items-end gap-2 bg-black py-1" style="padding-left: 59px; padding-right: 8px;">
+				<img src="{base}/images/icons/masts.png" alt="" aria-hidden="true" height="22" width="32" class="shrink-0 mb-0.5" />
+				<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white;">{card.details.masts}</span>
+			</div>
+			<div class="inline-flex items-end gap-2 bg-black px-2 py-1">
+				<img src="{base}/images/icons/cargo.png" alt="" aria-hidden="true" height="22" width="32" class="shrink-0 mb-0.5" />
+				<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white;">{card.details.cargo}</span>
+			</div>
+			<MoveDisplay move={card.details.baseMove} />
+			<CannonDisplay cannons={card.details.cannons} />
+		</div>
+
+		<!-- Ability box: below stats, left-aligned with badge, content height -->
+		{#if card.ability}
+			<div
+				class="border-2 border-black px-2 py-1 mt-1 mb-1.5"
+				style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+			>{card.ability}</div>
+		{/if}
 	</div>
 {:else}
 	<!-- Non-ship cards: flat layout (unchanged) -->
-	<div class="flex min-h-[60px] items-center gap-3 border-b border-black px-3 py-2 {setBgClass}">
+	<div class="flex min-h-[60px] items-center gap-3 border-b border-neutral-700 px-3 py-2 {setBgClass}">
 		<PointBadge points={card.pointValue} />
 
 		{#if thumbError}
