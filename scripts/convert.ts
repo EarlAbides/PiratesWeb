@@ -100,8 +100,15 @@ const cards = rawCards
 				cannons: parseCannons((card.Cannons ?? {}) as RawNode),
 				goldCost: parseInt(String(stats.GoldCost ?? '0'), 10)
 			};
+		} else if (type === 'Treasure') {
+			base.details = {
+				treasureValues: String(stats.TreasureValues ?? '')
+					.split(',')
+					.map((v) => parseInt(v.trim(), 10))
+					.filter((v) => !isNaN(v))
+			};
 		}
-		// Treasure and Event: no details key
+		// Event: no details key
 
 		return base;
 	});
