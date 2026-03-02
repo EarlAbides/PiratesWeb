@@ -7,6 +7,7 @@
 	import AppHeader from '$lib/components/layout/AppHeader.svelte';
 	import PointBadge from '$lib/components/cards/PointBadge.svelte';
 	import NationalityFlag from '$lib/components/cards/NationalityFlag.svelte';
+	import TypeBadge from '$lib/components/cards/TypeBadge.svelte';
 	import StatBar from '$lib/components/cards/StatBar.svelte';
 	import CardRow from '$lib/components/cards/CardRow.svelte';
 	import CannonPip from '$lib/components/icons/cannons/CannonPip.svelte';
@@ -1419,82 +1420,58 @@
 		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
 			10 · Non-Ship Card Rows
 		</h2>
-		<p class="text-xs text-neutral-500">
-			Crew, Treasure, Fort, Event cards currently use the flat layout (unchanged from pre-sandbox). The layered design was ship-motivated — non-ships have no stat bar to fill the space. Two design directions below.
-		</p>
 
-		<!-- Current state via CardRow -->
+		<!-- Per-type status -->
+		<div class="space-y-1 text-xs">
+			<p class="font-medium text-neutral-400">Per-type status:</p>
+			<ul class="ml-3 space-y-0.5 text-neutral-500">
+				<li>✅ <strong>Ship</strong> — production (layered design)</li>
+				<li>✅ <strong>Treasure</strong> — production (circular thumb, coin grid, ability box)</li>
+				<li>🔲 <strong>Crew</strong> — Candidate A stubbed, not yet decided</li>
+				<li>🔲 <strong>Fort</strong> — Candidate A stubbed (cannons inline with name), not yet decided</li>
+				<li>✅ <strong>Event</strong> — production (E1: PointBadge + 59×59 thumb, no flag, ability box)</li>
+			</ul>
+		</div>
+
+		<!-- Current state via CardRow — Crew, Fort, Event only (Treasure is production) -->
 		<div class="space-y-2">
-			<p class="text-xs font-medium text-neutral-400">Current — flat layout (unchanged)</p>
+			<p class="text-xs font-medium text-neutral-400">Current — flat layout (Crew, Fort, Event)</p>
 			<div class="overflow-hidden rounded border border-neutral-700">
 				<CardRow card={crewCard} />
-				<CardRow card={treasureCard} />
 				<CardRow card={fortCard} />
 				<CardRow card={eventCard} />
 			</div>
 		</div>
 
-		<!-- Candidate A: TypeBadge inline with name, full-width 2-line ability text -->
+		<!-- Candidate A: badge + thumbnail + flag + Cinzel name + ability box below -->
 		<div class="space-y-2">
-			<p class="text-xs font-medium text-neutral-400">Candidate A — TypeBadge inline with name, full-width 2-line ability text</p>
-			<p class="text-xs text-neutral-600">Cleaner. TypeBadge sits beside name. Ability text has maximum horizontal space. No accent strip.</p>
+			<p class="text-xs font-medium text-neutral-400">Candidate A — badge + thumbnail + flag + Cinzel name, ability box below (Crew, Fort, Event)</p>
+			<p class="text-xs text-neutral-600">No TypeBadge. Ability box 300px. Crew and Event look nearly identical — no visual type differentiation yet.</p>
 			<div class="overflow-hidden rounded border border-neutral-700 flex flex-col">
-				{#each [crewCard, treasureCard, fortCard, eventCard, crewCardCC] as card}
-					<div class="flex flex-col border-b border-black {card.cardSet === 'PPSM' ? 'bg-set-spanish-main' : card.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'} last:border-0">
-						<!-- Top row -->
+				{#each [crewCard, fortCard, eventCard, crewCardCC] as card}
+					<div class="flex flex-col border-b border-neutral-700 {card.cardSet === 'PPSM' ? 'bg-set-spanish-main' : card.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'} last:border-0">
 						<div class="flex items-center min-h-[60px]">
-							<!-- Point badge (not shown for Treasure) -->
-							{#if card.type !== 'Treasure'}
-								<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
-									<PointBadge points={card.pointValue} />
-								</div>
-							{/if}
-							<!-- Thumbnail -->
-							{#if card.type === 'Treasure'}
-								<div class="flex shrink-0 items-center p-1">
-									<img
-										src="{base}/images/thumbs/{card.imageFilename.replace('.jpg', '.webp')}"
-										alt={card.name}
-										loading="lazy"
-										width="59"
-										height="59"
-										class="h-[59px] w-[59px] shrink-0 rounded-full object-cover border border-black"
-									/>
-								</div>
-							{:else}
-								<img
-									src="{base}/images/thumbs/{card.imageFilename.replace('.jpg', '.webp')}"
-									alt={card.name}
-									loading="lazy"
-									width="48"
-									height="36"
-									class="h-9 w-12 shrink-0 self-center rounded-sm object-cover"
-								/>
-							{/if}
-							<!-- Flag (not shown for Treasure) -->
-							{#if card.type !== 'Treasure'}
-								<div class="flex shrink-0 items-center px-1">
-									<NationalityFlag nationality={card.nationality} />
-								</div>
-							{/if}
-							<!-- Name -->
+							<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
+								<PointBadge points={card.pointValue} />
+							</div>
+							<img
+								src="{base}/images/thumbs/{card.imageFilename.replace('.jpg', '.webp')}"
+								alt={card.name}
+								loading="lazy"
+								width="48"
+								height="36"
+								class="h-9 w-12 shrink-0 self-center rounded-sm object-cover"
+							/>
+							<div class="flex shrink-0 items-center px-1">
+								<NationalityFlag nationality={card.nationality} />
+							</div>
 							<div class="flex min-w-0 flex-1 items-center py-1 px-1">
 								<span class="truncate font-semibold" style="font-family: 'Cinzel', serif; font-size: 22px; font-variant: small-caps;">{card.name}</span>
 								{#if card.type === 'Fort'}
 									<CannonDisplay cannons={(card as FortCard).details.cannons} />
 								{/if}
-								{#if card.type === 'Treasure'}
-									<div class="grid grid-cols-3 gap-[2px] shrink-0 ml-[10px]">
-										{#each (card as TreasureCard).details.treasureValues as val}
-											<div class="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-black">
-												<span style="font-family: 'Cinzel', serif; font-size: 9px; font-weight: 700; color: #d4a017; line-height: 1;">{val}</span>
-											</div>
-										{/each}
-									</div>
-								{/if}
 							</div>
 						</div>
-						<!-- Ability box below, left-aligned with badge/thumbnail -->
 						{#if card.ability}
 							<div
 								class="border-2 border-black px-2 py-1 mb-1.5"
@@ -1503,6 +1480,125 @@
 						{/if}
 					</div>
 				{/each}
+			</div>
+		</div>
+
+		<!-- ── Event card — focused candidates ── -->
+		<div class="border-t border-neutral-700 pt-5 space-y-5">
+			<p class="text-xs font-semibold text-neutral-300">Event card — focused candidates</p>
+			<p class="text-xs text-neutral-600">
+				Key questions: (1) TypeBadge placement — user needs to know it's an Event at a glance.
+				(2) Ability box width — should it be wider than 300px since there are no stats beside it?
+				Using Becalmed (256-char ability) as stress test.
+			</p>
+
+			<!-- E1: 59×59 thumbnail (no flag, no TypeBadge) + name + 300px ability box -->
+			<div class="space-y-2">
+				<p class="text-xs font-medium text-neutral-400">Event E1 — 59×59 thumbnail (no flag), Cinzel name, 300px ability box</p>
+				<div class="overflow-hidden rounded border border-neutral-700">
+					<div class="flex flex-col {eventCard.cardSet === 'PPSM' ? 'bg-set-spanish-main' : eventCard.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'}">
+						<div class="flex items-center min-h-[60px]">
+							<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
+								<PointBadge points={eventCard.pointValue} />
+							</div>
+							<div class="flex shrink-0 items-center pl-[2px]">
+								<img
+									src="{base}/images/thumbs/{eventCard.imageFilename.replace('.jpg', '.webp')}"
+									alt={eventCard.name}
+									loading="lazy"
+									width="59"
+									height="59"
+									class="h-[59px] w-[59px] shrink-0 rounded-sm object-cover border-2 border-black"
+								/>
+							</div>
+							<div class="flex min-w-0 flex-1 items-center py-1 px-2">
+								<span class="truncate font-semibold" style="font-family: 'Cinzel', serif; font-size: 22px; font-variant: small-caps;">{eventCard.name}</span>
+							</div>
+						</div>
+						{#if eventCard.ability}
+							<div
+								class="border-2 border-black px-2 py-1 mb-1.5"
+								style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+							>{eventCard.ability}</div>
+						{/if}
+					</div>
+				</div>
+			</div>
+
+			<!-- E2: TypeBadge corner, 500px ability box -->
+			<div class="space-y-2">
+				<p class="text-xs font-medium text-neutral-400">Event E2 — TypeBadge corner, 500px ability box</p>
+				<p class="text-xs text-neutral-600">Wider box gives the long event text more room to breathe.</p>
+				<div class="overflow-hidden rounded border border-neutral-700">
+					<div class="relative flex flex-col {eventCard.cardSet === 'PPSM' ? 'bg-set-spanish-main' : eventCard.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'}">
+						<div class="relative flex items-center min-h-[60px]">
+							<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
+								<PointBadge points={eventCard.pointValue} />
+							</div>
+							<img
+								src="{base}/images/thumbs/{eventCard.imageFilename.replace('.jpg', '.webp')}"
+								alt={eventCard.name}
+								loading="lazy"
+								width="48"
+								height="36"
+								class="h-9 w-12 shrink-0 self-center rounded-sm object-cover"
+							/>
+							<div class="flex shrink-0 items-center px-1">
+								<NationalityFlag nationality={eventCard.nationality} />
+							</div>
+							<div class="flex min-w-0 flex-1 items-center py-1 px-1 pr-16">
+								<span class="truncate font-semibold" style="font-family: 'Cinzel', serif; font-size: 22px; font-variant: small-caps;">{eventCard.name}</span>
+							</div>
+							<div class="absolute top-1 right-2 z-10">
+								<TypeBadge type={eventCard.type} />
+							</div>
+						</div>
+						{#if eventCard.ability}
+							<div
+								class="border-2 border-black px-2 py-1 mb-1.5"
+								style="margin-left: 4px; width: 500px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+							>{eventCard.ability}</div>
+						{/if}
+					</div>
+				</div>
+			</div>
+
+			<!-- E3: TypeBadge corner, full-width prose (no box) -->
+			<div class="space-y-2">
+				<p class="text-xs font-medium text-neutral-400">Event E3 — TypeBadge corner, ability as full-width prose (no box)</p>
+				<p class="text-xs text-neutral-600">No border box — maximum reading space. Loses the "card text box" visual metaphor from Ships/Treasure.</p>
+				<div class="overflow-hidden rounded border border-neutral-700">
+					<div class="relative flex flex-col {eventCard.cardSet === 'PPSM' ? 'bg-set-spanish-main' : eventCard.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'}">
+						<div class="relative flex items-center min-h-[60px]">
+							<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
+								<PointBadge points={eventCard.pointValue} />
+							</div>
+							<img
+								src="{base}/images/thumbs/{eventCard.imageFilename.replace('.jpg', '.webp')}"
+								alt={eventCard.name}
+								loading="lazy"
+								width="48"
+								height="36"
+								class="h-9 w-12 shrink-0 self-center rounded-sm object-cover"
+							/>
+							<div class="flex shrink-0 items-center px-1">
+								<NationalityFlag nationality={eventCard.nationality} />
+							</div>
+							<div class="flex min-w-0 flex-1 items-center py-1 px-1 pr-16">
+								<span class="truncate font-semibold" style="font-family: 'Cinzel', serif; font-size: 22px; font-variant: small-caps;">{eventCard.name}</span>
+							</div>
+							<div class="absolute top-1 right-2 z-10">
+								<TypeBadge type={eventCard.type} />
+							</div>
+						</div>
+						{#if eventCard.ability}
+							<div
+								class="px-3 pb-2 pt-0.5 pl-[69px]"
+								style="font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px;"
+							>{eventCard.ability}</div>
+						{/if}
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>

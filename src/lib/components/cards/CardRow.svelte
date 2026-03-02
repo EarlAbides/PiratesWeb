@@ -106,6 +106,44 @@
 			>{card.ability}</div>
 		{/if}
 	</div>
+{:else if card.type === 'Event'}
+	<!-- Event: PointBadge + 59×59 thumbnail + name, ability box below -->
+	<div class="flex flex-col border-b border-neutral-700 {setBgClass}">
+		<div class="flex items-center min-h-[60px]">
+			<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
+				<PointBadge points={card.pointValue} />
+			</div>
+			<div class="flex shrink-0 items-center pl-[2px]">
+				{#if thumbError}
+					<div class="flex h-[59px] w-[59px] shrink-0 items-center justify-center rounded-sm bg-black/30 border-2 border-black">
+						<span class="text-xs opacity-40">?</span>
+					</div>
+				{:else}
+					<img
+						src={thumbUrl(card)}
+						alt={card.name}
+						loading="lazy"
+						width="59"
+						height="59"
+						class="h-[59px] w-[59px] shrink-0 rounded-sm object-cover border-2 border-black"
+						onerror={() => { thumbError = true; }}
+					/>
+				{/if}
+			</div>
+			<div class="flex min-w-0 flex-1 items-center py-1 px-2">
+				<span
+					class="truncate font-semibold"
+					style="font-family: 'Cinzel', serif; font-size: 22px; font-variant: small-caps;"
+				>{card.name}</span>
+			</div>
+		</div>
+		{#if card.ability}
+			<div
+				class="border-2 border-black px-2 py-1 mb-1.5"
+				style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+			>{card.ability}</div>
+		{/if}
+	</div>
 {:else}
 	<!-- Non-ship cards: flat layout (unchanged) -->
 	<div class="flex min-h-[60px] items-center gap-3 border-b border-neutral-700 px-3 py-2 {setBgClass}">
