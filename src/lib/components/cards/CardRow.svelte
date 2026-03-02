@@ -6,9 +6,12 @@
 	import PointBadge from './PointBadge.svelte';
 	import NationalityFlag from './NationalityFlag.svelte';
 	import TypeBadge from './TypeBadge.svelte';
+	import GoldCostBadge from './GoldCostBadge.svelte';
 	import StatBar from './StatBar.svelte';
 	import MoveDisplay from './MoveDisplay.svelte';
 	import CannonDisplay from './CannonDisplay.svelte';
+	import CannonPip from '$lib/components/icons/cannons/CannonPip.svelte';
+	import { parseCannonPip } from '$lib/components/icons/cannons/index';
 
 	interface Props {
 		card: Card;
@@ -102,6 +105,49 @@
 		{#if card.ability}
 			<div
 				class="border-2 border-black px-2 py-1 mb-1.5"
+				style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+			>{card.ability}</div>
+		{/if}
+	</div>
+{:else if card.type === 'Fort'}
+	<!-- Fort: layered design — GoldCostBadge absolute, flag + name zone, cannon zone extends behind badge, ability box below -->
+	<div class="relative border-b border-neutral-700 {setBgClass}">
+		<!-- GoldCostBadge: absolute, same position as ship's PointBadge -->
+		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
+			<GoldCostBadge cost={card.details.goldCost} />
+		</div>
+
+		<!-- Name zone: flag + name, padding-left clears badge; z-[3] keeps flag above badge -->
+		<div
+			class="relative flex items-center gap-2 pr-3 z-[3]"
+			style="height: 40px; padding-left: 55px;"
+		>
+			<NationalityFlag nationality={card.nationality} />
+			<span
+				class="truncate"
+				style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:24px;"
+			>{card.name}</span>
+		</div>
+
+		<!-- Cannon zone: inline pill extends behind badge, ends flush after last pip -->
+		<div class="flex items-end" style="padding-left: 10px;">
+			<div class="inline-flex items-center gap-1 bg-black py-1.5 pr-2" style="padding-left: 59px;">
+				<img src="{base}/images/icons/cannon.png" alt="" aria-hidden="true" height="22" width="41" class="shrink-0" />
+				{#each card.details.cannons as cannon}
+					{@const pip = (() => { try { return parseCannonPip(cannon); } catch { return null; } })()}
+					{#if pip}
+						<span class="shrink-0" style="display:block;height:22px;width:22px">
+							<CannonPip type={pip.type} roll={pip.roll} />
+						</span>
+					{/if}
+				{/each}
+			</div>
+		</div>
+
+		<!-- Ability box: below cannon zone -->
+		{#if card.ability}
+			<div
+				class="border-2 border-black px-2 py-1 mt-1 mb-1.5"
 				style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
 			>{card.ability}</div>
 		{/if}

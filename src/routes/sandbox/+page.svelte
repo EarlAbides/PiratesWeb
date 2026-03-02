@@ -1428,7 +1428,7 @@
 				<li>✅ <strong>Ship</strong> — production (layered design)</li>
 				<li>✅ <strong>Treasure</strong> — production (circular thumb, coin grid, ability box)</li>
 				<li>🔲 <strong>Crew</strong> — Candidate A stubbed, not yet decided</li>
-				<li>🔲 <strong>Fort</strong> — Candidate A stubbed (cannons inline with name), not yet decided</li>
+				<li>✅ <strong>Fort</strong> — production (GoldCostBadge + layered design, cannon zone extends behind badge)</li>
 				<li>✅ <strong>Event</strong> — production (E1: PointBadge + 59×59 thumb, no flag, ability box)</li>
 			</ul>
 		</div>
