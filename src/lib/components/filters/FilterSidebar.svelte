@@ -1,9 +1,17 @@
 <script lang="ts">
-	import { filterState } from '$lib/state/filterState.svelte';
+	import { filterState, type SortColumn } from '$lib/state/filterState.svelte';
 	import { cardData } from '$lib/state/cardData.svelte';
 	import { SET_LABEL } from '$lib/utils/setUtils';
 	import SearchInput from './SearchInput.svelte';
 	import FilterChip from './FilterChip.svelte';
+
+	const sortOptions: { label: string; column: SortColumn }[] = [
+		{ label: 'Pts', column: 'pointValue' },
+		{ label: 'Name', column: 'name' },
+		{ label: 'Type', column: 'type' },
+		{ label: 'Set', column: 'cardSet' },
+		{ label: 'Nation', column: 'nationality' }
+	];
 </script>
 
 <div class="flex h-full flex-col gap-4 p-4">
@@ -15,10 +23,25 @@
 		}}
 	/>
 
+	<!-- Sort -->
+	<div class="space-y-1.5">
+		<p class="text-xs uppercase tracking-widest text-yellow-500/70" style="font-family: 'Cinzel', serif;">Sort</p>
+		<div class="flex flex-wrap gap-1">
+			{#each sortOptions as { label, column }}
+				<button
+					class="btn btn-xs {filterState.sortColumn === column ? 'btn-neutral' : 'btn-ghost opacity-60'}"
+					onclick={() => filterState.setSort(column)}
+				>
+					{label}{filterState.sortColumn === column ? (filterState.sortDirection === 'asc' ? ' ▲' : ' ▼') : ''}
+				</button>
+			{/each}
+		</div>
+	</div>
+
 	<!-- Dropdowns -->
 	<div class="flex flex-col gap-3">
 		<div>
-			<label for="filter-set" class="label label-text text-xs">Expansion Set</label>
+			<label for="filter-set" class="mb-1 block text-xs uppercase tracking-widest text-yellow-500/70" style="font-family: 'Cinzel', serif;">Expansion Set</label>
 			<select id="filter-set" bind:value={filterState.selectedSet} class="select select-sm w-full">
 				<option value="">All</option>
 				<option value="PPSM">{SET_LABEL.PPSM}</option>
@@ -27,7 +50,7 @@
 			</select>
 		</div>
 		<div>
-			<label for="filter-type" class="label label-text text-xs">Card Type</label>
+			<label for="filter-type" class="mb-1 block text-xs uppercase tracking-widest text-yellow-500/70" style="font-family: 'Cinzel', serif;">Card Type</label>
 			<select id="filter-type" bind:value={filterState.selectedType} class="select select-sm w-full">
 				<option value="">All</option>
 				<option value="Ship">Ship</option>
@@ -38,7 +61,7 @@
 			</select>
 		</div>
 		<div>
-			<label for="filter-nationality" class="label label-text text-xs">Nationality</label>
+			<label for="filter-nationality" class="mb-1 block text-xs uppercase tracking-widest text-yellow-500/70" style="font-family: 'Cinzel', serif;">Nationality</label>
 			<select id="filter-nationality" bind:value={filterState.selectedNationality} class="select select-sm w-full">
 				<option value="">All</option>
 				<option value="English">English</option>
@@ -50,7 +73,7 @@
 			</select>
 		</div>
 		<div>
-			<label for="filter-rarity" class="label label-text text-xs">Rarity</label>
+			<label for="filter-rarity" class="mb-1 block text-xs uppercase tracking-widest text-yellow-500/70" style="font-family: 'Cinzel', serif;">Rarity</label>
 			<select id="filter-rarity" bind:value={filterState.selectedRarity} class="select select-sm w-full">
 				<option value="">All</option>
 				<option value="Common">Common</option>
