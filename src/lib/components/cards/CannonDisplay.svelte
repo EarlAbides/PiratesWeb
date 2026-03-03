@@ -5,9 +5,10 @@
 
 	interface Props {
 		cannons: string[];
+		paddingLeft?: string;
 	}
 
-	const { cannons }: Props = $props();
+	const { cannons, paddingLeft }: Props = $props();
 
 	const pips = $derived<CannonPipData[]>(
 		cannons.flatMap((c) => {
@@ -21,7 +22,7 @@
 </script>
 
 {#if pips.length > 0}
-	<div class="inline-flex items-center gap-1 bg-black px-2 py-1.5">
+	<div class="inline-flex items-center gap-1 bg-black pr-2 py-1.5" style="padding-left: {paddingLeft ?? '8px'};">
 		<img
 			src="{base}/images/icons/cannon.png"
 			alt=""

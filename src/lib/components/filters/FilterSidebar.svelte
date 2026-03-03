@@ -25,8 +25,8 @@
 
 	<!-- Sort -->
 	<div class="space-y-1.5">
-		<p class="text-xs uppercase tracking-widest text-yellow-500/70" style="font-family: 'Cinzel', serif;">Sort</p>
-		<div class="flex flex-wrap gap-1">
+		<p id="sort-label" class="text-xs uppercase tracking-widest text-yellow-500/70" style="font-family: 'Cinzel', serif;">Sort</p>
+		<div role="group" aria-labelledby="sort-label" class="flex flex-wrap gap-1">
 			{#each sortOptions as { label, column }}
 				<button
 					class="btn btn-xs {filterState.sortColumn === column ? 'btn-neutral' : 'btn-ghost opacity-60'}"

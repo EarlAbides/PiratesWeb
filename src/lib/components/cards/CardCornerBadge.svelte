@@ -40,7 +40,7 @@
 		clip-path: polygon(100% 0%, 100% 100%, 0% 0%);
 		background-color: {s.bg};
 	"
-	aria-label="{rarity} · {cardNumber}"
+	aria-hidden="true"
 >
 	<span
 		style="
