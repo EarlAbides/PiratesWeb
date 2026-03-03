@@ -29,6 +29,10 @@ export interface CrewDetails {
 	limitCards: string[];
 }
 
+export interface TreasureDetails {
+	treasureValues: number[];
+}
+
 export interface FortDetails {
 	cannons: string[];
 	goldCost: number;
@@ -61,7 +65,7 @@ export interface CrewCard extends BaseCard {
 
 export interface TreasureCard extends BaseCard {
 	type: 'Treasure';
-	// no details property
+	details: TreasureDetails;
 }
 
 export interface FortCard extends BaseCard {

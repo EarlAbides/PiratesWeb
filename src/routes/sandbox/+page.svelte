@@ -7,6 +7,7 @@
 	import AppHeader from '$lib/components/layout/AppHeader.svelte';
 	import PointBadge from '$lib/components/cards/PointBadge.svelte';
 	import NationalityFlag from '$lib/components/cards/NationalityFlag.svelte';
+	import TypeBadge from '$lib/components/cards/TypeBadge.svelte';
 	import StatBar from '$lib/components/cards/StatBar.svelte';
 	import CardRow from '$lib/components/cards/CardRow.svelte';
 	import CannonPip from '$lib/components/icons/cannons/CannonPip.svelte';
@@ -17,6 +18,7 @@
 	import MoveIcon from '$lib/components/icons/stat/MoveIcon.svelte';
 	import CannonIcon from '$lib/components/icons/stat/CannonIcon.svelte';
 	import { SET_CLASS } from '$lib/utils/setUtils';
+	import CardCornerBadge from '$lib/components/cards/CardCornerBadge.svelte';
 
 	// ── Reference cards ──────────────────────────────────────────────────────────
 
@@ -87,82 +89,118 @@
 		details: { masts: 3, cargo: 2, baseMove: 'S', cannons: ['2S', '2S', '3L'] }
 	};
 
+	// Longest ability text in dataset (190 chars) — stress test for ability box
+	const neptunesHoard: ShipCard = {
+		cardId: '7906',
+		cardSet: 'PPRV',
+		cardNumber: '002',
+		name: "Neptune's Hoard",
+		type: 'Ship',
+		rarity: 'Uncommon',
+		nationality: 'Pirates',
+		pointValue: 12,
+		imageFilename: 'PPRV_002.jpg',
+		ability:
+			"Schooner. After looking at treasure on a wild island, you may trade any one treasure from that island for a random treasure on any other wild island. This ship must load the traded treasure.",
+		description: '',
+		modifiers: {},
+		details: { masts: 4, cargo: 5, baseMove: 'S+L', cannons: ['3S', '3S', '3S', '3S'] }
+	};
+
 	// ── Non-ship mock cards ──────────────────────────────────────────────────
 	const crewCard: CrewCard = {
-		cardId: 'crew-mock-1',
+		cardId: '5765',
 		cardSet: 'PPSM',
 		cardNumber: 'PC-001',
-		name: 'Helmsman',
+		name: 'Calico Cat',
 		type: 'Crew',
-		rarity: 'Common',
+		rarity: 'Rare',
 		nationality: 'Pirates',
-		pointValue: 2,
+		pointValue: 3,
 		imageFilename: 'PPSM_PC-001.jpg',
-		ability: '+1 to this ship\'s movement. This crew may not be eliminated by the opponent.',
-		description: 'A skilled navigator who knows every reef and current.',
+		ability: 'Once per turn before you give this ship an action, roll a d6. On a 5 or 6, this ship may be given the same action twice.',
+		description: 'Calico Cat (real name rumored to be Catherine) got her start only recently by stealing a Spanish sloop from Havana.',
 		modifiers: {},
-		details: { buildBonus: 2, costReduction: 0, cargoBonus: 0, limitCards: [] }
+		details: { buildBonus: 0, costReduction: 0, cargoBonus: 0, limitCards: [] }
+	};
+
+	// Long-name stress test: 35-char crew name
+	const elDuque: CrewCard = {
+		cardId: '6974',
+		cardSet: 'PPCC',
+		cardNumber: '059',
+		name: 'El Duque Rafael de Moreno y Rivera',
+		type: 'Crew',
+		rarity: 'Rare',
+		nationality: 'Spanish',
+		pointValue: 6,
+		imageFilename: 'PPCC_059.jpg',
+		ability: 'Once per turn, roll a d6. On a 5 or 6, this ship may be given an extra action.',
+		description: '',
+		modifiers: {},
+		details: { buildBonus: 0, costReduction: 0, cargoBonus: 0, limitCards: [] }
 	};
 
 	const crewCardCC: CrewCard = {
-		cardId: 'crew-mock-2',
+		cardId: '7043',
 		cardSet: 'PPCC',
 		cardNumber: '088',
-		name: 'Monsieur LeRoy',
+		name: 'Monsieur LeNoir',
 		type: 'Crew',
-		rarity: 'Uncommon',
+		rarity: 'Common',
 		nationality: 'French',
 		pointValue: 5,
 		imageFilename: 'PPCC_088.jpg',
-		ability: 'Once per turn, roll a d6. On a 5 or 6, one crew of your choice is eliminated from any ship within S.',
-		description: 'A duelist of terrible reputation.',
+		ability: 'Once per turn, one crew or ship within S of this ship cannot use its ability that turn.',
+		description: 'Despite rumors of nobility, Monsieur LeNoir prefers to cultivate a quiet and understated persona.',
 		modifiers: {},
-		details: { buildBonus: 5, costReduction: 0, cargoBonus: 0, limitCards: [] }
+		details: { buildBonus: 0, costReduction: 0, cargoBonus: 0, limitCards: [] }
 	};
 
 	const treasureCard: TreasureCard = {
-		cardId: 'treasure-mock-1',
+		cardId: '7039',
 		cardSet: 'PPCC',
-		cardNumber: '121',
-		name: 'Stolen Gold',
+		cardNumber: '093',
+		name: 'Letter of Marque',
 		type: 'Treasure',
-		rarity: 'Common Treasure',
+		rarity: 'Rare',
 		nationality: 'Pirates',
-		pointValue: 3,
-		imageFilename: 'PPCC_121.jpg',
-		ability: 'Worth 3 gold at your home island.',
-		description: 'Spanish galleon plunder, still warm from the raid.',
-		modifiers: {}
+		pointValue: 0,
+		imageFilename: 'PPCC_093.jpg',
+		ability: 'Your ship may dock at an enemy home island and be given repair actions (only) while there. Forts cannot fire on this ship unless this ship fires on them first.',
+		description: '',
+		modifiers: {},
+		details: { treasureValues: [6, 5, 4, 4, 3, 3, 2, 1, 1] }
 	};
 
 	const fortCard: FortCard = {
-		cardId: 'fort-mock-1',
-		cardSet: 'PPRV',
-		cardNumber: '140',
-		name: 'Fortaleza Dorada',
+		cardId: '6965',
+		cardSet: 'PPCC',
+		cardNumber: '031',
+		name: "Dead Man's Point",
 		type: 'Fort',
-		rarity: 'Rare',
-		nationality: 'Spanish',
-		pointValue: 15,
-		imageFilename: 'PPRV_140.jpg',
-		ability: 'Once per turn, this fort may shoot at a ship within S of it.',
-		description: 'A formidable Spanish stronghold overlooking the harbor entrance.',
+		rarity: 'Common',
+		nationality: 'Pirates',
+		pointValue: 0,
+		imageFilename: 'PPCC_031.jpg',
+		ability: 'When this fort hits a ship, you may also eliminate one cargo from that ship.',
+		description: 'The fort at Dead Man\'s Point on the pirate island of Tortuga is a deadly surprise to ships moving slowly to avoid being grounded on the maze of reefs surrounding her harbor.',
 		modifiers: {},
-		details: { cannons: ['3S', '3S', '2L'], goldCost: 15 }
+		details: { cannons: ['3L', '3L', '3L', '3L'], goldCost: 3 }
 	};
 
 	const eventCard: EventCard = {
-		cardId: 'event-mock-1',
-		cardSet: 'PPSM',
-		cardNumber: 'EC-001',
+		cardId: '7796',
+		cardSet: 'PPRV',
+		cardNumber: '098B',
 		name: 'Becalmed',
 		type: 'Event',
-		rarity: 'Uncommon',
+		rarity: 'Common',
 		nationality: 'Pirates',
-		pointValue: 0,
-		imageFilename: 'PPSM_EC-001.jpg',
-		ability: 'No ship may move this turn. Cancel all current abilities that require movement.',
-		description: 'The wind dies. The sea goes glass-flat. Every captain holds their breath.',
+		pointValue: 4,
+		imageFilename: 'PPRV_098B.jpg',
+		ability: 'Reveal this event at the beginning of one of your turns and place its token anywhere on the play area (except on an island or a ship). No ship within L of the token may be given a move action unless she can move when derelict. Remove Becalmed from the game at the beginning of your next turn.',
+		description: '',
 		modifiers: {}
 	};
 
@@ -1400,104 +1438,185 @@
 		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
 			10 · Non-Ship Card Rows
 		</h2>
-		<p class="text-xs text-neutral-500">
-			Crew, Treasure, Fort, Event cards currently use the flat layout (unchanged from pre-sandbox). The layered design was ship-motivated — non-ships have no stat bar to fill the space. Two design directions below.
-		</p>
 
-		<!-- Current state via CardRow -->
+		<!-- Per-type status -->
+		<div class="space-y-1 text-xs">
+			<p class="font-medium text-neutral-400">Per-type status:</p>
+			<ul class="ml-3 space-y-0.5 text-neutral-500">
+				<li>✅ <strong>Ship</strong> — production (layered design)</li>
+				<li>✅ <strong>Treasure</strong> — production (circular thumb, coin grid, ability box)</li>
+				<li>✅ <strong>Crew</strong> — production (PointBadge absolute, 59×59 thumb, flag overlapping thumb, ability box)</li>
+				<li>✅ <strong>Fort</strong> — production (GoldCostBadge + layered design, cannon zone extends behind badge)</li>
+				<li>✅ <strong>Event</strong> — production (E1: PointBadge + 59×59 thumb, no flag, ability box)</li>
+			</ul>
+		</div>
+
+		<!-- Current state via CardRow — Crew, Fort, Event only (Treasure is production) -->
 		<div class="space-y-2">
-			<p class="text-xs font-medium text-neutral-400">Current — flat layout (unchanged)</p>
+			<p class="text-xs font-medium text-neutral-400">Current — flat layout (Crew, Fort, Event)</p>
 			<div class="overflow-hidden rounded border border-neutral-700">
 				<CardRow card={crewCard} />
-				<CardRow card={treasureCard} />
 				<CardRow card={fortCard} />
 				<CardRow card={eventCard} />
 			</div>
 		</div>
 
-		<!-- Candidate A: Type-accented flat layout with ability text prominent -->
+		<!-- Candidate A: badge + thumbnail + flag + Cinzel name + ability box below -->
 		<div class="space-y-2">
-			<p class="text-xs font-medium text-neutral-400">Candidate A — Type accent strip + 2-line ability text</p>
-			<p class="text-xs text-neutral-600">Left accent strip color-codes type at a glance. Ability text gets 2 lines. TypeBadge moves to right corner.</p>
+			<p class="text-xs font-medium text-neutral-400">Candidate A — badge + thumbnail + flag + Cinzel name, ability box below (Crew, Fort, Event)</p>
+			<p class="text-xs text-neutral-600">No TypeBadge. Ability box 300px. Crew and Event look nearly identical — no visual type differentiation yet.</p>
 			<div class="overflow-hidden rounded border border-neutral-700 flex flex-col">
-				{#each [
-					{ card: crewCard, accent: 'bg-emerald-700' },
-					{ card: treasureCard, accent: 'bg-yellow-600' },
-					{ card: fortCard, accent: 'bg-orange-700' },
-					{ card: eventCard, accent: 'bg-violet-700' },
-					{ card: crewCardCC, accent: 'bg-emerald-700' },
-				] as { card, accent }}
-					<div class="flex items-stretch min-h-[60px] border-b border-black {card.cardSet === 'PPSM' ? 'bg-set-spanish-main' : card.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'} last:border-0">
-						<!-- Type accent strip -->
-						<div class="w-1 shrink-0 {accent}"></div>
-						<!-- Point badge -->
-						<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
-							<PointBadge points={card.pointValue} />
+				{#each [crewCard, fortCard, eventCard, crewCardCC] as card}
+					<div class="flex flex-col border-b border-neutral-700 {card.cardSet === 'PPSM' ? 'bg-set-spanish-main' : card.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'} last:border-0">
+						<div class="flex items-center min-h-[60px]">
+							<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
+								<PointBadge points={card.pointValue} />
+							</div>
+							<img
+								src="{base}/images/thumbs/{card.imageFilename.replace('.jpg', '.webp')}"
+								alt={card.name}
+								loading="lazy"
+								width="48"
+								height="36"
+								class="h-9 w-12 shrink-0 self-center rounded-sm object-cover"
+							/>
+							<div class="flex shrink-0 items-center px-1">
+								<NationalityFlag nationality={card.nationality} />
+							</div>
+							<div class="flex min-w-0 flex-1 items-center py-1 px-1">
+								<span class="truncate font-semibold" style="font-family: 'Cinzel', serif; font-size: 22px; font-variant: small-caps;">{card.name}</span>
+								{#if card.type === 'Fort'}
+									<CannonDisplay cannons={(card as FortCard).details.cannons} />
+								{/if}
+							</div>
 						</div>
-						<!-- Thumbnail -->
-						<img
-							src="{base}/images/thumbs/{card.imageFilename.replace('.jpg', '.webp')}"
-							alt={card.name}
-							loading="lazy"
-							width="48"
-							height="36"
-							class="h-9 w-12 shrink-0 self-center rounded-sm object-cover"
-						/>
-						<!-- Flag -->
-						<div class="flex shrink-0 items-center px-1">
-							<NationalityFlag nationality={card.nationality} />
-						</div>
-						<!-- Name + ability -->
-						<div class="flex min-w-0 flex-1 flex-col justify-center py-1">
-							<span class="truncate text-sm font-semibold" style="font-family: 'Cinzel', serif;">{card.name}</span>
-							<span class="line-clamp-2 text-xs opacity-70 leading-tight">{card.ability}</span>
-						</div>
-						<!-- TypeBadge -->
-						<div class="flex shrink-0 items-center px-2">
-							<span class="badge badge-sm badge-neutral opacity-70">{card.type}</span>
-						</div>
+						{#if card.ability}
+							<div
+								class="border-2 border-black px-2 py-1 mb-1.5"
+								style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+							>{card.ability}</div>
+						{/if}
 					</div>
 				{/each}
 			</div>
 		</div>
 
-		<!-- Candidate B: Simplified — no accent, ability text prominent, type badge left of name -->
-		<div class="space-y-2">
-			<p class="text-xs font-medium text-neutral-400">Candidate B — TypeBadge inline with name, full-width 2-line ability text</p>
-			<p class="text-xs text-neutral-600">Cleaner. TypeBadge sits beside name. Ability text has maximum horizontal space. No accent strip.</p>
-			<div class="overflow-hidden rounded border border-neutral-700 flex flex-col">
-				{#each [crewCard, treasureCard, fortCard, eventCard, crewCardCC] as card}
-					<div class="flex items-stretch min-h-[60px] border-b border-black {card.cardSet === 'PPSM' ? 'bg-set-spanish-main' : card.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'} last:border-0">
-						<!-- Point badge -->
-						<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
-							<PointBadge points={card.pointValue} />
-						</div>
-						<!-- Thumbnail -->
-						<img
-							src="{base}/images/thumbs/{card.imageFilename.replace('.jpg', '.webp')}"
-							alt={card.name}
-							loading="lazy"
-							width="48"
-							height="36"
-							class="h-9 w-12 shrink-0 self-center rounded-sm object-cover"
-						/>
-						<!-- Flag -->
-						<div class="flex shrink-0 items-center px-1">
-							<NationalityFlag nationality={card.nationality} />
-						</div>
-						<!-- Name row + TypeBadge + ability -->
-						<div class="flex min-w-0 flex-1 flex-col justify-center py-1 px-1 gap-0.5">
-							<div class="flex items-center gap-2">
-								<span class="truncate text-sm font-semibold" style="font-family: 'Cinzel', serif;">{card.name}</span>
-								<span class="badge badge-sm badge-neutral opacity-60 shrink-0">{card.type}</span>
-								{#if card.type === 'Fort'}
-									<CannonDisplay cannons={(card as FortCard).details.cannons} />
-								{/if}
+		<!-- ── Event card — focused candidates ── -->
+		<div class="border-t border-neutral-700 pt-5 space-y-5">
+			<p class="text-xs font-semibold text-neutral-300">Event card — focused candidates</p>
+			<p class="text-xs text-neutral-600">
+				Key questions: (1) TypeBadge placement — user needs to know it's an Event at a glance.
+				(2) Ability box width — should it be wider than 300px since there are no stats beside it?
+				Using Becalmed (256-char ability) as stress test.
+			</p>
+
+			<!-- E1: 59×59 thumbnail (no flag, no TypeBadge) + name + 300px ability box -->
+			<div class="space-y-2">
+				<p class="text-xs font-medium text-neutral-400">Event E1 — 59×59 thumbnail (no flag), Cinzel name, 300px ability box</p>
+				<div class="overflow-hidden rounded border border-neutral-700">
+					<div class="flex flex-col {eventCard.cardSet === 'PPSM' ? 'bg-set-spanish-main' : eventCard.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'}">
+						<div class="flex items-center min-h-[60px]">
+							<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
+								<PointBadge points={eventCard.pointValue} />
 							</div>
-							<span class="line-clamp-2 text-xs opacity-65 leading-tight">{card.ability}</span>
+							<div class="flex shrink-0 items-center pl-[2px]">
+								<img
+									src="{base}/images/thumbs/{eventCard.imageFilename.replace('.jpg', '.webp')}"
+									alt={eventCard.name}
+									loading="lazy"
+									width="59"
+									height="59"
+									class="h-[59px] w-[59px] shrink-0 rounded-sm object-cover border-2 border-black"
+								/>
+							</div>
+							<div class="flex min-w-0 flex-1 items-center py-1 px-2">
+								<span class="truncate font-semibold" style="font-family: 'Cinzel', serif; font-size: 22px; font-variant: small-caps;">{eventCard.name}</span>
+							</div>
 						</div>
+						{#if eventCard.ability}
+							<div
+								class="border-2 border-black px-2 py-1 mb-1.5"
+								style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+							>{eventCard.ability}</div>
+						{/if}
 					</div>
-				{/each}
+				</div>
+			</div>
+
+			<!-- E2: TypeBadge corner, 500px ability box -->
+			<div class="space-y-2">
+				<p class="text-xs font-medium text-neutral-400">Event E2 — TypeBadge corner, 500px ability box</p>
+				<p class="text-xs text-neutral-600">Wider box gives the long event text more room to breathe.</p>
+				<div class="overflow-hidden rounded border border-neutral-700">
+					<div class="relative flex flex-col {eventCard.cardSet === 'PPSM' ? 'bg-set-spanish-main' : eventCard.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'}">
+						<div class="relative flex items-center min-h-[60px]">
+							<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
+								<PointBadge points={eventCard.pointValue} />
+							</div>
+							<img
+								src="{base}/images/thumbs/{eventCard.imageFilename.replace('.jpg', '.webp')}"
+								alt={eventCard.name}
+								loading="lazy"
+								width="48"
+								height="36"
+								class="h-9 w-12 shrink-0 self-center rounded-sm object-cover"
+							/>
+							<div class="flex shrink-0 items-center px-1">
+								<NationalityFlag nationality={eventCard.nationality} />
+							</div>
+							<div class="flex min-w-0 flex-1 items-center py-1 px-1 pr-16">
+								<span class="truncate font-semibold" style="font-family: 'Cinzel', serif; font-size: 22px; font-variant: small-caps;">{eventCard.name}</span>
+							</div>
+							<div class="absolute top-1 right-2 z-10">
+								<TypeBadge type={eventCard.type} />
+							</div>
+						</div>
+						{#if eventCard.ability}
+							<div
+								class="border-2 border-black px-2 py-1 mb-1.5"
+								style="margin-left: 4px; width: 500px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+							>{eventCard.ability}</div>
+						{/if}
+					</div>
+				</div>
+			</div>
+
+			<!-- E3: TypeBadge corner, full-width prose (no box) -->
+			<div class="space-y-2">
+				<p class="text-xs font-medium text-neutral-400">Event E3 — TypeBadge corner, ability as full-width prose (no box)</p>
+				<p class="text-xs text-neutral-600">No border box — maximum reading space. Loses the "card text box" visual metaphor from Ships/Treasure.</p>
+				<div class="overflow-hidden rounded border border-neutral-700">
+					<div class="relative flex flex-col {eventCard.cardSet === 'PPSM' ? 'bg-set-spanish-main' : eventCard.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'}">
+						<div class="relative flex items-center min-h-[60px]">
+							<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
+								<PointBadge points={eventCard.pointValue} />
+							</div>
+							<img
+								src="{base}/images/thumbs/{eventCard.imageFilename.replace('.jpg', '.webp')}"
+								alt={eventCard.name}
+								loading="lazy"
+								width="48"
+								height="36"
+								class="h-9 w-12 shrink-0 self-center rounded-sm object-cover"
+							/>
+							<div class="flex shrink-0 items-center px-1">
+								<NationalityFlag nationality={eventCard.nationality} />
+							</div>
+							<div class="flex min-w-0 flex-1 items-center py-1 px-1 pr-16">
+								<span class="truncate font-semibold" style="font-family: 'Cinzel', serif; font-size: 22px; font-variant: small-caps;">{eventCard.name}</span>
+							</div>
+							<div class="absolute top-1 right-2 z-10">
+								<TypeBadge type={eventCard.type} />
+							</div>
+						</div>
+						{#if eventCard.ability}
+							<div
+								class="px-3 pb-2 pt-0.5 pl-[69px]"
+								style="font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px;"
+							>{eventCard.ability}</div>
+						{/if}
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -1565,6 +1684,80 @@
 				{/each}
 			</div>
 		</div>
+
+		<!-- Font options for ability text — same box size, Neptune's Hoard (190 chars) as stress test -->
+		<div class="space-y-3">
+			<p class="text-xs font-medium text-neutral-400">Ability text font options — Neptune's Hoard (190 chars), 9px, same box geometry</p>
+			<p class="text-xs text-neutral-600">Sally's pick: <strong class="text-neutral-400">IM Fell English</strong> — 17th/18th century English press, aged/nautical feel. Alternatives below.</p>
+			<div class="grid grid-cols-2 gap-3">
+				{#each [
+					{ label: 'IM Fell English (Sally pick)', font: "'IM Fell English', serif", extra: '' },
+					{ label: 'EB Garamond', font: "'EB Garamond', serif", extra: '' },
+					{ label: 'Cormorant Garamond 600', font: "'Cormorant Garamond', serif", extra: 'font-weight:600;' },
+					{ label: 'Pirata One', font: "'Pirata One', cursive", extra: '' },
+				] as opt}
+					<div class="space-y-1">
+						<p class="text-[10px] text-neutral-500">{opt.label}</p>
+						<div
+							class="border border-neutral-600 px-2 py-1 overflow-hidden bg-set-spanish-main"
+							style="height:70px;font-family:{opt.font};font-size:11px;line-height:14px;{opt.extra}"
+						>{neptunesHoard.ability}</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Candidate C: Ability box below stats, left-aligned with badge, flexible row height -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate C — Ability box below stats, left-aligned with badge, row height flexible</p>
+			<p class="text-xs text-neutral-600">
+				Flow layout — row expands to content. Badge absolute over both zones. Stats follow name zone.
+				Ability box below stats, left edge at badge left (4px), 300px wide, content height.
+			</p>
+			<div class="overflow-hidden rounded border border-neutral-700 flex flex-col">
+				{#each [laRepulsa, dreadnought, neptunesHoard, joyaDelSol, resolution] as card}
+					{@const sc = card as import('$lib/types/cardTypes').ShipCard}
+					<div
+						class="relative border-b border-neutral-700 last:border-0 {card.cardSet === 'PPSM' ? 'bg-set-spanish-main' : card.cardSet === 'PPCC' ? 'bg-set-crimson-coast' : 'bg-set-revolution'}"
+					>
+						<!-- Badge: absolute, overlaps name zone and top of stats zone -->
+						<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
+							<PointBadge points={card.pointValue} />
+						</div>
+
+						<!-- Name zone: 40px, padding-left clears badge; relative z-[3] keeps flag above badge -->
+						<div class="relative flex items-center gap-2 pr-3 z-[3]" style="height: 40px; padding-left: 55px;">
+							<NationalityFlag nationality={card.nationality} />
+							<span
+								class="truncate"
+								style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:24px;"
+								>{card.name}</span
+							>
+						</div>
+
+						<!-- Stats zone: in-flow, masts pill extends under badge via padding-left: 59px -->
+						<div class="flex items-end gap-0.5" style="padding-left: 10px;">
+							<div class="inline-flex items-end gap-2 bg-black py-1" style="padding-left: 59px; padding-right: 8px;">
+								<img src="{base}/images/icons/masts.png" alt="" aria-hidden="true" height="22" width="32" class="shrink-0 mb-0.5" />
+								<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{sc.details.masts}</span>
+							</div>
+							<div class="inline-flex items-end gap-2 bg-black px-2 py-1">
+								<img src="{base}/images/icons/cargo.png" alt="" aria-hidden="true" height="22" width="32" class="shrink-0 mb-0.5" />
+								<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white">{sc.details.cargo}</span>
+							</div>
+							<MoveDisplay move={sc.details.baseMove} />
+							<CannonDisplay cannons={sc.details.cannons} />
+						</div>
+
+						<!-- Ability box: below stats, left-aligned with badge (ml: 4px), content height -->
+						<div
+							class="border-2 border-black px-2 py-1 mt-1 mb-1.5"
+							style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+						>{card.ability}</div>
+					</div>
+				{/each}
+			</div>
+		</div>
 	</section>
 
 	<!-- ══════════════════════════════════════════════════════ -->
@@ -1595,16 +1788,16 @@
 			</header>
 		</div>
 
-		<!-- Candidate B: Cinzel + compass icon + subtitle -->
+		<!-- Candidate B: Cinzel + Jolly Roger PNG + subtitle -->
 		<div class="space-y-2">
-			<p class="text-xs font-medium text-neutral-400">Candidate B — Cinzel + ⚓ glyph + two-line layout</p>
+			<p class="text-xs font-medium text-neutral-400">Candidate B — Cinzel + Jolly Roger + two-line layout</p>
 			<header class="flex shrink-0 items-center gap-4 border-b border-neutral-700 bg-neutral-900 px-6 py-2">
-				<span class="text-2xl opacity-70" aria-hidden="true">⚓</span>
+				<img src="/images/jolly-roger.png" alt="Jolly Roger" class="h-10 w-auto opacity-90" aria-hidden="true" />
 				<div class="flex flex-col">
-					<h1 class="text-lg font-bold leading-tight" style="font-family: 'Cinzel', serif; letter-spacing: 0.08em; font-variant: small-caps;">
+					<h1 class="text-2xl font-bold leading-tight" style="font-family: 'Cinzel', serif; letter-spacing: 0.08em; font-variant: small-caps;">
 						Pirates of the Spanish Main
 					</h1>
-					<span class="text-xs opacity-40 tracking-widest uppercase" style="font-family: 'Cinzel', serif;">Card Catalog</span>
+					<span class="text-sm tracking-widest uppercase text-yellow-500/70" style="font-family: 'Cinzel', serif;">Card Catalog</span>
 				</div>
 			</header>
 		</div>
@@ -1737,6 +1930,130 @@
 
 					<p class="mt-auto text-xs opacity-40" style="font-family: 'Cinzel', serif;">5,231 of 5,231 cards</p>
 				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 14 · CARD CORNER BADGE — number + rarity              -->
+	<!-- ══════════════════════════════════════════════════════ -->
+	<section class="space-y-6">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			14 · Card Corner Badge — Number + Rarity
+		</h2>
+		<p class="text-xs text-neutral-500">
+			Diagonal corner ribbon (top-right) inspired by the physical card's corner numbering. Color-coded by rarity. Row width constrained to stat content width — no more full-browser-width rows.
+		</p>
+
+		<!-- Rarity color palette -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Rarity color palette</p>
+			<div class="flex flex-wrap gap-3">
+				{#each [
+					{ rarity: 'Common', cardNumber: '042', label: 'Common' },
+					{ rarity: 'Uncommon', cardNumber: '041', label: 'Uncommon' },
+					{ rarity: 'Rare', cardNumber: 'SS-004', label: 'Rare' },
+					{ rarity: 'Super Rare', cardNumber: '001', label: 'Super Rare' },
+					{ rarity: 'Limited Edition', cardNumber: 'LE-01', label: 'Limited Edition' },
+					{ rarity: 'Common Treasure', cardNumber: '093', label: 'Common Treasure' },
+					{ rarity: 'Treasure', cardNumber: '094', label: 'Treasure' },
+					{ rarity: 'Super Rare Treasure', cardNumber: '095', label: 'Super Rare Treasure' },
+				] as ex}
+					<div class="space-y-1 text-center">
+						<div class="relative h-16 w-16 overflow-hidden rounded border border-neutral-600 bg-neutral-800">
+							<CardCornerBadge cardNumber={ex.cardNumber} rarity={ex.rarity as import('$lib/types/cardTypes').Rarity} />
+						</div>
+						<p class="text-[9px] text-neutral-500 max-w-[64px] leading-tight">{ex.label}</p>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Ship rows — constrained width + corner badge -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Ship rows — 575px, corner badge top-right</p>
+			<p class="text-xs text-neutral-600">Fixed 575px container. Stats end at ~512px; badge (64px) starts at 511px — badge lands just right of cannon display.</p>
+			<div class="overflow-hidden rounded border border-neutral-700" style="width: 575px;">
+				{#each [laRepulsa, dreadnought, joyaDelSol, resolution] as card}
+					<div class="relative overflow-hidden last:border-b-0">
+						<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
+						<CardRow {card} />
+					</div>
+				{/each}
+			</div>
+		</div>
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 15 · LONG NAME HANDLING                               -->
+	<!-- ══════════════════════════════════════════════════════ -->
+	<section class="space-y-6">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			15 · Long Name Handling
+		</h2>
+		<p class="text-xs text-neutral-500">
+			"El Duque Rafael de Moreno y Rivera" — 35 chars. Crew layout leaves ~447px for the name at 24px Cinzel. Three approaches below.
+		</p>
+
+		<!-- Current: truncate at 24px -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Current — truncates at 24px</p>
+			<div style="width: 575px;">
+				<CardRow card={elDuque} />
+			</div>
+		</div>
+
+		<!-- Candidate A: font scales down by name length -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate A — font shrinks: ≤22 chars → 26px · 23–29 → 22px · 30+ → 18px ✓ shipped</p>
+			<p class="text-xs text-neutral-600">Same row height, same layout. Short names are unchanged. Long names compress to fit.</p>
+			<div class="overflow-hidden rounded border border-neutral-700" style="width: 575px;">
+				{#each [crewCard, crewCardCC, elDuque] as card}
+					{@const nameLen = card.name.length}
+					{@const namePx = nameLen > 29 ? '18px' : nameLen > 22 ? '22px' : '26px'}
+					<div class="relative overflow-hidden flex flex-col border-b border-neutral-700 last:border-b-0 bg-set-crimson-coast" style="min-height: 67px;">
+						<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
+						<div class="absolute" style="top: 4px; left: 4px; z-index: 2;"><PointBadge points={card.pointValue} /></div>
+						<div class="absolute" style="top: 4px; left: 65px; z-index: 2;">
+							<div class="flex h-[59px] w-[59px] shrink-0 items-center justify-center rounded-sm bg-black/30 border-2 border-black">
+								<span class="text-xs opacity-40">?</span>
+							</div>
+						</div>
+						<div class="relative flex items-center gap-2 pr-3 z-[3]" style="height: 40px; padding-left: 116px;">
+							<NationalityFlag nationality={card.nationality} />
+							<span class="truncate" style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:{namePx};">{card.name}</span>
+						</div>
+						{#if card.ability}
+							<div class="border-2 border-black px-2 py-1 mt-[27px] mb-1.5" style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;">{card.ability}</div>
+						{/if}
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Candidate B: two-line wrap, row grows -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate B — two-line wrap, row height grows for long names</p>
+			<p class="text-xs text-neutral-600">Full name always visible. Row height is consistent for short names, taller only when needed.</p>
+			<div class="overflow-hidden rounded border border-neutral-700" style="width: 575px;">
+				{#each [crewCard, crewCardCC, elDuque] as card}
+					<div class="relative overflow-hidden flex flex-col border-b border-neutral-700 last:border-b-0 bg-set-crimson-coast" style="min-height: 67px;">
+						<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
+						<div class="absolute" style="top: 4px; left: 4px; z-index: 2;"><PointBadge points={card.pointValue} /></div>
+						<div class="absolute" style="top: 4px; left: 65px; z-index: 2;">
+							<div class="flex h-[59px] w-[59px] shrink-0 items-center justify-center rounded-sm bg-black/30 border-2 border-black">
+								<span class="text-xs opacity-40">?</span>
+							</div>
+						</div>
+						<div class="relative flex items-center gap-2 pr-3 z-[3]" style="min-height: 40px; padding-left: 116px; padding-top: 4px; padding-bottom: 4px;">
+							<NationalityFlag nationality={card.nationality} />
+							<span class="line-clamp-2 leading-tight" style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:24px;">{card.name}</span>
+						</div>
+						{#if card.ability}
+							<div class="border-2 border-black px-2 py-1 mt-[27px] mb-1.5" style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;">{card.ability}</div>
+						{/if}
+					</div>
+				{/each}
 			</div>
 		</div>
 	</section>

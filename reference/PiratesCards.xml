@@ -2495,7 +2495,7 @@
         </Cannons>
     </Card>
     <Card CardID="7019" CardSet="Pirates of the Crimson Coast" Type="Ship" Rarity="Common" Nationality="Spanish" TournamentStatus="Active">
-        <Identification CardNumber="054" Name="La Bahama&#xA;" Translation="The Shallow Sea" />
+        <Identification CardNumber="054" Name="La Bahama" Translation="The Shallow Sea" />
         <Stats PointValue="12" Masts="3" Cargo="3" Movement="L" />
         <Image URL="/images/figures/rotating/PPCC/PPCC_054.jpg" Filename="PPCC_054.jpg" />
         <Ability>Schooner. This ship may dock at an enemy home island and load one treasure. If able, she must leave on your next turn.</Ability>
@@ -2792,7 +2792,7 @@
         </Cannons>
     </Card>
     <Card CardID="7029" CardSet="Pirates of the Crimson Coast" Type="Ship" Rarity="Rare" Nationality="French" TournamentStatus="Active">
-        <Identification CardNumber="066" Name="La Ville de Paris&#xA;" />
+        <Identification CardNumber="066" Name="La Ville de Paris" />
         <Stats PointValue="16" Masts="5" Cargo="5" Movement="S" />
         <Image URL="/images/figures/rotating/PPCC/PPCC_066.jpg" Filename="PPCC_066.jpg" />
         <Ability>This ship ignores the first hit she takes each turn as long as she has all of her masts.</Ability>
@@ -2836,7 +2836,7 @@
         </Cannons>
     </Card>
     <Card CardID="7031" CardSet="Pirates of the Crimson Coast" Type="Ship" Rarity="Rare" Nationality="French" TournamentStatus="Active">
-        <Identification CardNumber="083" Name="Le Colibri&#xA;" />
+        <Identification CardNumber="083" Name="Le Colibri" />
         <Stats PointValue="7" Masts="1" Cargo="3" Movement="S" />
         <Image URL="/images/figures/rotating/PPCC/PPCC_083.jpg" Filename="PPCC_083.jpg" />
         <Ability>L-range cannons cannot hit this ship.</Ability>
