@@ -109,6 +109,53 @@
 			>{card.ability}</div>
 		{/if}
 	</div>
+{:else if card.type === 'Crew'}
+	<!-- Crew: badge + thumbnail both absolute side by side; name zone floats off thumbnail right edge -->
+	<div class="relative flex flex-col border-b border-neutral-700 {setBgClass}" style="min-height: 67px;">
+		<!-- Badge: absolute top-left, same as ships/forts -->
+		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
+			<PointBadge points={card.pointValue} />
+		</div>
+
+		<!-- Thumbnail: absolute, 2px right of badge (left: 65px), same top -->
+		<div class="absolute" style="top: 4px; left: 65px; z-index: 2;">
+			{#if thumbError}
+				<div class="flex h-[59px] w-[59px] shrink-0 items-center justify-center rounded-sm bg-black/30 border-2 border-black">
+					<span class="text-xs opacity-40">?</span>
+				</div>
+			{:else}
+				<img
+					src={thumbUrl(card)}
+					alt={card.name}
+					loading="lazy"
+					width="59"
+					height="59"
+					class="h-[59px] w-[59px] shrink-0 rounded-sm object-cover border-2 border-black"
+					onerror={() => { thumbError = true; }}
+				/>
+			{/if}
+		</div>
+
+		<!-- Name zone: padding-left 116px = thumbnail right edge (124px) - 8px flag overlap -->
+		<div
+			class="relative flex items-center gap-2 pr-3 z-[3]"
+			style="height: 40px; padding-left: 116px;"
+		>
+			<NationalityFlag nationality={card.nationality} />
+			<span
+				class="truncate"
+				style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:24px;"
+			>{card.name}</span>
+		</div>
+
+		{#if card.ability}
+			<!-- mt-[27px]: 23px clears badge/thumbnail bottom (top:4+height:59=63px, minus name zone 40px) + 4px gap -->
+			<div
+				class="border-2 border-black px-2 py-1 mt-[27px] mb-1.5"
+				style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+			>{card.ability}</div>
+		{/if}
+	</div>
 {:else if card.type === 'Fort'}
 	<!-- Fort: layered design — GoldCostBadge absolute, flag + name zone, cannon zone extends behind badge, ability box below -->
 	<div class="relative border-b border-neutral-700 {setBgClass}">
@@ -153,33 +200,32 @@
 		{/if}
 	</div>
 {:else if card.type === 'Event'}
-	<!-- Event: PointBadge + 59×59 thumbnail + name, ability box below -->
-	<div class="flex flex-col border-b border-neutral-700 {setBgClass}">
-		<div class="flex items-center min-h-[60px]">
-			<div class="flex w-[59px] shrink-0 items-center justify-center px-1">
-				<PointBadge points={card.pointValue} />
-			</div>
-			<div class="flex shrink-0 items-center pl-[2px]">
-				{#if thumbError}
-					<div class="flex h-[59px] w-[59px] shrink-0 items-center justify-center rounded-sm bg-black/30 border-2 border-black">
-						<span class="text-xs opacity-40">?</span>
-					</div>
-				{:else}
-					<img
-						src={thumbUrl(card)}
-						alt={card.name}
-						loading="lazy"
-						width="59"
-						height="59"
-						class="h-[59px] w-[59px] shrink-0 rounded-sm object-cover border-2 border-black"
-						onerror={() => { thumbError = true; }}
-					/>
-				{/if}
-			</div>
+	<!-- Event: PointBadge absolute (top/left 4px), thumbnail + name in content row -->
+	<div class="relative flex flex-col border-b border-neutral-700 {setBgClass}">
+		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
+			<PointBadge points={card.pointValue} />
+		</div>
+		<!-- Content row: starts at badge right edge + 2px; min-height 67px clears the absolute badge -->
+		<div class="relative flex items-center z-[3]" style="padding-left: 65px; min-height: 67px;">
+			{#if thumbError}
+				<div class="flex h-[59px] w-[59px] shrink-0 items-center justify-center rounded-sm bg-black/30 border-2 border-black">
+					<span class="text-xs opacity-40">?</span>
+				</div>
+			{:else}
+				<img
+					src={thumbUrl(card)}
+					alt={card.name}
+					loading="lazy"
+					width="59"
+					height="59"
+					class="h-[59px] w-[59px] shrink-0 rounded-sm object-cover border-2 border-black"
+					onerror={() => { thumbError = true; }}
+				/>
+			{/if}
 			<div class="flex min-w-0 flex-1 items-center py-1 px-2">
 				<span
 					class="truncate font-semibold"
-					style="font-family: 'Cinzel', serif; font-size: 22px; font-variant: small-caps;"
+					style="font-family: 'Cinzel', serif; font-size: 24px; font-variant: small-caps;"
 				>{card.name}</span>
 			</div>
 		</div>
