@@ -124,6 +124,23 @@
 		details: { buildBonus: 0, costReduction: 0, cargoBonus: 0, limitCards: [] }
 	};
 
+	// Long-name stress test: 35-char crew name
+	const elDuque: CrewCard = {
+		cardId: '6974',
+		cardSet: 'PPCC',
+		cardNumber: '059',
+		name: 'El Duque Rafael de Moreno y Rivera',
+		type: 'Crew',
+		rarity: 'Rare',
+		nationality: 'Spanish',
+		pointValue: 6,
+		imageFilename: 'PPCC_059.jpg',
+		ability: 'Once per turn, roll a d6. On a 5 or 6, this ship may be given an extra action.',
+		description: '',
+		modifiers: {},
+		details: { buildBonus: 0, costReduction: 0, cargoBonus: 0, limitCards: [] }
+	};
+
 	const crewCardCC: CrewCard = {
 		cardId: '7043',
 		cardSet: 'PPCC',
@@ -1961,6 +1978,80 @@
 					<div class="relative overflow-hidden last:border-b-0">
 						<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 						<CardRow {card} />
+					</div>
+				{/each}
+			</div>
+		</div>
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 15 · LONG NAME HANDLING                               -->
+	<!-- ══════════════════════════════════════════════════════ -->
+	<section class="space-y-6">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			15 · Long Name Handling
+		</h2>
+		<p class="text-xs text-neutral-500">
+			"El Duque Rafael de Moreno y Rivera" — 35 chars. Crew layout leaves ~447px for the name at 24px Cinzel. Three approaches below.
+		</p>
+
+		<!-- Current: truncate at 24px -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Current — truncates at 24px</p>
+			<div style="width: 575px;">
+				<CardRow card={elDuque} />
+			</div>
+		</div>
+
+		<!-- Candidate A: font scales down by name length -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate A — font shrinks: ≤22 chars → 26px · 23–29 → 22px · 30+ → 18px ✓ shipped</p>
+			<p class="text-xs text-neutral-600">Same row height, same layout. Short names are unchanged. Long names compress to fit.</p>
+			<div class="overflow-hidden rounded border border-neutral-700" style="width: 575px;">
+				{#each [crewCard, crewCardCC, elDuque] as card}
+					{@const nameLen = card.name.length}
+					{@const namePx = nameLen > 29 ? '18px' : nameLen > 22 ? '22px' : '26px'}
+					<div class="relative overflow-hidden flex flex-col border-b border-neutral-700 last:border-b-0 bg-set-crimson-coast" style="min-height: 67px;">
+						<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
+						<div class="absolute" style="top: 4px; left: 4px; z-index: 2;"><PointBadge points={card.pointValue} /></div>
+						<div class="absolute" style="top: 4px; left: 65px; z-index: 2;">
+							<div class="flex h-[59px] w-[59px] shrink-0 items-center justify-center rounded-sm bg-black/30 border-2 border-black">
+								<span class="text-xs opacity-40">?</span>
+							</div>
+						</div>
+						<div class="relative flex items-center gap-2 pr-3 z-[3]" style="height: 40px; padding-left: 116px;">
+							<NationalityFlag nationality={card.nationality} />
+							<span class="truncate" style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:{namePx};">{card.name}</span>
+						</div>
+						{#if card.ability}
+							<div class="border-2 border-black px-2 py-1 mt-[27px] mb-1.5" style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;">{card.ability}</div>
+						{/if}
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Candidate B: two-line wrap, row grows -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate B — two-line wrap, row height grows for long names</p>
+			<p class="text-xs text-neutral-600">Full name always visible. Row height is consistent for short names, taller only when needed.</p>
+			<div class="overflow-hidden rounded border border-neutral-700" style="width: 575px;">
+				{#each [crewCard, crewCardCC, elDuque] as card}
+					<div class="relative overflow-hidden flex flex-col border-b border-neutral-700 last:border-b-0 bg-set-crimson-coast" style="min-height: 67px;">
+						<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
+						<div class="absolute" style="top: 4px; left: 4px; z-index: 2;"><PointBadge points={card.pointValue} /></div>
+						<div class="absolute" style="top: 4px; left: 65px; z-index: 2;">
+							<div class="flex h-[59px] w-[59px] shrink-0 items-center justify-center rounded-sm bg-black/30 border-2 border-black">
+								<span class="text-xs opacity-40">?</span>
+							</div>
+						</div>
+						<div class="relative flex items-center gap-2 pr-3 z-[3]" style="min-height: 40px; padding-left: 116px; padding-top: 4px; padding-bottom: 4px;">
+							<NationalityFlag nationality={card.nationality} />
+							<span class="line-clamp-2 leading-tight" style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:24px;">{card.name}</span>
+						</div>
+						{#if card.ability}
+							<div class="border-2 border-black px-2 py-1 mt-[27px] mb-1.5" style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;">{card.ability}</div>
+						{/if}
 					</div>
 				{/each}
 			</div>

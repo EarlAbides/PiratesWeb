@@ -22,6 +22,11 @@
 
 	const setBgClass = $derived(SET_CLASS[card.cardSet] ?? '');
 
+	// Scale name font size down for long names so they fit without truncation
+	const nameFontSize = $derived(
+		card.name.length > 29 ? '18px' : card.name.length > 22 ? '22px' : '26px'
+	);
+
 	let thumbError = $state(false);
 </script>
 
@@ -42,7 +47,7 @@
 			<NationalityFlag nationality={card.nationality} />
 			<span
 				class="truncate"
-				style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:24px;"
+				style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:{nameFontSize};"
 				>{card.name}</span
 			>
 		</div>
@@ -94,7 +99,7 @@
 			</div>
 			<!-- Name + coin grid -->
 			<div class="flex min-w-0 flex-1 items-center py-1 px-1">
-				<span class="truncate font-semibold" style="font-family: 'Cinzel', serif; font-size: 22px; font-variant: small-caps;">{card.name}</span>
+				<span class="truncate font-semibold" style="font-family: 'Cinzel', serif; font-size: {nameFontSize}; font-variant: small-caps;">{card.name}</span>
 				<div class="grid grid-cols-3 gap-[2px] shrink-0 ml-[10px]">
 					{#each card.details.treasureValues as val}
 						<div class="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-black">
@@ -148,7 +153,7 @@
 			<NationalityFlag nationality={card.nationality} />
 			<span
 				class="truncate"
-				style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:24px;"
+				style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:{nameFontSize};"
 			>{card.name}</span>
 		</div>
 
@@ -177,7 +182,7 @@
 			<NationalityFlag nationality={card.nationality} />
 			<span
 				class="truncate"
-				style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:24px;"
+				style="font-family:'Cinzel',serif;font-weight:700;font-variant:small-caps;font-size:{nameFontSize};"
 			>{card.name}</span>
 		</div>
 
@@ -231,7 +236,7 @@
 			<div class="flex min-w-0 flex-1 items-center py-1 px-2">
 				<span
 					class="truncate font-semibold"
-					style="font-family: 'Cinzel', serif; font-size: 24px; font-variant: small-caps;"
+					style="font-family: 'Cinzel', serif; font-size: {nameFontSize}; font-variant: small-caps;"
 				>{card.name}</span>
 			</div>
 		</div>
