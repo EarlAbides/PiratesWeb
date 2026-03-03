@@ -18,6 +18,7 @@
 	import MoveIcon from '$lib/components/icons/stat/MoveIcon.svelte';
 	import CannonIcon from '$lib/components/icons/stat/CannonIcon.svelte';
 	import { SET_CLASS } from '$lib/utils/setUtils';
+	import CardCornerBadge from '$lib/components/cards/CardCornerBadge.svelte';
 
 	// ── Reference cards ──────────────────────────────────────────────────────────
 
@@ -1770,16 +1771,16 @@
 			</header>
 		</div>
 
-		<!-- Candidate B: Cinzel + compass icon + subtitle -->
+		<!-- Candidate B: Cinzel + Jolly Roger PNG + subtitle -->
 		<div class="space-y-2">
-			<p class="text-xs font-medium text-neutral-400">Candidate B — Cinzel + ⚓ glyph + two-line layout</p>
+			<p class="text-xs font-medium text-neutral-400">Candidate B — Cinzel + Jolly Roger + two-line layout</p>
 			<header class="flex shrink-0 items-center gap-4 border-b border-neutral-700 bg-neutral-900 px-6 py-2">
-				<span class="text-2xl opacity-70" aria-hidden="true">⚓</span>
+				<img src="/images/jolly-roger.png" alt="Jolly Roger" class="h-10 w-auto opacity-90" aria-hidden="true" />
 				<div class="flex flex-col">
-					<h1 class="text-lg font-bold leading-tight" style="font-family: 'Cinzel', serif; letter-spacing: 0.08em; font-variant: small-caps;">
+					<h1 class="text-2xl font-bold leading-tight" style="font-family: 'Cinzel', serif; letter-spacing: 0.08em; font-variant: small-caps;">
 						Pirates of the Spanish Main
 					</h1>
-					<span class="text-xs opacity-40 tracking-widest uppercase" style="font-family: 'Cinzel', serif;">Card Catalog</span>
+					<span class="text-sm tracking-widest uppercase text-yellow-500/70" style="font-family: 'Cinzel', serif;">Card Catalog</span>
 				</div>
 			</header>
 		</div>
@@ -1912,6 +1913,56 @@
 
 					<p class="mt-auto text-xs opacity-40" style="font-family: 'Cinzel', serif;">5,231 of 5,231 cards</p>
 				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 14 · CARD CORNER BADGE — number + rarity              -->
+	<!-- ══════════════════════════════════════════════════════ -->
+	<section class="space-y-6">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			14 · Card Corner Badge — Number + Rarity
+		</h2>
+		<p class="text-xs text-neutral-500">
+			Diagonal corner ribbon (top-right) inspired by the physical card's corner numbering. Color-coded by rarity. Row width constrained to stat content width — no more full-browser-width rows.
+		</p>
+
+		<!-- Rarity color palette -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Rarity color palette</p>
+			<div class="flex flex-wrap gap-3">
+				{#each [
+					{ rarity: 'Common', cardNumber: '042', label: 'Common' },
+					{ rarity: 'Uncommon', cardNumber: '041', label: 'Uncommon' },
+					{ rarity: 'Rare', cardNumber: 'SS-004', label: 'Rare' },
+					{ rarity: 'Super Rare', cardNumber: '001', label: 'Super Rare' },
+					{ rarity: 'Limited Edition', cardNumber: 'LE-01', label: 'Limited Edition' },
+					{ rarity: 'Common Treasure', cardNumber: '093', label: 'Common Treasure' },
+					{ rarity: 'Treasure', cardNumber: '094', label: 'Treasure' },
+					{ rarity: 'Super Rare Treasure', cardNumber: '095', label: 'Super Rare Treasure' },
+				] as ex}
+					<div class="space-y-1 text-center">
+						<div class="relative h-16 w-16 overflow-hidden rounded border border-neutral-600 bg-neutral-800">
+							<CardCornerBadge cardNumber={ex.cardNumber} rarity={ex.rarity as import('$lib/types/cardTypes').Rarity} />
+						</div>
+						<p class="text-[9px] text-neutral-500 max-w-[64px] leading-tight">{ex.label}</p>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Ship rows — constrained width + corner badge -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Ship rows — 575px, corner badge top-right</p>
+			<p class="text-xs text-neutral-600">Fixed 575px container. Stats end at ~512px; badge (64px) starts at 511px — badge lands just right of cannon display.</p>
+			<div class="overflow-hidden rounded border border-neutral-700" style="width: 575px;">
+				{#each [laRepulsa, dreadnought, joyaDelSol, resolution] as card}
+					<div class="relative overflow-hidden last:border-b-0">
+						<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
+						<CardRow {card} />
+					</div>
+				{/each}
 			</div>
 		</div>
 	</section>

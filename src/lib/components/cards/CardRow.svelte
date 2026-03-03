@@ -12,6 +12,7 @@
 	import CannonDisplay from './CannonDisplay.svelte';
 	import CannonPip from '$lib/components/icons/cannons/CannonPip.svelte';
 	import { parseCannonPip } from '$lib/components/icons/cannons/index';
+	import CardCornerBadge from './CardCornerBadge.svelte';
 
 	interface Props {
 		card: Card;
@@ -26,7 +27,8 @@
 
 {#if card.type === 'Ship'}
 	<!-- Ship: flow layout — badge absolute over name+stats, stats follow name zone, ability box below -->
-	<div class="relative border-b border-neutral-700 {setBgClass}">
+	<div class="relative overflow-hidden border-b border-neutral-700 {setBgClass}" style="width: 575px;">
+		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<!-- Badge: absolute, overlaps name zone and top of stats zone -->
 		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
 			<PointBadge points={card.pointValue} />
@@ -69,7 +71,8 @@
 	</div>
 {:else if card.type === 'Treasure'}
 	<!-- Treasure: circular thumbnail, no badge/flag, coin grid, ability box below -->
-	<div class="flex flex-col border-b border-neutral-700 {setBgClass}">
+	<div class="relative overflow-hidden flex flex-col border-b border-neutral-700 {setBgClass}" style="width: 575px;">
+		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<div class="flex items-center min-h-[60px]">
 			<!-- Circular thumbnail -->
 			<div class="flex shrink-0 items-center p-1">
@@ -111,7 +114,8 @@
 	</div>
 {:else if card.type === 'Crew'}
 	<!-- Crew: badge + thumbnail both absolute side by side; name zone floats off thumbnail right edge -->
-	<div class="relative flex flex-col border-b border-neutral-700 {setBgClass}" style="min-height: 67px;">
+	<div class="relative overflow-hidden flex flex-col border-b border-neutral-700 {setBgClass}" style="width: 575px; min-height: 67px;">
+		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<!-- Badge: absolute top-left, same as ships/forts -->
 		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
 			<PointBadge points={card.pointValue} />
@@ -158,7 +162,8 @@
 	</div>
 {:else if card.type === 'Fort'}
 	<!-- Fort: layered design — GoldCostBadge absolute, flag + name zone, cannon zone extends behind badge, ability box below -->
-	<div class="relative border-b border-neutral-700 {setBgClass}">
+	<div class="relative overflow-hidden border-b border-neutral-700 {setBgClass}" style="width: 575px;">
+		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<!-- GoldCostBadge: absolute, same position as ship's PointBadge -->
 		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
 			<GoldCostBadge cost={card.details.goldCost} />
@@ -201,7 +206,8 @@
 	</div>
 {:else if card.type === 'Event'}
 	<!-- Event: PointBadge absolute (top/left 4px), thumbnail + name in content row -->
-	<div class="relative flex flex-col border-b border-neutral-700 {setBgClass}">
+	<div class="relative overflow-hidden flex flex-col border-b border-neutral-700 {setBgClass}" style="width: 575px;">
+		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
 			<PointBadge points={card.pointValue} />
 		</div>
@@ -238,7 +244,8 @@
 	</div>
 {:else}
 	<!-- Non-ship cards: flat layout (unchanged) -->
-	<div class="flex min-h-[60px] items-center gap-3 border-b border-neutral-700 px-3 py-2 {setBgClass}">
+	<div class="relative overflow-hidden flex min-h-[60px] items-center gap-3 border-b border-neutral-700 px-3 py-2 {setBgClass}" style="width: 575px;">
+		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<PointBadge points={card.pointValue} />
 
 		{#if thumbError}
