@@ -19,7 +19,7 @@
 
 <div
 	data-theme="dark"
-	class="flex min-h-screen flex-col"
+	class="flex h-screen flex-col overflow-hidden"
 	style:--bg-texture-spanish-main="url('{base}/images/backgrounds/TanBG.jpg')"
 	style:--bg-texture-crimson-coast="url('{base}/images/backgrounds/RedBG.jpg')"
 	style:--bg-texture-revolution="url('{base}/images/backgrounds/BlueBG.jpg')"

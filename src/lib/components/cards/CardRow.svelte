@@ -28,17 +28,17 @@
 
 {#if card.type === 'Ship'}
 	<!-- Ship: flow layout — badge absolute over name+stats, stats follow name zone, ability box below -->
-	<div class="relative overflow-hidden border-b border-neutral-700 {setBgClass}" style="width: 575px;">
+	<div class="relative overflow-hidden rounded-xl shadow-sm {setBgClass}" style="width: 575px;">
 		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<!-- Badge: absolute, overlaps name zone and top of stats zone -->
-		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
+		<div class="absolute" style="top: 8px; left: 8px; z-index: 2;">
 			<PointBadge points={card.pointValue} />
 		</div>
 
 		<!-- Name zone: flag + name, padding-left clears badge; z-[3] keeps flag above badge -->
 		<div
 			class="relative flex items-center gap-2 pr-3 z-[3]"
-			style="height: 40px; padding-left: 55px;"
+			style="height: 40px; padding-left: 59px;"
 		>
 			<NationalityFlag nationality={card.nationality} />
 			<span
@@ -48,9 +48,9 @@
 			>
 		</div>
 
-		<!-- Stats zone: masts pill extends under badge via padding-left: 59px -->
-		<div class="flex items-end gap-0.5" style="padding-left: 10px;">
-			<div class="inline-flex items-end gap-2 bg-black py-1" style="padding-left: 59px; padding-right: 8px;">
+		<!-- Stats zone: masts pill extends under badge via padding-left: 63px -->
+		<div class="flex items-end gap-0.5" style="padding-left: 14px;">
+			<div class="inline-flex items-end gap-2 bg-black py-1" style="padding-left: 63px; padding-right: 8px;">
 				<img src="{base}/images/icons/masts.png" alt="" aria-hidden="true" height="22" width="32" class="shrink-0 mb-0.5" />
 				<span style="font-family:'Cinzel',serif;font-weight:700;font-size:26px;line-height:1;color:white;">{card.details.masts}</span>
 			</div>
@@ -66,17 +66,17 @@
 		{#if card.ability}
 			<div
 				class="border-2 border-black px-2 py-1 mt-1 mb-1.5"
-				style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+				style="margin-left: 8px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
 			>{card.ability}</div>
 		{/if}
 	</div>
 {:else if card.type === 'Treasure'}
 	<!-- Treasure: circular thumbnail, no badge/flag, coin grid, ability box below -->
-	<div class="relative overflow-hidden flex flex-col border-b border-neutral-700 {setBgClass}" style="width: 575px;">
+	<div class="relative overflow-hidden flex flex-col rounded-xl shadow-sm {setBgClass}" style="width: 575px;">
 		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<div class="flex items-center min-h-[60px]">
 			<!-- Circular thumbnail -->
-			<div class="flex shrink-0 items-center p-1">
+			<div class="flex shrink-0 items-center p-1.5">
 				{#if thumbError}
 					<div class="flex h-[59px] w-[59px] shrink-0 items-center justify-center rounded-full bg-black/30 border border-black">
 						<span class="text-xs opacity-40">?</span>
@@ -109,21 +109,21 @@
 		{#if card.ability}
 			<div
 				class="border-2 border-black px-2 py-1 mb-1.5"
-				style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+				style="margin-left: 8px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
 			>{card.ability}</div>
 		{/if}
 	</div>
 {:else if card.type === 'Crew'}
 	<!-- Crew: badge + thumbnail both absolute side by side; name zone floats off thumbnail right edge -->
-	<div class="relative overflow-hidden flex flex-col border-b border-neutral-700 {setBgClass}" style="width: 575px; min-height: 67px;">
+	<div class="relative overflow-hidden flex flex-col rounded-xl shadow-sm {setBgClass}" style="width: 575px; min-height: 67px;">
 		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
-		<!-- Badge: absolute top-left, same as ships/forts -->
-		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
+		<!-- Badge: absolute top-left -->
+		<div class="absolute" style="top: 8px; left: 8px; z-index: 2;">
 			<PointBadge points={card.pointValue} />
 		</div>
 
-		<!-- Thumbnail: absolute, 2px right of badge (left: 65px), same top -->
-		<div class="absolute" style="top: 4px; left: 65px; z-index: 2;">
+		<!-- Thumbnail: absolute, 2px right of badge (left: 69px) -->
+		<div class="absolute" style="top: 8px; left: 69px; z-index: 2;">
 			{#if thumbError}
 				<div class="flex h-[59px] w-[59px] shrink-0 items-center justify-center rounded-sm bg-black/30 border-2 border-black">
 					<span class="text-xs opacity-40">?</span>
@@ -141,10 +141,10 @@
 			{/if}
 		</div>
 
-		<!-- Name zone: padding-left 116px = thumbnail right edge (124px) - 8px flag overlap -->
+		<!-- Name zone: padding-left 120px = thumbnail right edge (128px) - 8px flag overlap -->
 		<div
 			class="relative flex items-center gap-2 pr-3 z-[3]"
-			style="height: 40px; padding-left: 116px;"
+			style="height: 40px; padding-left: 120px;"
 		>
 			<NationalityFlag nationality={card.nationality} />
 			<span
@@ -154,26 +154,26 @@
 		</div>
 
 		{#if card.ability}
-			<!-- mt-[27px]: 23px clears badge/thumbnail bottom (top:4+height:59=63px, minus name zone 40px) + 4px gap -->
+			<!-- mt-[31px]: clears badge/thumbnail bottom (top:8+height:59=67px, minus name zone 40px = 27px) + 4px gap -->
 			<div
-				class="border-2 border-black px-2 py-1 mt-[27px] mb-1.5"
-				style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+				class="border-2 border-black px-2 py-1 mt-[31px] mb-1.5"
+				style="margin-left: 8px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
 			>{card.ability}</div>
 		{/if}
 	</div>
 {:else if card.type === 'Fort'}
 	<!-- Fort: layered design — GoldCostBadge absolute, flag + name zone, cannon zone extends behind badge, ability box below -->
-	<div class="relative overflow-hidden border-b border-neutral-700 {setBgClass}" style="width: 575px;">
+	<div class="relative overflow-hidden rounded-xl shadow-sm {setBgClass}" style="width: 575px;">
 		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<!-- GoldCostBadge: absolute, same position as ship's PointBadge -->
-		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
+		<div class="absolute" style="top: 8px; left: 8px; z-index: 2;">
 			<GoldCostBadge cost={card.details.goldCost} />
 		</div>
 
 		<!-- Name zone: flag + name, padding-left clears badge; z-[3] keeps flag above badge -->
 		<div
 			class="relative flex items-center gap-2 pr-3 z-[3]"
-			style="height: 40px; padding-left: 55px;"
+			style="height: 40px; padding-left: 59px;"
 		>
 			<NationalityFlag nationality={card.nationality} />
 			<span
@@ -183,27 +183,27 @@
 		</div>
 
 		<!-- Cannon zone: pill extends behind badge via paddingLeft prop -->
-		<div class="flex items-end" style="padding-left: 10px;">
-			<CannonDisplay cannons={card.details.cannons} paddingLeft="59px" />
+		<div class="flex items-end" style="padding-left: 14px;">
+			<CannonDisplay cannons={card.details.cannons} paddingLeft="63px" />
 		</div>
 
 		<!-- Ability box: below cannon zone -->
 		{#if card.ability}
 			<div
 				class="border-2 border-black px-2 py-1 mt-1 mb-1.5"
-				style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+				style="margin-left: 8px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
 			>{card.ability}</div>
 		{/if}
 	</div>
 {:else if card.type === 'Event'}
-	<!-- Event: PointBadge absolute (top/left 4px), thumbnail + name in content row -->
-	<div class="relative overflow-hidden flex flex-col border-b border-neutral-700 {setBgClass}" style="width: 575px;">
+	<!-- Event: PointBadge absolute (top/left 8px), thumbnail + name in content row -->
+	<div class="relative overflow-hidden flex flex-col rounded-xl shadow-sm {setBgClass}" style="width: 575px;">
 		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
-		<div class="absolute" style="top: 4px; left: 4px; z-index: 2;">
+		<div class="absolute" style="top: 8px; left: 8px; z-index: 2;">
 			<PointBadge points={card.pointValue} />
 		</div>
 		<!-- Content row: starts at badge right edge + 2px; min-height 67px clears the absolute badge -->
-		<div class="relative flex items-center z-[3]" style="padding-left: 65px; min-height: 67px;">
+		<div class="relative flex items-center z-[3]" style="padding-left: 69px; min-height: 67px;">
 			{#if thumbError}
 				<div class="flex h-[59px] w-[59px] shrink-0 items-center justify-center rounded-sm bg-black/30 border-2 border-black">
 					<span class="text-xs opacity-40">?</span>
@@ -229,7 +229,7 @@
 		{#if card.ability}
 			<div
 				class="border-2 border-black px-2 py-1 mb-1.5"
-				style="margin-left: 4px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
+				style="margin-left: 8px; width: 300px; font-family: 'EB Garamond', serif; font-size: 12px; line-height: 15px; text-align: center;"
 			>{card.ability}</div>
 		{/if}
 	</div>

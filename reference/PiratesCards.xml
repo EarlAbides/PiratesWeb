@@ -144,7 +144,7 @@
         <Identification CardNumber="141" Name="Asp" />
         <Stats PointValue="11" Masts="3" Cargo="4" Movement="S+S" />
         <Image URL="/images/figures/rotating/PPRV/PPRV_141.jpg" Filename="PPRV_141.jpg" />
-        <Ability></Ability>
+        <Ability>Galley. This ship gets +1 to her boarding rolls.</Ability>
         <Description>American sailors returning from the Barbary Coast say that this galley, captianed by kal Bhed and his cutthroats, delivers a lethal bite to anyone who stands in her way.</Description>
         <Cannons>
             <Cannon Number="1" Range="S" Accuracy="3" />

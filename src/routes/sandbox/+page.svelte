@@ -1969,6 +1969,90 @@
 			</div>
 		</div>
 
+		<!-- Gradient corner badge candidates — Uncommon (silver) + Rare (gold) -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Gradient candidates — metallic sheen (reference: card-corner.png)</p>
+			<p class="text-xs text-neutral-600">Radial and linear gradient options for Uncommon (silver) and Rare (gold). Compared against current solid fills.</p>
+			<div class="flex flex-wrap gap-6">
+				<!-- Current solid -->
+				<div class="space-y-1 text-center">
+					<div class="relative h-16 w-16 overflow-hidden rounded border border-neutral-600 bg-neutral-800">
+						<CardCornerBadge cardNumber="041" rarity="Uncommon" />
+					</div>
+					<p class="text-[9px] text-neutral-500 max-w-[64px] leading-tight">Uncommon solid</p>
+				</div>
+				<div class="space-y-1 text-center">
+					<div class="relative h-16 w-16 overflow-hidden rounded border border-neutral-600 bg-neutral-800">
+						<CardCornerBadge cardNumber="SS-004" rarity="Rare" />
+					</div>
+					<p class="text-[9px] text-neutral-500 max-w-[64px] leading-tight">Rare solid</p>
+				</div>
+
+				<!-- Spacer -->
+				<div class="w-px bg-neutral-700"></div>
+
+				<!-- Radial A: bright center, dark edges (matches reference photo) -->
+				<div class="space-y-1 text-center">
+					<div class="relative h-16 w-16 overflow-hidden rounded border border-neutral-600 bg-neutral-800">
+						<div class="pointer-events-none select-none absolute top-0 right-0" style="width:64px;height:64px;z-index:10;clip-path:polygon(100% 0%,100% 100%,0% 0%);background:radial-gradient(ellipse at 65% 35%, #e5e7eb 0%, #9ca3af 45%, #4b5563 100%);" aria-hidden="true">
+							<span style="position:absolute;top:10px;right:7px;transform:rotate(45deg);transform-origin:50% 50%;font-family:'Cinzel',serif;font-weight:700;font-size:13px;color:#1a1a1a;letter-spacing:0.03em;white-space:nowrap;">041</span>
+						</div>
+					</div>
+					<p class="text-[9px] text-neutral-500 max-w-[64px] leading-tight">Uncommon radial A</p>
+				</div>
+				<div class="space-y-1 text-center">
+					<div class="relative h-16 w-16 overflow-hidden rounded border border-neutral-600 bg-neutral-800">
+						<div class="pointer-events-none select-none absolute top-0 right-0" style="width:64px;height:64px;z-index:10;clip-path:polygon(100% 0%,100% 100%,0% 0%);background:radial-gradient(ellipse at 65% 35%, #fde68a 0%, #eab308 45%, #92400e 100%);" aria-hidden="true">
+							<span style="position:absolute;top:14px;right:3px;transform:rotate(45deg);transform-origin:50% 50%;font-family:'Cinzel',serif;font-weight:700;font-size:11px;color:#1a1a1a;letter-spacing:0.03em;white-space:nowrap;">SS-004</span>
+						</div>
+					</div>
+					<p class="text-[9px] text-neutral-500 max-w-[64px] leading-tight">Rare radial A</p>
+				</div>
+
+				<!-- Spacer -->
+				<div class="w-px bg-neutral-700"></div>
+
+				<!-- Radial B: tighter highlight, more metallic -->
+				<div class="space-y-1 text-center">
+					<div class="relative h-16 w-16 overflow-hidden rounded border border-neutral-600 bg-neutral-800">
+						<div class="pointer-events-none select-none absolute top-0 right-0" style="width:64px;height:64px;z-index:10;clip-path:polygon(100% 0%,100% 100%,0% 0%);background:radial-gradient(ellipse at 70% 30%, #f9fafb 0%, #d1d5db 30%, #6b7280 70%, #374151 100%);" aria-hidden="true">
+							<span style="position:absolute;top:10px;right:7px;transform:rotate(45deg);transform-origin:50% 50%;font-family:'Cinzel',serif;font-weight:700;font-size:13px;color:#1a1a1a;letter-spacing:0.03em;white-space:nowrap;">041</span>
+						</div>
+					</div>
+					<p class="text-[9px] text-neutral-500 max-w-[64px] leading-tight">Uncommon radial B</p>
+				</div>
+				<div class="space-y-1 text-center">
+					<div class="relative h-16 w-16 overflow-hidden rounded border border-neutral-600 bg-neutral-800">
+						<div class="pointer-events-none select-none absolute top-0 right-0" style="width:64px;height:64px;z-index:10;clip-path:polygon(100% 0%,100% 100%,0% 0%);background:radial-gradient(ellipse at 70% 30%, #fef9c3 0%, #facc15 30%, #a16207 70%, #78350f 100%);" aria-hidden="true">
+							<span style="position:absolute;top:14px;right:3px;transform:rotate(45deg);transform-origin:50% 50%;font-family:'Cinzel',serif;font-weight:700;font-size:11px;color:#1a1a1a;letter-spacing:0.03em;white-space:nowrap;">SS-004</span>
+						</div>
+					</div>
+					<p class="text-[9px] text-neutral-500 max-w-[64px] leading-tight">Rare radial B</p>
+				</div>
+
+				<!-- Spacer -->
+				<div class="w-px bg-neutral-700"></div>
+
+				<!-- Linear C: diagonal sheen band (most like reference photo) -->
+				<div class="space-y-1 text-center">
+					<div class="relative h-16 w-16 overflow-hidden rounded border border-neutral-600 bg-neutral-800">
+						<div class="pointer-events-none select-none absolute top-0 right-0" style="width:64px;height:64px;z-index:10;clip-path:polygon(100% 0%,100% 100%,0% 0%);background:linear-gradient(135deg, #6b7280 0%, #d1d5db 35%, #f3f4f6 50%, #d1d5db 65%, #6b7280 100%);" aria-hidden="true">
+							<span style="position:absolute;top:10px;right:7px;transform:rotate(45deg);transform-origin:50% 50%;font-family:'Cinzel',serif;font-weight:700;font-size:13px;color:#1a1a1a;letter-spacing:0.03em;white-space:nowrap;">041</span>
+						</div>
+					</div>
+					<p class="text-[9px] text-neutral-500 max-w-[64px] leading-tight">Uncommon linear C</p>
+				</div>
+				<div class="space-y-1 text-center">
+					<div class="relative h-16 w-16 overflow-hidden rounded border border-neutral-600 bg-neutral-800">
+						<div class="pointer-events-none select-none absolute top-0 right-0" style="width:64px;height:64px;z-index:10;clip-path:polygon(100% 0%,100% 100%,0% 0%);background:linear-gradient(135deg, #92400e 0%, #eab308 35%, #fde68a 50%, #eab308 65%, #92400e 100%);" aria-hidden="true">
+							<span style="position:absolute;top:14px;right:3px;transform:rotate(45deg);transform-origin:50% 50%;font-family:'Cinzel',serif;font-weight:700;font-size:11px;color:#1a1a1a;letter-spacing:0.03em;white-space:nowrap;">SS-004</span>
+						</div>
+					</div>
+					<p class="text-[9px] text-neutral-500 max-w-[64px] leading-tight">Rare linear C</p>
+				</div>
+			</div>
+		</div>
+
 		<!-- Ship rows — constrained width + corner badge -->
 		<div class="space-y-2">
 			<p class="text-xs font-medium text-neutral-400">Ship rows — 575px, corner badge top-right</p>
@@ -2057,4 +2141,147 @@
 			</div>
 		</div>
 	</section>
+
+	<!-- ══════════════════════════════════════════════════════ -->
+	<!-- 16 · CARDY ROWS — rounded corners + gap between rows -->
+	<!-- ══════════════════════════════════════════════════════ -->
+	<section class="space-y-6">
+		<h2 class="border-b border-neutral-700 pb-2 text-lg font-semibold text-neutral-300">
+			16 · Cardy Rows — Rounded Corners + Gap
+		</h2>
+		<p class="text-xs text-neutral-500">
+			Goal: make each card row feel like an individual card object — rounded corners, breathing room
+			between rows, and enough internal padding so content doesn't crowd the curved edges.
+			CardRow's internal <code>border-b</code> is overridden via <code>[&>div]:border-b-0</code>.
+		</p>
+
+		<!-- Current flat rows (reference) -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Current — flat rows, border-b separator, no rounding</p>
+			<div class="overflow-hidden rounded border border-neutral-700">
+				<CardRow card={laRepulsa} />
+				<CardRow card={dreadnought} />
+				<CardRow card={crewCard} />
+				<CardRow card={joyaDelSol} />
+				<CardRow card={treasureCard} />
+				<CardRow card={fortCard} />
+			</div>
+		</div>
+
+		<!-- Candidate A: rounded-lg (8px), gap-2, no border/shadow -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate A — rounded-lg (8px), gap-2 (8px), no border or shadow</p>
+			<div class="flex flex-col gap-2">
+				<div class="w-fit overflow-hidden rounded-lg [&>div]:border-b-0"><CardRow card={laRepulsa} /></div>
+				<div class="w-fit overflow-hidden rounded-lg [&>div]:border-b-0"><CardRow card={dreadnought} /></div>
+				<div class="w-fit overflow-hidden rounded-lg [&>div]:border-b-0"><CardRow card={crewCard} /></div>
+				<div class="w-fit overflow-hidden rounded-lg [&>div]:border-b-0"><CardRow card={joyaDelSol} /></div>
+				<div class="w-fit overflow-hidden rounded-lg [&>div]:border-b-0"><CardRow card={treasureCard} /></div>
+				<div class="w-fit overflow-hidden rounded-lg [&>div]:border-b-0"><CardRow card={fortCard} /></div>
+			</div>
+		</div>
+
+		<!-- Candidate B: rounded-xl (12px), gap-3, shadow-sm -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate B — rounded-xl (12px), gap-3 (12px), shadow-sm for depth</p>
+			<div class="flex flex-col gap-3">
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={laRepulsa} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={dreadnought} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={crewCard} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={joyaDelSol} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={treasureCard} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={fortCard} /></div>
+			</div>
+		</div>
+
+		<!-- Candidate B' : same rounding/shadow but badge inset 4→8px, content shifted -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate B' — same as B + badge inset bumped 4px→8px, left content shifted +4px</p>
+			<div class="flex flex-col gap-3 cardy-inset">
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={laRepulsa} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={dreadnought} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={crewCard} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={joyaDelSol} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={treasureCard} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-sm [&>div]:border-b-0"><CardRow card={fortCard} /></div>
+			</div>
+		</div>
+
+		<!-- Candidate C: rounded-xl (12px), gap-3, thin border + shadow-sm -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate C — rounded-xl (12px), gap-3, border border-neutral-600 + shadow-sm</p>
+			<div class="flex flex-col gap-3">
+				<div class="w-fit overflow-hidden rounded-xl border border-neutral-600 shadow-sm [&>div]:border-b-0"><CardRow card={laRepulsa} /></div>
+				<div class="w-fit overflow-hidden rounded-xl border border-neutral-600 shadow-sm [&>div]:border-b-0"><CardRow card={dreadnought} /></div>
+				<div class="w-fit overflow-hidden rounded-xl border border-neutral-600 shadow-sm [&>div]:border-b-0"><CardRow card={crewCard} /></div>
+				<div class="w-fit overflow-hidden rounded-xl border border-neutral-600 shadow-sm [&>div]:border-b-0"><CardRow card={joyaDelSol} /></div>
+				<div class="w-fit overflow-hidden rounded-xl border border-neutral-600 shadow-sm [&>div]:border-b-0"><CardRow card={treasureCard} /></div>
+				<div class="w-fit overflow-hidden rounded-xl border border-neutral-600 shadow-sm [&>div]:border-b-0"><CardRow card={fortCard} /></div>
+			</div>
+		</div>
+
+		<!-- Candidate D: rounded-xl (12px), gap-3, shadow-md (stronger depth) -->
+		<div class="space-y-2">
+			<p class="text-xs font-medium text-neutral-400">Candidate D — rounded-xl (12px), gap-3, shadow-md (stronger shadow, no border)</p>
+			<div class="flex flex-col gap-3">
+				<div class="w-fit overflow-hidden rounded-xl shadow-md [&>div]:border-b-0"><CardRow card={laRepulsa} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-md [&>div]:border-b-0"><CardRow card={dreadnought} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-md [&>div]:border-b-0"><CardRow card={crewCard} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-md [&>div]:border-b-0"><CardRow card={joyaDelSol} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-md [&>div]:border-b-0"><CardRow card={treasureCard} /></div>
+				<div class="w-fit overflow-hidden rounded-xl shadow-md [&>div]:border-b-0"><CardRow card={fortCard} /></div>
+			</div>
+		</div>
+	</section>
 </div>
+
+<style>
+	/* ── Candidate B' overrides — bump internal positions +4px ─────────── */
+
+	/* Badge containers (PointBadge / GoldCostBadge): 4px→8px inset */
+	.cardy-inset :global(.absolute[style*="top: 4px"][style*="left: 4px"]) {
+		top: 8px !important;
+		left: 8px !important;
+	}
+
+	/* Ship/Fort name zone: padding-left 55→59px (clears wider-inset badge) */
+	.cardy-inset :global(div[style*="padding-left: 55px"]) {
+		padding-left: 59px !important;
+	}
+
+	/* Ship stats zone: padding-left 10→14px */
+	.cardy-inset :global(div[style*="padding-left: 10px"]) {
+		padding-left: 14px !important;
+	}
+
+	/* Ship masts pill: padding-left 59→63px (extends under wider-inset badge) */
+	.cardy-inset :global(div[style*="padding-left: 59px"]) {
+		padding-left: 63px !important;
+	}
+
+	/* Ability box: margin-left 4→8px */
+	.cardy-inset :global(div[style*="margin-left: 4px"]) {
+		margin-left: 8px !important;
+	}
+
+	/* Crew thumbnail: left 65→69px */
+	.cardy-inset :global(.absolute[style*="left: 65px"]) {
+		top: 8px !important;
+		left: 69px !important;
+	}
+
+	/* Crew name zone: padding-left 116→120px */
+	.cardy-inset :global(div[style*="padding-left: 116px"]) {
+		padding-left: 120px !important;
+	}
+
+	/* Event content row: padding-left 65→69px */
+	.cardy-inset :global(.relative[style*="padding-left: 65px"]) {
+		padding-left: 69px !important;
+	}
+
+	/* Treasure thumbnail: p-1 stays, bump to p-1.5 via direct padding */
+	.cardy-inset :global(.shrink-0.items-center.p-1) {
+		padding: 6px !important;
+	}
+</style>
