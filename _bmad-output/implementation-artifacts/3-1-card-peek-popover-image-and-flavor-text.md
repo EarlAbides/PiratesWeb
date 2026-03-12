@@ -79,6 +79,18 @@ so that I can get a closer look at any card's artwork and read its flavor text w
   - [x] EB Garamond 500 for description text (already loaded globally)
   - [x] Inline expansion approach handles narrow viewports naturally via scroll container
 
+### Review Follow-ups (AI)
+
+- [x] [AI-Review][HIGH] Filter change detection only checks array length — misses sort changes. Compare array reference or content, not just `.length` [CardTable.svelte:10-16]
+- [x] [AI-Review][HIGH] Focus not returned to card row on click-outside dismiss — AC4 partial. Add `peekRowEl.focus()` in `handleClickOutside` [CardTable.svelte:41-48]
+- [x] [AI-Review][MEDIUM] Dead variable `const id = peekedCardId` — remove unused assignment [CardTable.svelte:31]
+- [x] [AI-Review][MEDIUM] Fragile DOM query for row element — replace `document.querySelectorAll` with `bind:this` on wrapper div [CardTable.svelte:63-65]
+- [x] [AI-Review][MEDIUM] `peekRowEl` not cleared on filter change dismiss — add `peekRowEl = null` alongside `peekedCardId = null` [CardTable.svelte:14]
+- [x] [AI-Review][MEDIUM] Tests duplicate component logic — extract `formatModifierKey`/`formatModifierValue` to shared util and import in both CardPeek.svelte and CardPeek.test.ts [CardPeek.test.ts:8-18]
+- [x] [AI-Review][LOW] Inline styles where Tailwind equivalents exist — use `max-w-[300px]`, `w-[260px]`, `h-[180px]` [CardPeek.svelte:31,38,48]
+- [x] [AI-Review][LOW] No scroll-into-view after peek expansion — add `scrollIntoView({ behavior: 'smooth', block: 'nearest' })` on peek container
+- [x] [AI-Review][LOW] Trivial "data expectations" tests — remove or replace with tests that use actual card data [CardPeek.test.ts:41-58]
+
 ## Dev Notes
 
 ### Architecture & Patterns
@@ -210,12 +222,22 @@ None — clean implementation with no blocking issues.
 - Dismiss behaviors: Escape key returns focus to row, click-outside detection, filter/sort changes auto-close popover
 - Touch support inherent — click handlers work for tap, no hover dependency
 - Image error handling: styled placeholder with "Image not available" text, no broken image icon
-- All 45 tests pass (6 new tests for modifier formatting and data expectations)
+- All 46 tests pass (7 tests for modifier formatting)
 - Build succeeds with 0 errors
+- ✅ Resolved review finding [HIGH]: Filter change detection now compares array reference, not just length — catches sort changes
+- ✅ Resolved review finding [HIGH]: Focus now returned to card row on click-outside dismiss (AC4 fully satisfied)
+- ✅ Resolved review finding [MEDIUM]: Removed dead variable `const id = peekedCardId`
+- ✅ Resolved review finding [MEDIUM]: Replaced fragile `document.querySelectorAll` with `bind:this` on wrapper divs
+- ✅ Resolved review finding [MEDIUM]: `peekRowEl` now cleared on filter change dismiss
+- ✅ Resolved review finding [MEDIUM]: Extracted `formatModifierKey`/`formatModifierValue` to `$lib/utils/modifierUtils.ts` — imported in both component and tests
+- ✅ Resolved review finding [LOW]: Replaced inline styles with Tailwind equivalents (`max-w-[300px]`, `w-[260px]`, `h-[180px]`)
+- ✅ Resolved review finding [LOW]: Added `scrollIntoView({ behavior: 'smooth', block: 'nearest' })` via Svelte action on peek container
+- ✅ Resolved review finding [LOW]: Replaced trivial "data expectations" tests with meaningful edge case tests for modifier formatting
 
 ### Change Log
 
 - 2026-03-11: Implemented Card Peek popover — all 6 tasks complete, all ACs satisfied
+- 2026-03-11: Addressed code review findings — 9 items resolved (2 HIGH, 4 MEDIUM, 3 LOW)
 
 ### File List
 
@@ -223,3 +245,4 @@ None — clean implementation with no blocking issues.
 - `src/lib/components/cards/CardPeek.test.ts` (new) — Unit tests for modifier formatting logic
 - `src/lib/components/cards/CardRow.svelte` (modified) — Added onclick/isActive props, keyboard nav, a11y attrs
 - `src/lib/components/cards/CardTable.svelte` (modified) — Inline expansion with peekedCardId state, dismiss behaviors, animation
+- `src/lib/utils/modifierUtils.ts` (new) — Shared formatModifierKey/formatModifierValue utilities

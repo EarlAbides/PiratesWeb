@@ -5,32 +5,33 @@
 
 	let peekedCardId = $state<string | null>(null);
 	let peekRowEl = $state<HTMLElement | null>(null);
+	let rowEls: Record<string, HTMLElement> = {};
 
 	// Close popover when filtered cards change (filter/sort applied)
-	let prevFilteredLength = $state(filterState.filteredCards.length);
+	// Compare array reference, not just length — catches sort changes too
+	let prevFilteredCards = $state(filterState.filteredCards);
 	$effect(() => {
-		const len = filterState.filteredCards.length;
-		if (len !== prevFilteredLength) {
+		const cards = filterState.filteredCards;
+		if (cards !== prevFilteredCards) {
 			peekedCardId = null;
-			prevFilteredLength = len;
+			peekRowEl = null;
+			prevFilteredCards = cards;
 		}
 	});
 
-	function togglePeek(cardId: string, rowEl: HTMLElement) {
+	function togglePeek(cardId: string) {
 		if (peekedCardId === cardId) {
 			peekedCardId = null;
 			peekRowEl = null;
 		} else {
 			peekedCardId = cardId;
-			peekRowEl = rowEl;
+			peekRowEl = rowEls[cardId] ?? null;
 		}
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'Escape' && peekedCardId !== null) {
-			const id = peekedCardId;
 			peekedCardId = null;
-			// Return focus to the triggering row
 			if (peekRowEl) {
 				peekRowEl.focus();
 				peekRowEl = null;
@@ -43,8 +44,15 @@
 		const target = e.target as HTMLElement;
 		// If click is inside a card-peek or card-row, let the row handler manage it
 		if (target.closest('.card-peek') || target.closest('[data-card-row]')) return;
+		if (peekRowEl) {
+			peekRowEl.focus();
+		}
 		peekedCardId = null;
 		peekRowEl = null;
+	}
+
+	function scrollPeekIntoView(node: HTMLElement) {
+		node.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 	}
 </script>
 
@@ -55,21 +63,16 @@
 	<div class="overflow-y-auto flex-1">
 		<div class="flex flex-col gap-3 p-3">
 			{#each filterState.filteredCards as card (card.cardId)}
-				<div data-card-row>
+				<div data-card-row bind:this={rowEls[card.cardId]}>
 					<CardRow
 						{card}
-						onclick={() => {
-							// Find the row element from the DOM
-							const rows = document.querySelectorAll('[data-card-row]');
-							const idx = filterState.filteredCards.findIndex(c => c.cardId === card.cardId);
-							const rowEl = rows[idx] as HTMLElement;
-							togglePeek(card.cardId, rowEl);
-						}}
+						onclick={() => togglePeek(card.cardId)}
 						isActive={peekedCardId === card.cardId}
 					/>
 					{#if peekedCardId === card.cardId}
 						<div
 							class="card-peek-container flex justify-center py-2 animate-fade-in"
+							use:scrollPeekIntoView
 						>
 							<CardPeek {card} />
 						</div>

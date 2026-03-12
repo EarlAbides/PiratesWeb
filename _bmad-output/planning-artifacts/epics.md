@@ -476,77 +476,43 @@ So that I can find any card instantly by typing part of its name or a keyword fr
 
 ---
 
-## Epic 3: Card Detail — Explore & Learn
+## Epic 3: Card Peek — Quick Image & Flavor Text
 
-A user can click any card row to expand an inline detail panel below it, revealing the full-size card image, complete stats rendered in iconic visual format (mast icons, cannon pips), full ability text, card back flavor/description text, and all type-specific attributes — then collapse it and continue browsing.
+A user can click any card row to open an anchored popover showing the card image at a larger size alongside the card's flavor/description text — then dismiss it and continue browsing. This is a lightweight complement to the information-rich card rows delivered in Epic 2 and VP-1, which already display all key stats, ability text, and type-specific attributes inline.
 
-### Story 3.1: Inline Card Detail Expansion — Interaction and Base Content
+**Scope Rationale:** The original Epic 3 planned a full inline expansion panel with type-specific stat sections. After VP-1, the card rows already surface point values, nationality, stats (masts/cargo/move/cannons), ability text, thumbnails (Crew/Treasure/Event), and rarity badges. The only meaningful content not visible in the rows is: (a) card images for Ship and Fort types, (b) larger card images for all types, (c) flavor/description text, and (d) modifiers. Crew-specific stats (buildBonus, costReduction, etc.) are described in ability text and will be used programmatically in Epic 5's rules engine — they don't need a UI surface. This trimmed scope delivers the remaining user-facing value with minimal complexity.
+
+### Story 3.1: Card Peek Popover — Image & Flavor Text
 
 As a **Pirates CSG fan**,
-I want to click a card row to expand an inline detail panel below it showing the full card image, complete identity attributes, full ability text, and card back flavor/description text — with a smooth animation and keyboard accessibility,
-So that I can explore any card in depth without leaving the browse table or losing my place in the list.
+I want to click a card row to see a popover anchored to that row showing the card image at a larger size and the flavor/description text,
+So that I can get a closer look at any card's artwork and read its flavor text without leaving the browse table or losing my place in the list.
 
 **Acceptance Criteria:**
 
 **Given** I am viewing the card browse table
-**When** I click a card row
-**Then** a `CardRowExpanded` panel slides open below that row with a ~200ms smooth animation
-**And** only one row is expanded at a time — clicking a second row collapses the first and expands the second
-**And** clicking the currently expanded row collapses it and returns to the full table view
+**When** I click a card row (or a designated click target within the row)
+**Then** a `CardPeek` popover appears anchored near the clicked row
+**And** only one popover is open at a time — clicking a different row dismisses the current popover and opens the new one
+**And** clicking the same row again, pressing Escape, or clicking outside the popover dismisses it
 
-**Given** a card row is expanded
-**When** the `CardRowExpanded` panel renders
-**Then** the left side displays the full-size card image (minimum 240px wide) loaded from `static/images/cards/`
-**And** the right side displays: card number, name, set, rarity, nationality flag, and point value (FR15, FR16)
-
-**Given** a card row is expanded
-**When** I view the ability and description sections
-**Then** the full, untruncated ability text is displayed (FR17)
-**And** the card back description/flavor text is displayed in an italic, styled block with a left-border accent
-**And** card modifiers are displayed when present on the card (FR21)
-
-**Given** the expanded detail panel
-**When** I navigate the page by keyboard (Tab key)
-**Then** the expanded row and its interactive elements receive visible focus indicators
-**And** pressing Escape or clicking the row again collapses the panel
+**Given** the `CardPeek` popover is open for any card
+**When** the popover renders
+**Then** the card image is displayed at ~240–280px width, loaded from `static/images/cards/{imageFilename}`
+**And** if the card has a `description` (flavor text), it is displayed below the image in italic EB Garamond with a left-border accent
+**And** if the card has `modifiers`, they are displayed when present (FR21)
 
 **Given** a card with a missing full-size image
-**When** the detail panel renders
-**Then** a placeholder displays in place of the broken image — no broken image icon
+**When** the popover renders
+**Then** a styled placeholder appears — no broken image icon
 
----
+**Given** the popover is open
+**When** I press Escape or click outside the popover
+**Then** the popover dismisses and focus returns to the card row
 
-### Story 3.2: Type-Specific Detail Attributes
-
-As a **Pirates CSG fan**,
-I want the card detail panel to display type-appropriate stats — ship stats as iconic mast/cannon/cargo visuals, crew stats as their build bonuses and restrictions, fort stats as cannon pips — with no empty or inapplicable fields shown,
-So that every card type presents a clean, purpose-built detail view faithful to the physical card layout.
-
-**Acceptance Criteria:**
-
-**Given** I expand a Ship card row
-**When** the detail panel renders
-**Then** the ship's stats are displayed using the same iconic `StatBar` and `CannonDisplay` components from the browse view: mast icons, cargo icon, S/L move notation, and individual cannon pip circles (FR18)
-**And** crew slot count is displayed with an appropriate visual indicator
-
-**Given** I expand a Crew card row
-**When** the detail panel renders
-**Then** crew-specific attributes are displayed: build bonus, cost reduction, cargo bonus, and limit cards (when present) (FR19)
-**And** no ship stat fields (masts, cannons, cargo) appear in the crew detail panel
-
-**Given** I expand a Fort card row
-**When** the detail panel renders
-**Then** the fort's cannon configuration is displayed using `CannonDisplay` pip circles (FR20)
-**And** no ship movement or crew fields appear
-
-**Given** I expand a Treasure or Event card row
-**When** the detail panel renders
-**Then** only the ability text, description/flavor text, and base identity attributes are shown
-**And** no ship, crew, or fort stat sections appear — the layout adapts cleanly to the card type with no empty placeholders
-
-**Given** `CardRowExpanded` renders any card type
-**When** I run the component
-**Then** TypeScript type narrowing (`card.type === 'Ship'`) determines which stat sections render — no runtime errors for missing `details` on Treasure or Event cards
+**Given** a touch device (tablet/mobile)
+**When** I tap a card row
+**Then** the popover opens on tap (no hover dependency) and dismisses on tap-outside or Escape
 
 ---
 

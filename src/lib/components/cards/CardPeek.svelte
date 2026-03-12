@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Card } from '$lib/types/cardTypes';
 	import { imageUrl } from '$lib/utils/cardUtils';
+	import { formatModifierKey, formatModifierValue } from '$lib/utils/modifierUtils';
 
 	interface Props {
 		card: Card;
@@ -12,30 +13,16 @@
 
 	const hasDescription = $derived(card.description && card.description.trim().length > 0);
 	const hasModifiers = $derived(card.modifiers && Object.keys(card.modifiers).length > 0);
-
-	function formatModifierKey(key: string): string {
-		return key
-			.replace(/([A-Z])/g, ' $1')
-			.replace(/^./, (s) => s.toUpperCase())
-			.trim();
-	}
-
-	function formatModifierValue(value: unknown): string {
-		if (typeof value === 'boolean') return value ? 'Yes' : 'No';
-		return String(value);
-	}
 </script>
 
 <div
-	class="card-peek overflow-hidden rounded-lg border border-neutral-600 bg-neutral-900/95 shadow-xl"
-	style="max-width: 300px;"
+	class="card-peek max-w-[300px] overflow-hidden rounded-lg border border-neutral-600 bg-neutral-900/95 shadow-xl"
 >
 	<!-- Card image -->
 	<div class="flex justify-center p-3 pb-0">
 		{#if imageError}
 			<div
-				class="flex items-center justify-center rounded bg-neutral-800 border border-neutral-600"
-				style="width: 260px; height: 180px;"
+				class="flex w-[260px] h-[180px] items-center justify-center rounded bg-neutral-800 border border-neutral-600"
 			>
 				<span class="text-neutral-500 text-sm italic" style="font-family: 'EB Garamond', serif;">Image not available</span>
 			</div>
@@ -44,8 +31,7 @@
 				src={imageUrl(card)}
 				alt={card.name}
 				loading="lazy"
-				class="rounded border border-neutral-600"
-				style="width: 260px; height: auto;"
+				class="w-[260px] rounded border border-neutral-600"
 				onerror={() => { imageError = true; }}
 			/>
 		{/if}
