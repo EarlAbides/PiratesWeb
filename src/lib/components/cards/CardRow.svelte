@@ -12,9 +12,18 @@
 
 	interface Props {
 		card: Card;
+		onclick?: () => void;
+		isActive?: boolean;
 	}
 
-	const { card }: Props = $props();
+	const { card, onclick, isActive = false }: Props = $props();
+
+	function handleKeydown(e: KeyboardEvent) {
+		if (onclick && (e.key === 'Enter' || e.key === ' ')) {
+			e.preventDefault();
+			onclick();
+		}
+	}
 
 	const setBgClass = $derived(SET_CLASS[card.cardSet] ?? '');
 
@@ -28,7 +37,16 @@
 
 {#if card.type === 'Ship'}
 	<!-- Ship: flow layout — badge absolute over name+stats, stats follow name zone, ability box below -->
-	<div class="relative overflow-hidden rounded-xl shadow-sm {setBgClass}" style="width: 575px;">
+	<!-- svelte-ignore a11y_no_static_element_interactions a11y_no_noninteractive_tabindex -->
+	<div
+		class="relative overflow-hidden rounded-xl shadow-sm {setBgClass}"
+		style="width: 575px;"
+		onclick={onclick}
+		onkeydown={handleKeydown}
+		role={onclick ? 'button' : undefined}
+		tabindex={onclick ? 0 : undefined}
+		aria-expanded={onclick ? isActive : undefined}
+	>
 		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<!-- Badge: absolute, overlaps name zone and top of stats zone -->
 		<div class="absolute" style="top: 8px; left: 8px; z-index: 2;">
@@ -72,7 +90,16 @@
 	</div>
 {:else if card.type === 'Treasure'}
 	<!-- Treasure: circular thumbnail, no badge/flag, coin grid, ability box below -->
-	<div class="relative overflow-hidden flex flex-col rounded-xl shadow-sm {setBgClass}" style="width: 575px;">
+	<!-- svelte-ignore a11y_no_static_element_interactions a11y_no_noninteractive_tabindex -->
+	<div
+		class="relative overflow-hidden flex flex-col rounded-xl shadow-sm {setBgClass}"
+		style="width: 575px;"
+		onclick={onclick}
+		onkeydown={handleKeydown}
+		role={onclick ? 'button' : undefined}
+		tabindex={onclick ? 0 : undefined}
+		aria-expanded={onclick ? isActive : undefined}
+	>
 		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<div class="flex items-center min-h-[60px]">
 			<!-- Circular thumbnail -->
@@ -115,7 +142,16 @@
 	</div>
 {:else if card.type === 'Crew'}
 	<!-- Crew: badge + thumbnail both absolute side by side; name zone floats off thumbnail right edge -->
-	<div class="relative overflow-hidden flex flex-col rounded-xl shadow-sm {setBgClass}" style="width: 575px; min-height: 67px;">
+	<!-- svelte-ignore a11y_no_static_element_interactions a11y_no_noninteractive_tabindex -->
+	<div
+		class="relative overflow-hidden flex flex-col rounded-xl shadow-sm {setBgClass}"
+		style="width: 575px; min-height: 67px;"
+		onclick={onclick}
+		onkeydown={handleKeydown}
+		role={onclick ? 'button' : undefined}
+		tabindex={onclick ? 0 : undefined}
+		aria-expanded={onclick ? isActive : undefined}
+	>
 		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<!-- Badge: absolute top-left -->
 		<div class="absolute" style="top: 8px; left: 8px; z-index: 2;">
@@ -163,7 +199,16 @@
 	</div>
 {:else if card.type === 'Fort'}
 	<!-- Fort: layered design — GoldCostBadge absolute, flag + name zone, cannon zone extends behind badge, ability box below -->
-	<div class="relative overflow-hidden rounded-xl shadow-sm {setBgClass}" style="width: 575px;">
+	<!-- svelte-ignore a11y_no_static_element_interactions a11y_no_noninteractive_tabindex -->
+	<div
+		class="relative overflow-hidden rounded-xl shadow-sm {setBgClass}"
+		style="width: 575px;"
+		onclick={onclick}
+		onkeydown={handleKeydown}
+		role={onclick ? 'button' : undefined}
+		tabindex={onclick ? 0 : undefined}
+		aria-expanded={onclick ? isActive : undefined}
+	>
 		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<!-- GoldCostBadge: absolute, same position as ship's PointBadge -->
 		<div class="absolute" style="top: 8px; left: 8px; z-index: 2;">
@@ -197,7 +242,16 @@
 	</div>
 {:else if card.type === 'Event'}
 	<!-- Event: PointBadge absolute (top/left 8px), thumbnail + name in content row -->
-	<div class="relative overflow-hidden flex flex-col rounded-xl shadow-sm {setBgClass}" style="width: 575px;">
+	<!-- svelte-ignore a11y_no_static_element_interactions a11y_no_noninteractive_tabindex -->
+	<div
+		class="relative overflow-hidden flex flex-col rounded-xl shadow-sm {setBgClass}"
+		style="width: 575px;"
+		onclick={onclick}
+		onkeydown={handleKeydown}
+		role={onclick ? 'button' : undefined}
+		tabindex={onclick ? 0 : undefined}
+		aria-expanded={onclick ? isActive : undefined}
+	>
 		<CardCornerBadge cardNumber={card.cardNumber} rarity={card.rarity} />
 		<div class="absolute" style="top: 8px; left: 8px; z-index: 2;">
 			<PointBadge points={card.pointValue} />
