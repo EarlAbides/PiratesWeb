@@ -8,14 +8,14 @@
 	let rowEls: Record<string, HTMLElement> = {};
 
 	// Close popover when filtered cards change (filter/sort applied)
-	// Compare array reference, not just length — catches sort changes too
-	let prevFilteredCards = $state(filterState.filteredCards);
+	// Compare serialized card IDs — array references change on every derived re-evaluation
+	let prevCardIds = $state(filterState.filteredCards.map((c) => c.cardId).join(','));
 	$effect(() => {
-		const cards = filterState.filteredCards;
-		if (cards !== prevFilteredCards) {
+		const ids = filterState.filteredCards.map((c) => c.cardId).join(',');
+		if (ids !== prevCardIds) {
 			peekedCardId = null;
 			peekRowEl = null;
-			prevFilteredCards = cards;
+			prevCardIds = ids;
 		}
 	});
 
